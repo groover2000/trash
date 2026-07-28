@@ -1,0 +1,38 @@
+
+--VOLUME INFORMATION--
+
+Name:              system
+Raid Level:        1
+Size:              885 GB
+StripeSize:        64 KB
+Num Disks:         2
+State:             Normal
+System:            True
+Initialized:       True
+Cache Policy:      Off
+
+--DISKS IN VOLUME: system --
+
+ID:                0-0-0-0
+Type:              Disk
+Disk Type:         SATA
+State:             Normal
+Size:              932 GB
+System Disk:       False
+PCH Connected:     False
+Usage:             Array member
+Serial Number:     S74ZNL0X328415V     
+Model:             Samsung SSD 870 EVO 1TB                 
+
+ID:                0-1-0-0
+Type:              Disk
+Disk Type:         SATA
+State:             Normal
+Size:              932 GB
+System Disk:       False
+PCH Connected:     False
+Usage:             Array member
+Serial Number:     S74ZNL0X331890T     
+Model:             Samsung SSD 870 EVO 1TB                 
+
+

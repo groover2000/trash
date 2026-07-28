@@ -1,0 +1,118 @@
+
+--VOLUME INFORMATION--
+
+Name:              Volume0
+Raid Level:        10
+Size:              849.54 GB
+StripeSize:        64 KB
+Num Disks:         4
+State:             Normal
+System:            True
+Bootable:          True
+Initialized:       True
+Cache Policy:      Off
+
+--DISKS IN VOLUME: Volume0 --
+
+ID:                0-0-0-0
+Type:              Disk
+Disk Type:         SATA
+State:             Normal
+Size:              447.13 GB
+System Disk:       False
+Usage:             Array member
+Serial Number:     S47MNA0TB00410      
+Model:             SAMSUNG MZ7KH480HAHQ-00005              
+Logical sector size: 512 B
+
+ID:                0-1-0-0
+Type:              Disk
+Disk Type:         SATA
+State:             Normal
+Size:              447.13 GB
+System Disk:       False
+Usage:             Array member
+Serial Number:     S47MNA0TB00547      
+Model:             SAMSUNG MZ7KH480HAHQ-00005              
+Logical sector size: 512 B
+
+ID:                0-2-0-0
+Type:              Disk
+Disk Type:         SATA
+State:             Normal
+Size:              447.13 GB
+System Disk:       False
+Usage:             Array member
+Serial Number:     S47MNA0TB00418      
+Model:             SAMSUNG MZ7KH480HAHQ-00005              
+Logical sector size: 512 B
+
+ID:                0-3-0-0
+Type:              Disk
+Disk Type:         SATA
+State:             Normal
+Size:              447.13 GB
+System Disk:       False
+Usage:             Array member
+Serial Number:     S47MNA0TB00425      
+Model:             SAMSUNG MZ7KH480HAHQ-00005              
+Logical sector size: 512 B
+
+--VOLUME INFORMATION--
+
+Name:              Volume1
+Raid Level:        10
+Size:              1699.07 GB
+StripeSize:        64 KB
+Num Disks:         4
+State:             Normal
+System:            False
+Bootable:          True
+Initialized:       False
+Cache Policy:      Off
+
+--DISKS IN VOLUME: Volume1 --
+
+ID:                0-4-0-0
+Type:              Disk
+Disk Type:         SATA
+State:             Normal
+Size:              894.25 GB
+System Disk:       False
+Usage:             Array member
+Serial Number:     S47NNA0T104502      
+Model:             SAMSUNG MZ7KH960HAJR-00005              
+Logical sector size: 512 B
+
+ID:                0-5-0-0
+Type:              Disk
+Disk Type:         SATA
+State:             Normal
+Size:              894.25 GB
+System Disk:       False
+Usage:             Array member
+Serial Number:     S47NNA0T104869      
+Model:             SAMSUNG MZ7KH960HAJR-00005              
+Logical sector size: 512 B
+
+ID:                0-6-0-0
+Type:              Disk
+Disk Type:         SATA
+State:             Normal
+Size:              894.25 GB
+System Disk:       False
+Usage:             Array member
+Serial Number:     S47NNA0T104858      
+Model:             SAMSUNG MZ7KH960HAJR-00005              
+Logical sector size: 512 B
+
+ID:                0-7-0-0
+Type:              Disk
+Disk Type:         SATA
+State:             Normal
+Size:              894.25 GB
+System Disk:       False
+Usage:             Array member
+Serial Number:     S47NNA0T105470      
+Model:             SAMSUNG MZ7KH960HAJR-00005              
+Logical sector size: 512 B

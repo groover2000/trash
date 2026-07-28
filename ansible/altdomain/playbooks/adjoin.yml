@@ -1,0 +1,51 @@
+---
+
+- name: Join ALT Linux to AD
+  hosts: alt
+  become: true
+
+  vars:
+   ad_domain: ""
+   ad_admin: ""
+   ad_password: ""
+   computer_ou: "OU=Linux,OU=Компьютеры,DC=sktek,DC=local"
+
+  tasks:
+   - name: Install adcli
+     community.general.apt_rpm:
+      name: task-auth-ad-sssd
+      state: present
+
+   - name: Check AD availability
+     ansible.builtin.command: adcli info {{ ad_domain }}
+     changed_when: false
+
+
+   - name: Check if computer already join
+     ansible.builtin.command: adcli testjoin
+     register: join_status
+     ignore_errors: true
+     changed_when: false
+
+   - name: Join in domain
+     ansible.builtin.command:
+      argv:
+       - adcli
+       - join
+       - "{{ ad_domain }}"
+       - -U
+       - "{{ ad_admin }}"
+       - -O
+       - "{{ computer_ou }}"
+       - --stdin-password
+       - -N
+       - "{{ ansible_hostname }}"
+      stdin: "{{ ad_password }}"
+     when: join_status.rc != 0
+     changed_when: true
+
+   - name: Check  computer join
+     ansible.builtin.command: adcli testjoin
+     register: join_status
+     ignore_errors: true
+     changed_when: false

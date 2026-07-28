@@ -1,0 +1,24 @@
+- hosts: alt
+  become: true
+  tasks:
+    - name: RPM install
+      apt_rpm:
+        name: python3-module-rpm
+        state: present
+        update_cache: true
+
+    - name: Copy packet 1c
+      copy:
+        src: "{{ playbook_dir }}/../files/1c8.rpm"
+        dest: "/tmp/1cv8.rpm"
+        mode: "0644"
+
+    - name: Install 1c
+      apt_rpm:
+        name: /tmp/1cv8.rpm
+        state: present
+
+    - name: Remove tmp
+      file:
+        path: /tmp/1cv8.rpm
+        state: absent

@@ -1,0 +1,4 @@
+MegaCli -LDInfo -Lall -aALL
+MegaCli -PDList -aALL
+MegaCli -AdpBbuCmd -GetBbuStatus -aALL
+MegaCli -AdpEventLog -GetEvents -critical -f /tmp/raid.log -aALL

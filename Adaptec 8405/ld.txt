@@ -1,0 +1,36 @@
+Controllers found: 1
+----------------------------------------------------------------------
+Logical device information
+----------------------------------------------------------------------
+Logical Device number 0
+   Logical Device name                        : databases
+   Block Size of member drives                : 512 Bytes
+   RAID level                                 : 10
+   Unique Identifier                          : 383245B2
+   Status of Logical Device                   : Optimal
+   Additional details                         : Quick initialized
+   Size                                       : 1830902 MB
+   Parity space                               : 1830912 MB
+   Stripe-unit size                           : 256 KB
+   Interface Type                             : Serial Attached SCSI
+   Device Type                                : SSD
+   Read-cache setting                         : Disabled
+   Read-cache status                          : Off
+   Write-cache setting                        : Disabled
+   Write-cache status                         : Off
+   Partitioned                                : Yes
+   Protected by Hot-Spare                     : No
+   Bootable                                   : Yes
+   Failed stripes                             : No
+   Power settings                             : Disabled
+   --------------------------------------------------------
+   Logical Device segment information
+   --------------------------------------------------------
+   Group 0, Segment 0                         : Present (915715MB, SAS, SSD, Enclosure:0, Slot:0) S6M1NT0X700854
+   Group 0, Segment 1                         : Present (915715MB, SAS, SSD, Enclosure:0, Slot:1) S6M1NT0X700839
+   Group 1, Segment 0                         : Present (915715MB, SAS, SSD, Enclosure:0, Slot:2) S6M1NT0X700852
+   Group 1, Segment 1                         : Present (915715MB, SAS, SSD, Enclosure:0, Slot:3) S6M1NT0X700832
+
+
+
+Command completed successfully.

@@ -1,0 +1,249 @@
+{
+    "zabbix_export": {
+        "version": "7.0",
+        "template_groups": [
+            {
+                "uuid": "226a84efedb54c92aa326ddb5a15b7b2",
+                "name": "Raid controllers"
+            }
+        ],
+        "templates": [
+            {
+                "uuid": "d4e1b0fa9ad143c8a63878aeaab06dd5",
+                "template": "Supermicro SMC2108",
+                "name": "Supermicro SMC2108",
+                "groups": [
+                    {
+                        "name": "Raid controllers"
+                    }
+                ],
+                "items": [
+                    {
+                        "uuid": "ba8477007c3741b69ad1a948a385023a",
+                        "name": "Supermicro SMC2108 Memory Correctable Errors:",
+                        "type": "DEPENDENT",
+                        "key": "smc2108.correctable",
+                        "delay": "0",
+                        "preprocessing": [
+                            {
+                                "type": "REGEX",
+                                "parameters": [
+                                    "\\s+Memory Correctable Errors\\s+:\\s(\\d+)",
+                                    "\\1"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "vfs.file.contents[C:\\scripts\\raid\\raid.txt]"
+                        },
+                        "tags": [
+                            {
+                                "tag": "component",
+                                "value": "array"
+                            },
+                            {
+                                "tag": "controller",
+                                "value": "Supremicro SMC2108"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "1e54fc23623a40beb14737628ac0ebe0",
+                        "name": "Supermicro SMC2108 Critical Disks Count:",
+                        "type": "DEPENDENT",
+                        "key": "smc2108.critical",
+                        "delay": "0",
+                        "preprocessing": [
+                            {
+                                "type": "REGEX",
+                                "parameters": [
+                                    "\\s+Critical Disks\\s+:\\s(\\d+)",
+                                    "\\1"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "vfs.file.contents[C:\\scripts\\raid\\raid.txt]"
+                        },
+                        "tags": [
+                            {
+                                "tag": "component",
+                                "value": "array"
+                            },
+                            {
+                                "tag": "controller",
+                                "value": "Supremicro SMC2108"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "d6ff71992116405d84c1d2779f666ef6",
+                        "name": "Supermicro SMC2108 Degraded Count:",
+                        "type": "DEPENDENT",
+                        "key": "smc2108.degraded",
+                        "delay": "0",
+                        "preprocessing": [
+                            {
+                                "type": "REGEX",
+                                "parameters": [
+                                    "\\s+Degraded\\s+:\\s(\\d+)",
+                                    "\\1"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "vfs.file.contents[C:\\scripts\\raid\\raid.txt]"
+                        },
+                        "tags": [
+                            {
+                                "tag": "component",
+                                "value": "array"
+                            },
+                            {
+                                "tag": "controller",
+                                "value": "Supremicro SMC2108"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "a5c0eda9945b4e7fbb83ad48cf462d2b",
+                        "name": "Supermicro SMC2108 Failed Disks Count:",
+                        "type": "DEPENDENT",
+                        "key": "smc2108.failed",
+                        "delay": "0",
+                        "preprocessing": [
+                            {
+                                "type": "REGEX",
+                                "parameters": [
+                                    "\\s+Failed Disks\\s+:\\s(\\d+)",
+                                    "\\1"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "vfs.file.contents[C:\\scripts\\raid\\raid.txt]"
+                        },
+                        "tags": [
+                            {
+                                "tag": "component",
+                                "value": "array"
+                            },
+                            {
+                                "tag": "controller",
+                                "value": "Supremicro SMC2108"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "1c38a9a6b84343a9b0dcd98d52914e52",
+                        "name": "Supermicro SMC2108 Offline Count:",
+                        "type": "DEPENDENT",
+                        "key": "smc2108.offline",
+                        "delay": "0",
+                        "preprocessing": [
+                            {
+                                "type": "REGEX",
+                                "parameters": [
+                                    "\\s+Offline\\s+:\\s(\\d+)",
+                                    "\\1"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "vfs.file.contents[C:\\scripts\\raid\\raid.txt]"
+                        },
+                        "tags": [
+                            {
+                                "tag": "component",
+                                "value": "array"
+                            },
+                            {
+                                "tag": "controller",
+                                "value": "Supremicro SMC2108"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "286f83a621fd4a87b6a0828abb197dfb",
+                        "name": "Supermicro SMC2108 Memory Uncorrectable Errors:",
+                        "type": "DEPENDENT",
+                        "key": "smc2108.uncorrectable",
+                        "delay": "0",
+                        "preprocessing": [
+                            {
+                                "type": "REGEX",
+                                "parameters": [
+                                    "\\s+Memory Uncorrectable Errors\\s+:\\s(\\d+)",
+                                    "\\1"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "vfs.file.contents[C:\\scripts\\raid\\raid.txt]"
+                        },
+                        "tags": [
+                            {
+                                "tag": "component",
+                                "value": "array"
+                            },
+                            {
+                                "tag": "controller",
+                                "value": "Supremicro SMC2108"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "f54b96957fa14ee697ca0ce15c8ca39c",
+                        "name": "Supermicro SMC2108 Raw Volumes",
+                        "key": "vfs.file.contents[C:\\scripts\\raid\\raid.txt]",
+                        "delay": "10m",
+                        "history": "0",
+                        "value_type": "TEXT",
+                        "trends": "0",
+                        "tags": [
+                            {
+                                "tag": "component",
+                                "value": "raid"
+                            },
+                            {
+                                "tag": "controller",
+                                "value": "Supermicro SMC2108"
+                            }
+                        ]
+                    }
+                ],
+                "discovery_rules": [
+                    {
+                        "uuid": "ace1e9bd1d4f47efa476aa6d68877601",
+                        "name": "Supermicro SMC2108 Array Discovery",
+                        "type": "DEPENDENT",
+                        "key": "smc2108.discovery.array",
+                        "delay": "0",
+                        "master_item": {
+                            "key": "vfs.file.contents[C:\\scripts\\raid\\raid.txt]"
+                        },
+                        "preprocessing": [
+                            {
+                                "type": "REGEX",
+                                "parameters": [
+                                    "\\s+Device Present[\\s\\S]+?Failed Disks\\s+:\\s\\d",
+                                    "\\0"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "tags": [
+                    {
+                        "tag": "class",
+                        "value": "raid"
+                    },
+                    {
+                        "tag": "target",
+                        "value": "Supermicro SMC2108"
+                    }
+                ]
+            }
+        ]
+    }
+}

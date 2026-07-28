@@ -1,0 +1,194 @@
+pam_mount_volumes:
+  - path: ohrana
+    groups:
+      - ohrana-rw
+  - path: asyp
+    groups:
+      - asyp-rw
+  - path: auto_ib
+    groups:
+      - auto_ib-rw
+  - path: it-doc
+    groups:
+      - it-doc-rw
+      - it-doc-r
+  - path: ekonomist
+    groups:
+      - ekonomist-rw
+  - path: pto
+    groups:
+      - pto-rw
+  - path: ecology-stav
+    groups:
+      - ecology-stav-rw
+  - path: center
+    groups:
+      - center-rw
+  - path: kapstroy
+    groups:
+      - kapstroy-rw
+  - path: kadry
+    groups:
+      - kadry-rw
+  - path: bezopasnost
+    groups:
+      - bezop
+      - bezop-androp-rw
+      - bezop-buden
+      - bezop-georg-rw
+      - bezop-gup
+      - bezop-ipat
+      - bezop-izob
+      - bezop-kochub-rw
+      - bezop-minv
+      - bezop-neft
+      - bezop-nevinka-rw
+      - bezop-novoal
+      - bezop-petr
+      - bezop-predg
+      - bezop-shpak
+      - bezop-sov
+      - bezop-vost-rw
+      - bezop-zhelez-rw
+  - path: bank
+    groups:
+      - bank-r
+  - path: audit
+    groups:
+      - audit-rw
+  - path: buhgalteriya
+    groups:
+      - buhgalteriya-rw
+  - path: administraciya
+    groups:
+      - administraciya-rw
+  - path: Dds
+    groups:
+      - dds-rw
+      - dds-r
+  - path: deb-zadol
+    groups:
+      - deb-zadol-rw
+  - path: dogovor
+    groups:
+      - dogovor-r
+      - dogovor-rw
+  - path: energy
+    groups:
+      - energy-rw
+  - path: go
+    groups:
+      - go-r
+      - go-rw
+      - go-androp-rw
+      - go-center-rw
+      - go-buden-rw
+      - go-georg-rw
+      - go-ipat-rw
+      - go-izob-rw
+      - go-minv-rw
+      - go-neft-rw
+      - Go-nev-rw
+      - go-novoal-rw
+      - go-petr-rw
+      - go-predg-rw
+      - go-shpak-rw
+      - go-sov-rw
+  - path: imuhestvo
+    groups:
+      - imuhestvo-rw
+  - path: infobez
+    groups:
+      - infobez-rw
+  - path: matuchet
+    groups:
+      - buhgalteriya-rw
+      - ekonomist-rw
+      - revizor-rw
+      - zakupki-rw
+  - path: mchd
+    groups:
+      - mchd-r
+      - mchd-rw
+  - path: mehanik
+    groups:
+      - mehanik-rw
+  - path: metrolog
+    groups:
+      - metrolog-rw
+  - path: otzp
+    groups:
+      - otzp-rw
+  - path: pro_otchet
+    groups:
+      - pro_otchet
+  - path: profsouz
+    groups:
+      - profsouz-rw
+  - path: reconst
+    groups:
+      - reconst-rw
+  - path: revizor
+    groups:
+      - revizor-rw
+  - path: sbit
+    groups:
+      - sbit-rw
+  - path: snab
+    groups:
+      - snab-rw
+  - path: soc_razvitie
+    groups:
+      - soc_razvitie-rw
+  - path: tehkontrol
+    groups:
+      - tehkontrol-rw
+  - path: tepl-inspekt
+    groups:
+      - tepl-inspekt-rw
+  - path: ter
+    groups:
+      - ter -gup-rw
+      - ter-r
+  - path: urist
+    groups:
+      - urist-rw
+  - path: zakupki
+    groups:
+      - zakupki-rw
+      - zakupki-r
+  - path: designer
+    groups:
+      - designer
+  - path: ecology
+    groups:
+      - ecology-rw
+      - ecology-andop-rw
+      - ecology-buden-rw
+      - ecology-center-rw
+      - ecology-geor-rw
+      - ecology-ipat-rw
+      - ecology-izob-rw
+      - ecology-kirov-rw
+      - ecology-minv-rw
+      - ecology-nev-rw
+      - ecology-nef-rw
+      - ecology-novoal-rw
+      - ecology-petrov-rw
+      - ecology-predgor-rw
+      - ecology-shpak-rw
+      - ecology-sov-rw
+      - ecology-vostok-rw
+      - ecology-zheleznovodsk-rw
+  - path: ufk
+    groups:
+      - ufk
+  - path: meropriyatie
+    groups:
+      - meropriyatie
+  - path: ekonomist/План закупок/2026
+    groups:
+      - eco-suprunov
+  - path: project
+    groups:
+      - project-r

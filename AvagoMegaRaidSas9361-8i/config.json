@@ -1,0 +1,85 @@
+{
+  "log": {
+    "loglevel": "warning"
+  },
+  "inbounds": [
+    {
+      "tag": "vless-reality",
+      "listen": "0.0.0.0",
+      "port": 443,
+      "protocol": "vless",
+      "settings": {
+        "clients": [
+          {
+            "id": "1e41f1be-753d-4590-9d5c-9dbc538fc0ac",
+            "email": "test"
+          }
+        ],
+        "decryption": "none"
+      },
+      "sniffing": {
+        "enabled": true,
+        "destOverride": [
+          "http",
+          "tls",
+          "quic"
+        ]
+      },
+      "streamSettings": {
+        "network": "xhttp",
+        "security": "reality",
+        "xhttpSettings": {
+          "mode": "auto",
+          "path": "/",
+          "xPaddingBytes": "100-1000",
+          "scMaxBufferedPosts": 30,
+          "scStreamUpServerSecs": "30-120"
+        },
+        "realitySettings": {
+          "show": false,
+          "target": "www.twitch.tv:443",
+          "serverNames": [
+            "www.twitch.tv"
+          ],
+          "privateKey": "4LubR6Lb8e9bn3mgMpUov_XXn8axxkQw6-35uSm-qX0",
+          "shortIds": [
+            "2f",
+            "a37d",
+            "b1c9d8",
+            "7c9e4a2f8d13b6e1"
+          ],
+          "xver": 0
+        }
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "freedom",
+      "tag": "direct"
+    },
+    {
+      "protocol": "blackhole",
+      "tag": "blocked"
+    }
+  ],
+  "routing": {
+    "domainStrategy": "AsIs",
+    "rules": [
+      {
+        "type": "field",
+        "protocol": [
+          "bittorrent"
+        ],
+        "outboundTag": "blocked"
+      }
+    ]
+  }
+}
+
+root@v335389:~# xray uuid
+1e41f1be-753d-4590-9d5c-9dbc538fc0ac
+root@v335389:~# xray x25519
+PrivateKey: 4LubR6Lb8e9bn3mgMpUov_XXn8axxkQw6-35uSm-qX0
+Password (PublicKey): NJtAs2fRIWOlXsWQ0QgtU0QzrIZbNqyA5Eer33vxNH0
+Hash32: H91mP3KXUcjDXbnlx9SxwWvBaS3dgRVUumbrDpZlZZ0

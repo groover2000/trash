@@ -1,0 +1,25 @@
+Normal	Всё нормально
+Online	Диск активен
+Ready	Диск доступен, но не в массиве
+Failed	Диск умер
+Degraded	Проблемы/частичная деградация
+Rebuilding	Идёт rebuild
+Hot Spare	Hot spare
+Missing	Диск пропал
+Offline	Отключён
+Initializing	Инициализация
+Verify / Verifying	Проверка consistency
+Foreign	Чужая metadata
+Predictive Failure	SMART/предсказание отказа
+
+
+Для volume
+State	Значение
+Normal	RAID здоров
+Optimal	Всё идеально
+Degraded	Потерян диск, RAID ещё жив
+Failed	RAID умер
+Rebuilding	Rebuild
+Initializing	Init
+Verify	Verify/consistency check
+Offline	Том offline

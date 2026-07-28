@@ -1,0 +1,300 @@
+{
+    "zabbix_export": {
+        "version": "7.0",
+        "template_groups": [
+            {
+                "uuid": "226a84efedb54c92aa326ddb5a15b7b2",
+                "name": "Raid controllers"
+            }
+        ],
+        "templates": [
+            {
+                "uuid": "4f16186437124636bcc36e30c1fca6ca",
+                "template": "Intel C600-C220 pwsh",
+                "name": "Intel C600-C220 pwsh",
+                "groups": [
+                    {
+                        "name": "Raid controllers"
+                    }
+                ],
+                "items": [
+                    {
+                        "uuid": "27821f5b00214439a1677823b36ad11a",
+                        "name": "Intel(R) C600+/220+ JSON data",
+                        "key": "raid.c600",
+                        "delay": "12m",
+                        "history": "0",
+                        "value_type": "TEXT",
+                        "trends": "0"
+                    }
+                ],
+                "discovery_rules": [
+                    {
+                        "uuid": "c6df9b59454c4e4f816ee9bbf6f2b4ef",
+                        "name": "Intel(R) C600+/220+ Disks Discovery",
+                        "type": "DEPENDENT",
+                        "key": "raid.c600.discovery.disks",
+                        "delay": "0",
+                        "item_prototypes": [
+                            {
+                                "uuid": "d19c0e87b79a4bf2ad80321ebccfe844",
+                                "name": "Disk {#DISK} in Volume {#VOLUME} Model",
+                                "type": "DEPENDENT",
+                                "key": "raid.c600.disk.model[{#DISK}]",
+                                "delay": "0",
+                                "value_type": "TEXT",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[*].Disks[?(@.ID==\"{#DISK}\")].Model.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.c600"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "disk"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "c600"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#DISK}"
+                                    },
+                                    {
+                                        "tag": "volume",
+                                        "value": "{#VOLUME}"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "8158175c22e24d9e8f125154f587058e",
+                                "name": "Disk {#DISK} in Volume {#VOLUME} Size",
+                                "type": "DEPENDENT",
+                                "key": "raid.c600.disk.size[{#DISK}]",
+                                "delay": "0",
+                                "value_type": "TEXT",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[*].Disks[?(@.ID==\"{#DISK}\")].Size.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.c600"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "disk"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "c600"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#DISK}"
+                                    },
+                                    {
+                                        "tag": "volume",
+                                        "value": "{#VOLUME}"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "d849ae3802344bad80813cb9ddc57986",
+                                "name": "Disk {#DISK} in Volume {#VOLUME} State",
+                                "type": "DEPENDENT",
+                                "key": "raid.c600.disk.state[{#DISK}]",
+                                "delay": "0",
+                                "value_type": "TEXT",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[*].Disks[?(@.ID==\"{#DISK}\")].State.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.c600"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "disk"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "c600"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#DISK}"
+                                    },
+                                    {
+                                        "tag": "volume",
+                                        "value": "{#VOLUME}"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "2a818832cc614a9ab3903915e15cadbc",
+                                        "expression": "last(/Intel C600-C220 pwsh/raid.c600.disk.state[{#DISK}])<>\"Normal\"",
+                                        "name": "Disk {#DISK} State is Not OK",
+                                        "priority": "HIGH"
+                                    }
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "raid.c600"
+                        },
+                        "lld_macro_paths": [
+                            {
+                                "lld_macro": "{#DISK}",
+                                "path": "$.ID"
+                            },
+                            {
+                                "lld_macro": "{#VOLUME}",
+                                "path": "$.Volume"
+                            }
+                        ],
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.[*].Disks[*]"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "9973a103e309423bacec3e9e9ca3c24e",
+                        "name": "Intel(R) C600+/220+ Volumes Discovery",
+                        "type": "DEPENDENT",
+                        "key": "raid.c600.discovery.volumes",
+                        "delay": "0",
+                        "item_prototypes": [
+                            {
+                                "uuid": "d431ff488de84f1aaf59ba4965886e92",
+                                "name": "Volume {#VOLUME} Size:",
+                                "type": "DEPENDENT",
+                                "key": "raid.c600.volume.size[{#VOLUME}]",
+                                "delay": "0",
+                                "value_type": "TEXT",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.Name==\"{#VOLUME}\")].Size.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.c600"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "volume"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "c600"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#VOLUME}"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "f92ee8e6752a49ca886210c4a823e69f",
+                                "name": "Volume {#VOLUME} State:",
+                                "type": "DEPENDENT",
+                                "key": "raid.c600.volume.state[{#VOLUME}]",
+                                "delay": "0",
+                                "value_type": "TEXT",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.Name==\"{#VOLUME}\")].State.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.c600"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "volume"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "c600"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#VOLUME}"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "4311a9bfa2154bdebfc3f149e8dce1a4",
+                                        "expression": "last(/Intel C600-C220 pwsh/raid.c600.volume.state[{#VOLUME}])=\"Rebuilding\"\nor\nlast(/Intel C600-C220 pwsh/raid.c600.volume.state[{#VOLUME}])=\"Degraded\"",
+                                        "name": "Volume {#VOLUME} is {ITEM.VALUE1}",
+                                        "priority": "HIGH"
+                                    }
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "raid.c600"
+                        },
+                        "lld_macro_paths": [
+                            {
+                                "lld_macro": "{#VOLUME}",
+                                "path": "$.Name"
+                            }
+                        ],
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$[*]"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "tags": [
+                    {
+                        "tag": "class",
+                        "value": "raid"
+                    },
+                    {
+                        "tag": "target",
+                        "value": "c600-c200"
+                    }
+                ]
+            }
+        ]
+    }
+}

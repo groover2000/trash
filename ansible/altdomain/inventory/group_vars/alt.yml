@@ -1,0 +1,11 @@
+ansible_user: roomin
+ansible_port: 22
+ansible_ssh_private_key_file: /home/roomin/.ssh/altkey
+
+ad_domain: ""
+ad_workgroup: ""
+ad_admin: ""
+admin_password: ""
+computer_ou: ""
+
+pam_mount_server: ""

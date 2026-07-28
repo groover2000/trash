@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE pam_mount SYSTEM "pam_mount.conf.xml.dtd">
+
+<pam_mount>
+
+    <debug enable="0" />
+
+    <mntoptions allow="nosuid,nodev,loop,encryption,fsck,nonempty,allow_root,allow_other" />
+    <mntoptions require="nosuid,nodev" />
+    <logout wait="0" hup="0" term="0" kill="0" />
+    <mkmountpoint enable="1" remove="true" />
+
+    <volume
+        sgrp="domain users"
+        server="{{ pam_mount_server }}"
+        path="bbs"
+        mountpoint="~/Общедоступные/bbs"
+        fstype="cifs"
+        options="sec=krb5,cruid=%(USERUID)" />
+    
+    <volume
+        sgrp="domain users"
+        server="{{ pam_mount_server }}"
+        path="obmen"
+        mountpoint="~/Общедоступные/obmen"
+        fstype="cifs"
+        options="sec=krb5,cruid=%(USERUID)" />
+
+    {% for volume in pam_mount_volumes %}
+    {% for group in volume.groups %}
+    <volume
+        sgrp="{{ group }}"
+        server="{{ pam_mount_server }}"
+        path="{{ volume.path }}"
+        mountpoint="~/Общедоступные/{{ volume.path }}"
+        fstype="cifs"
+        options="sec=krb5,cruid=%(USERUID)" />
+    {% endfor %}
+    {% endfor %}
+
+</pam_mount>

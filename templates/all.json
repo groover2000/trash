@@ -1,0 +1,3259 @@
+{
+    "zabbix_export": {
+        "version": "7.0",
+        "template_groups": [
+            {
+                "uuid": "226a84efedb54c92aa326ddb5a15b7b2",
+                "name": "Raid controllers"
+            }
+        ],
+        "templates": [
+            {
+                "uuid": "1d9b7b0701314f1e9e1562acc22f3dac",
+                "template": "Adadptec Raid 8405",
+                "name": "Adadptec Raid 8405",
+                "description": "\u0428\u0430\u0431\u043b\u043e\u043d \u0434\u043b\u044f RAID \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u043b\u0435\u0440\u0430 Adaptec 8405",
+                "groups": [
+                    {
+                        "name": "Raid controllers"
+                    }
+                ],
+                "items": [
+                    {
+                        "uuid": "7ff3a5d1d0aa4240ac1eae6f73ad9d11",
+                        "name": "RAID Smart raw data",
+                        "key": "system.run[arcconf GETSMARTSTATS 1]",
+                        "delay": "5m",
+                        "history": "0",
+                        "value_type": "TEXT",
+                        "trends": "0",
+                        "description": "\u0413\u043e\u043b\u044b\u0439 \u0432\u044b\u0432\u043e\u0434 GETSMARTSTATS \u043f\u0435\u0440\u0432\u043e\u0433\u043e \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u043b\u0435\u0440\u0430",
+                        "tags": [
+                            {
+                                "tag": "component",
+                                "value": "raid"
+                            },
+                            {
+                                "tag": "controller",
+                                "value": "arcconf"
+                            }
+                        ]
+                    }
+                ],
+                "discovery_rules": [
+                    {
+                        "uuid": "12672c861604439a87ec00f166c519eb",
+                        "name": "Adaptec smart discovery",
+                        "type": "DEPENDENT",
+                        "key": "adaptec.discovery",
+                        "delay": "0",
+                        "item_prototypes": [
+                            {
+                                "uuid": "c8e41fb4e04f415f80d494b81d64f83a",
+                                "name": "DISK {#DISKID} Elements In Grown Defect List",
+                                "type": "DEPENDENT",
+                                "key": "adaptec.eigd[{#DISKID}]",
+                                "delay": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "REGEX",
+                                        "parameters": [
+                                            "<PhysicalDriveSmartStats[^>]*id=\"{#DISKID}\"[^>]*>[\\s\\S]*?<\\/PhysicalDriveSmartStats>",
+                                            "\\0"
+                                        ]
+                                    },
+                                    {
+                                        "type": "REGEX",
+                                        "parameters": [
+                                            "Elements In Grown Defect List.*?Value=\"(\\d+)\"",
+                                            "\\1"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "system.run[arcconf GETSMARTSTATS 1]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "disk"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "arcconf"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#DISKID}"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "c6fbeb29a25742a2aad0df8f17c16087",
+                                        "expression": "last(/Adadptec Raid 8405/adaptec.eigd[{#DISKID}],#1)\n<>\nlast(/Adadptec Raid 8405/adaptec.eigd[{#DISKID}],#10)",
+                                        "name": "DISK {#DISKID} Bad Sectors",
+                                        "priority": "WARNING",
+                                        "tags": [
+                                            {
+                                                "tag": "class",
+                                                "value": "hardware"
+                                            },
+                                            {
+                                                "tag": "component",
+                                                "value": "disk"
+                                            },
+                                            {
+                                                "tag": "device",
+                                                "value": "adaptec"
+                                            },
+                                            {
+                                                "tag": "disk",
+                                                "value": "{#DISK}"
+                                            },
+                                            {
+                                                "tag": "metric",
+                                                "value": "health"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "03029604a7a74861b75e5ae2a54d1708",
+                                "name": "DISK {#DISKID} Non-Medium Error Count",
+                                "type": "DEPENDENT",
+                                "key": "adaptec.errors.nonmedium[{#DISKID}]",
+                                "delay": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "REGEX",
+                                        "parameters": [
+                                            "<PhysicalDriveSmartStats[^>]*id=\"{#DISKID}\"[^>]*>[\\s\\S]*?<\\/PhysicalDriveSmartStats>",
+                                            "\\0"
+                                        ]
+                                    },
+                                    {
+                                        "type": "REGEX",
+                                        "parameters": [
+                                            "Non-Medium Error Count.*?Value=\"(\\d+)\"",
+                                            "\\1"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "system.run[arcconf GETSMARTSTATS 1]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "disk"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "arcconf"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#DISKID}"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "a7f891ca7406489f86335f30496dfda6",
+                                        "expression": "last(/Adadptec Raid 8405/adaptec.errors.nonmedium[{#DISKID}],#1)\n<>\nlast(/Adadptec Raid 8405/adaptec.errors.nonmedium[{#DISKID}],#5)",
+                                        "name": "DISK {#DISKID} Non-Medium Error",
+                                        "priority": "WARNING",
+                                        "tags": [
+                                            {
+                                                "tag": "class",
+                                                "value": "hardware"
+                                            },
+                                            {
+                                                "tag": "component",
+                                                "value": "disk"
+                                            },
+                                            {
+                                                "tag": "device",
+                                                "value": "adaptec"
+                                            },
+                                            {
+                                                "tag": "disk",
+                                                "value": "{#DISKID}"
+                                            },
+                                            {
+                                                "tag": "metric",
+                                                "value": "health"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "5c1db6e014d1478fa9895f106ea9e4e2",
+                                "name": "DISK {#DISKID} Total Uncorrected Read Errors",
+                                "type": "DEPENDENT",
+                                "key": "adaptec.errors.read[{#DISKID}]",
+                                "delay": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "REGEX",
+                                        "parameters": [
+                                            "<PhysicalDriveSmartStats[^>]*id=\"{#DISKID}\"[^>]*>[\\s\\S]*?<\\/PhysicalDriveSmartStats>",
+                                            "\\0"
+                                        ]
+                                    },
+                                    {
+                                        "type": "REGEX",
+                                        "parameters": [
+                                            "Total Uncorrected Read Errors.*?Value=\"(\\d+)\"",
+                                            "\\1"
+                                        ]
+                                    },
+                                    {
+                                        "type": "DISCARD_UNCHANGED_HEARTBEAT",
+                                        "parameters": [
+                                            "1h"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "system.run[arcconf GETSMARTSTATS 1]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "disk"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "arcconf"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#DISKID}"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "41a47a6695154d2785f5555f2ab059cc",
+                                        "expression": "last(/Adadptec Raid 8405/adaptec.errors.read[{#DISKID}],#1)\n<>\nlast(/Adadptec Raid 8405/adaptec.errors.read[{#DISKID}],#5)",
+                                        "name": "DISK {#DIKS}: Read Errors",
+                                        "priority": "HIGH",
+                                        "tags": [
+                                            {
+                                                "tag": "class",
+                                                "value": "hardware"
+                                            },
+                                            {
+                                                "tag": "component",
+                                                "value": "disk"
+                                            },
+                                            {
+                                                "tag": "device",
+                                                "value": "adaptec"
+                                            },
+                                            {
+                                                "tag": "disk",
+                                                "value": "{#DISKID}"
+                                            },
+                                            {
+                                                "tag": "metric",
+                                                "value": "health"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "f25394f36bb74c898066e54c1328530a",
+                                "name": "DISK {#DISKID} Total Uncorrected Write Errors",
+                                "type": "DEPENDENT",
+                                "key": "adaptec.errors.write[{#DISKID}]",
+                                "delay": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "REGEX",
+                                        "parameters": [
+                                            "<PhysicalDriveSmartStats[^>]*id=\"{#DISKID}\"[^>]*>[\\s\\S]*?<\\/PhysicalDriveSmartStats>",
+                                            "\\0"
+                                        ]
+                                    },
+                                    {
+                                        "type": "REGEX",
+                                        "parameters": [
+                                            "Total Uncorrected Write Errors.*?Value=\"(\\d+)\"",
+                                            "\\1"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "system.run[arcconf GETSMARTSTATS 1]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "disk"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "arcconf"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#DISKID}"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "8c71888efbe9484eae7fa5cde749f4fc",
+                                        "expression": "last(/Adadptec Raid 8405/adaptec.errors.write[{#DISKID}],#1)\n<>\nlast(/Adadptec Raid 8405/adaptec.errors.write[{#DISKID}],#5)",
+                                        "name": "DISK {#DIKS}: Write Errors",
+                                        "priority": "HIGH",
+                                        "tags": [
+                                            {
+                                                "tag": "class",
+                                                "value": "hardware"
+                                            },
+                                            {
+                                                "tag": "component",
+                                                "value": "disk"
+                                            },
+                                            {
+                                                "tag": "device",
+                                                "value": "adaptec"
+                                            },
+                                            {
+                                                "tag": "disk",
+                                                "value": "{#DISKID}"
+                                            },
+                                            {
+                                                "tag": "metric",
+                                                "value": "health"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "059f80c07fd848b8b4a418e4b53bb5c4",
+                                "name": "DISK {#DISKID} Smart health status",
+                                "type": "DEPENDENT",
+                                "key": "adaptec.smart.status[{#DISKID}]",
+                                "delay": "0",
+                                "value_type": "CHAR",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "REGEX",
+                                        "parameters": [
+                                            "<PhysicalDriveSmartStats[^>]*id=\"{#DISKID}\"[^>]*>[\\s\\S]*?<\\/PhysicalDriveSmartStats>",
+                                            "\\0"
+                                        ]
+                                    },
+                                    {
+                                        "type": "REGEX",
+                                        "parameters": [
+                                            "SMART Health Status.*?Value=\"(\\w+)\"",
+                                            "\\1"
+                                        ]
+                                    },
+                                    {
+                                        "type": "DISCARD_UNCHANGED_HEARTBEAT",
+                                        "parameters": [
+                                            "1h"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "system.run[arcconf GETSMARTSTATS 1]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "disk"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "arcconf"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#DISKID}"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "f7c24d9b93aa490785570b3c57f844b2",
+                                        "expression": "last(/Adadptec Raid 8405/adaptec.smart.status[{#DISKID}])<>\"Passed\"",
+                                        "name": "DISK {#DISK}: Smart ERROR",
+                                        "priority": "HIGH",
+                                        "tags": [
+                                            {
+                                                "tag": "class",
+                                                "value": "hardware"
+                                            },
+                                            {
+                                                "tag": "component",
+                                                "value": "disk"
+                                            },
+                                            {
+                                                "tag": "device",
+                                                "value": "adaptec"
+                                            },
+                                            {
+                                                "tag": "disk",
+                                                "value": "{#DISKID}"
+                                            },
+                                            {
+                                                "tag": "metric",
+                                                "value": "health"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "01d79f1be29c454c824da997c07daa07",
+                                "name": "DISK {#DISKID} Current Temperature",
+                                "type": "DEPENDENT",
+                                "key": "adaptec.temp.current[{#DISKID}]",
+                                "delay": "0",
+                                "description": "\u0422\u0435\u043a\u0443\u0449\u0430\u044f \u0442\u0435\u043c\u043f\u0435\u0440\u0430\u0442\u0443\u0440\u0430 \u0434\u0438\u0441\u043a\u0430",
+                                "preprocessing": [
+                                    {
+                                        "type": "REGEX",
+                                        "parameters": [
+                                            "<PhysicalDriveSmartStats[^>]*id=\"{#DISKID}\"[^>]*>[\\s\\S]*?<\\/PhysicalDriveSmartStats>",
+                                            "\\0"
+                                        ]
+                                    },
+                                    {
+                                        "type": "REGEX",
+                                        "parameters": [
+                                            "Current Drive Temperature.*?Value=\"(\\d+)\"",
+                                            "\\1"
+                                        ]
+                                    },
+                                    {
+                                        "type": "DISCARD_UNCHANGED_HEARTBEAT",
+                                        "parameters": [
+                                            "10m"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "system.run[arcconf GETSMARTSTATS 1]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "disk"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "arcconf"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#DISKID}"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "e104678e38f04a93be952bf1858da942",
+                                "name": "DISK {#DISKID} Trip Temperature",
+                                "type": "DEPENDENT",
+                                "key": "adaptec.temp.trip[{#DISKID}]",
+                                "delay": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "REGEX",
+                                        "parameters": [
+                                            "<PhysicalDriveSmartStats[^>]*id=\"{#DISKID}\"[^>]*>[\\s\\S]*?<\\/PhysicalDriveSmartStats>",
+                                            "\\0"
+                                        ]
+                                    },
+                                    {
+                                        "type": "REGEX",
+                                        "parameters": [
+                                            "Drive Trip Temperature In Celcius.*?Value=\"(\\d+)\"",
+                                            "\\1"
+                                        ]
+                                    },
+                                    {
+                                        "type": "DISCARD_UNCHANGED_HEARTBEAT",
+                                        "parameters": [
+                                            "1h"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "system.run[arcconf GETSMARTSTATS 1]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "disk"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "arcconf"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#DISKID}"
+                                    }
+                                ]
+                            }
+                        ],
+                        "trigger_prototypes": [
+                            {
+                                "uuid": "de03abbf3ab84e76b4178e906887c9e0",
+                                "expression": "last(/Adadptec Raid 8405/adaptec.temp.current[{#DISKID}]) \n>\n(last(/Adadptec Raid 8405/adaptec.temp.trip[{#DISKID}]) * 0.8)",
+                                "name": "DISK {#DISKID}: High Temperature",
+                                "priority": "WARNING",
+                                "tags": [
+                                    {
+                                        "tag": "class",
+                                        "value": "hardware"
+                                    },
+                                    {
+                                        "tag": "component",
+                                        "value": "disk"
+                                    },
+                                    {
+                                        "tag": "device",
+                                        "value": "adaptec"
+                                    },
+                                    {
+                                        "tag": "disk",
+                                        "value": "{#DISKID}"
+                                    },
+                                    {
+                                        "tag": "metric",
+                                        "value": "temperature"
+                                    }
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "system.run[arcconf GETSMARTSTATS 1]"
+                        },
+                        "preprocessing": [
+                            {
+                                "type": "JAVASCRIPT",
+                                "parameters": [
+                                    "var data = [];\n\n    var drivers = value.match(/<PhysicalDriveSmartStats[\\s\\S]*?<\\/PhysicalDriveSmartStats>/g) || [];\n\n    for (var i = 0; i < drivers.length; i++) {\n        var e = drivers[i];\n\n        var match = e.match(/id=\"(\\d+)\"/);\n\n        if (match) {\n            data.push({\n                \"{#DISKID}\": match[1]\n            });\n        }\n    }\n\n    return JSON.stringify({ \"data\": data });"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "tags": [
+                    {
+                        "tag": "class",
+                        "value": "raid"
+                    },
+                    {
+                        "tag": "target",
+                        "value": "adaptec"
+                    }
+                ]
+            },
+            {
+                "uuid": "2371dc240b9e44529c2be20ba0c159c7",
+                "template": "Adadptec Raid 8405 pwsh",
+                "name": "Adadptec Raid 8405 pwsh",
+                "groups": [
+                    {
+                        "name": "Raid controllers"
+                    }
+                ],
+                "items": [
+                    {
+                        "uuid": "993b3e01322f48b4ad3ed0ca1b4996f9",
+                        "name": "Adaptec Logical Devices Failed Stripes",
+                        "type": "DEPENDENT",
+                        "key": "raid.adaptec8405.failedstripes",
+                        "delay": "0",
+                        "history": "7d",
+                        "value_type": "TEXT",
+                        "trends": "0",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.failed_stripes"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "raid.adaptec8405.ld"
+                        }
+                    },
+                    {
+                        "uuid": "6846ddeed0964d02918eb564c947f6d0",
+                        "name": "Adaptec Logical Devices RAW",
+                        "key": "raid.adaptec8405.ld",
+                        "delay": "10m",
+                        "value_type": "TEXT",
+                        "trends": "0",
+                        "tags": [
+                            {
+                                "tag": "component",
+                                "value": "raid"
+                            },
+                            {
+                                "tag": "controller",
+                                "value": "adaptec8405"
+                            },
+                            {
+                                "tag": "scope",
+                                "value": "collector"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "e6658213eb62457e97f4f5343ae91c19",
+                        "name": "Adaptec Physical Devices RAW",
+                        "key": "raid.adaptec8405.pd",
+                        "delay": "10m",
+                        "value_type": "TEXT",
+                        "trends": "0",
+                        "tags": [
+                            {
+                                "tag": "component",
+                                "value": "raid"
+                            },
+                            {
+                                "tag": "controller",
+                                "value": "adaptec8405"
+                            },
+                            {
+                                "tag": "scope",
+                                "value": "collector"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "3526af37f61b4660aa1b932a556f4bd0",
+                        "name": "Adaptec Logical Devices Status",
+                        "type": "DEPENDENT",
+                        "key": "raid.adaptec8405.status",
+                        "delay": "0",
+                        "history": "7d",
+                        "value_type": "TEXT",
+                        "trends": "0",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.status"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "raid.adaptec8405.ld"
+                        }
+                    }
+                ],
+                "discovery_rules": [
+                    {
+                        "uuid": "0c62e5e6fbef402197ed1e8062fa86fc",
+                        "name": "Adaptec Physical Devices Discovery",
+                        "type": "DEPENDENT",
+                        "key": "raid.adaptec8405.pd.discovery",
+                        "delay": "0",
+                        "master_item": {
+                            "key": "raid.adaptec8405.pd"
+                        },
+                        "lld_macro_paths": [
+                            {
+                                "lld_macro": "{#DISK}",
+                                "path": "$.id"
+                            }
+                        ],
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$[*]"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "tags": [
+                    {
+                        "tag": "class",
+                        "value": "raid"
+                    },
+                    {
+                        "tag": "target",
+                        "value": "adaptec 8405"
+                    }
+                ]
+            },
+            {
+                "uuid": "9f171a30f72a4363b097fbe92af5ad4c",
+                "template": "AVAGO MegaRAID SAS 9361-8i",
+                "name": "AVAGO MegaRAID SAS 9361-8i",
+                "groups": [
+                    {
+                        "name": "Raid controllers"
+                    }
+                ],
+                "items": [
+                    {
+                        "uuid": "42281ee3414140d3aa45732cf70248a9",
+                        "name": "Raw ALL",
+                        "key": "sas9361.all",
+                        "delay": "10m",
+                        "history": "0",
+                        "value_type": "TEXT",
+                        "trends": "0",
+                        "tags": [
+                            {
+                                "tag": "component",
+                                "value": "raid"
+                            },
+                            {
+                                "tag": "controller",
+                                "value": "sas9361"
+                            },
+                            {
+                                "tag": "scope",
+                                "value": "collector"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "7063b52ac41a468ab6aaa19d878281be",
+                        "name": "Raw SMART",
+                        "key": "sas9361.smart",
+                        "delay": "1h",
+                        "history": "0",
+                        "value_type": "TEXT",
+                        "trends": "0",
+                        "tags": [
+                            {
+                                "tag": "component",
+                                "value": "raid"
+                            },
+                            {
+                                "tag": "controller",
+                                "value": "sas9361"
+                            },
+                            {
+                                "tag": "scope",
+                                "value": "collector"
+                            }
+                        ]
+                    }
+                ],
+                "discovery_rules": [
+                    {
+                        "uuid": "f31aeb55d88c44c083509bf69d6bdf64",
+                        "name": "DISCOVERY CONTROLLER",
+                        "type": "DEPENDENT",
+                        "key": "sas9361.controller.discovery",
+                        "delay": "0",
+                        "item_prototypes": [
+                            {
+                                "uuid": "1626a524bf6d4c41a8903746d6781be4",
+                                "name": "Controller {#CONTROLLERID} CacheVault State",
+                                "type": "DEPENDENT",
+                                "key": "sas9361.cachevault.state[{#CONTROLLERID}]",
+                                "delay": "0",
+                                "value_type": "CHAR",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.ControllerId==\"{#CONTROLLERID}\")].CacheVaultState.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "sas9361.all"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "cachevault"
+                                    },
+                                    {
+                                        "tag": "metric",
+                                        "value": "state"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "2cb79c7eee6743f5af5a74ef08306f54",
+                                        "expression": "last(/AVAGO MegaRAID SAS 9361-8i/sas9361.cachevault.state[{#CONTROLLERID}])<>\"Optimal\"",
+                                        "name": "Controller {#CONTROLLERID} CacheVault State is {ITEM.LASTVALUE1}",
+                                        "opdata": "Current state: {ITEM.LASTVALUE1}",
+                                        "priority": "AVERAGE",
+                                        "tags": [
+                                            {
+                                                "tag": "component",
+                                                "value": "cachevault"
+                                            },
+                                            {
+                                                "tag": "metric",
+                                                "value": "state"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "e1b0bee4d55f4fc29a1bba29b7703292",
+                                "name": "Controller {#CONTROLLERID} CacheVault Temperature",
+                                "type": "DEPENDENT",
+                                "key": "sas9361.cachevault.temp[{#CONTROLLERID}]",
+                                "delay": "0",
+                                "trends": "0",
+                                "units": "C",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.ControllerId==\"{#CONTROLLERID}\")].CacheVaultTemp.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "sas9361.all"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "cachevault"
+                                    },
+                                    {
+                                        "tag": "metric",
+                                        "value": "temperature"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "6dab155d64374590af4bacc7458595ea",
+                                        "expression": "last(/AVAGO MegaRAID SAS 9361-8i/sas9361.cachevault.temp[{#CONTROLLERID}])>60",
+                                        "recovery_mode": "RECOVERY_EXPRESSION",
+                                        "recovery_expression": "last(/AVAGO MegaRAID SAS 9361-8i/sas9361.cachevault.temp[{#CONTROLLERID}])<55",
+                                        "name": "Controller {#CONTROLLERID} CacheVault temperature > 60",
+                                        "opdata": "Current temperature: {ITEM.LASTVALUE1}",
+                                        "status": "DISABLED",
+                                        "priority": "WARNING",
+                                        "tags": [
+                                            {
+                                                "tag": "component",
+                                                "value": "cachevault"
+                                            },
+                                            {
+                                                "tag": "metric",
+                                                "value": "temperature"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "uuid": "e39418d26d7b4f028c6fa865008831a3",
+                                        "expression": "last(/AVAGO MegaRAID SAS 9361-8i/sas9361.cachevault.temp[{#CONTROLLERID}])>70",
+                                        "recovery_mode": "RECOVERY_EXPRESSION",
+                                        "recovery_expression": "last(/AVAGO MegaRAID SAS 9361-8i/sas9361.cachevault.temp[{#CONTROLLERID}])<65",
+                                        "name": "Controller {#CONTROLLERID} CacheVault temperature > 70",
+                                        "opdata": "Current temperature: {ITEM.LASTVALUE1}",
+                                        "priority": "AVERAGE",
+                                        "tags": [
+                                            {
+                                                "tag": "component",
+                                                "value": "cachevault"
+                                            },
+                                            {
+                                                "tag": "metric",
+                                                "value": "temperature"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "uuid": "4d3c58121fd3497b8c8eeb8ec6bbaa65",
+                                        "expression": "last(/AVAGO MegaRAID SAS 9361-8i/sas9361.cachevault.temp[{#CONTROLLERID}])>80",
+                                        "recovery_mode": "RECOVERY_EXPRESSION",
+                                        "recovery_expression": "last(/AVAGO MegaRAID SAS 9361-8i/sas9361.cachevault.temp[{#CONTROLLERID}])<75",
+                                        "name": "Controller {#CONTROLLERID} CacheVault temperature > 80",
+                                        "opdata": "Current temperature: {ITEM.LASTVALUE1}",
+                                        "status": "DISABLED",
+                                        "priority": "HIGH",
+                                        "tags": [
+                                            {
+                                                "tag": "component",
+                                                "value": "cachevault"
+                                            },
+                                            {
+                                                "tag": "metric",
+                                                "value": "temperature"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "sas9361.all"
+                        },
+                        "lld_macro_paths": [
+                            {
+                                "lld_macro": "{#CONTROLLERID}",
+                                "path": "$.ControllerId"
+                            },
+                            {
+                                "lld_macro": "{#MODEL}",
+                                "path": "$.Model"
+                            }
+                        ],
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$[*]"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "168487b266214146878e26ddcceb2817",
+                        "name": "DISCOVERY PD",
+                        "type": "DEPENDENT",
+                        "key": "sas9361.pd.discovery",
+                        "delay": "0",
+                        "item_prototypes": [
+                            {
+                                "uuid": "0ef532c3776a45248ac89c7d309b4684",
+                                "name": "Controller {#CONTROLLERID} PD {#PD} Size",
+                                "type": "DEPENDENT",
+                                "key": "sas9361.pd.size[{#PD}]",
+                                "delay": "0",
+                                "value_type": "CHAR",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[*].PD[?(@.DiskId==\"{#PD}\" && @.ControllerId=={#CONTROLLERID})].Size.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "sas9361.all"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "pd"
+                                    },
+                                    {
+                                        "tag": "metric",
+                                        "value": "size"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "39a5c33279b446b98e130c6aba35144d",
+                                "name": "Controller {#CONTROLLERID} PD {#PD} Status",
+                                "type": "DEPENDENT",
+                                "key": "sas9361.pd.status[{#PD}]",
+                                "delay": "0",
+                                "value_type": "CHAR",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[*].PD[?(@.DiskId==\"{#PD}\" && @.ControllerId=={#CONTROLLERID})].State.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "sas9361.all"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "pd"
+                                    },
+                                    {
+                                        "tag": "metric",
+                                        "value": "status"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "f1679579e4de428c8b08702995aa20a0",
+                                        "expression": "last(/AVAGO MegaRAID SAS 9361-8i/sas9361.pd.status[{#PD}])<>\"Onln\"",
+                                        "name": "Controller {#CONTROLLERID} PD State is {ITEM.ITEMVALUE1}",
+                                        "opdata": "Current state: {ITEM.LASTVALUE1}",
+                                        "priority": "HIGH",
+                                        "tags": [
+                                            {
+                                                "tag": "component",
+                                                "value": "pd"
+                                            },
+                                            {
+                                                "tag": "metric",
+                                                "value": "state"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "sas9361.all"
+                        },
+                        "lld_macro_paths": [
+                            {
+                                "lld_macro": "{#CONTROLLERID}",
+                                "path": "$.ControllerId"
+                            },
+                            {
+                                "lld_macro": "{#PD}",
+                                "path": "$.DiskId"
+                            }
+                        ],
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$[*].PD[*]"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "bdf31d480b834e108e9bd6ac3f5d49d5",
+                        "name": "DISCOVERY SMART",
+                        "type": "DEPENDENT",
+                        "key": "sas9361.smart.discovery",
+                        "delay": "0",
+                        "item_prototypes": [
+                            {
+                                "uuid": "7e79c093d36e426eb73334592d2df9a8",
+                                "name": "Disk {#DISKID} in Controller  {#CONTROLLERID}  MediaErrors",
+                                "type": "DEPENDENT",
+                                "key": "sas9361.disk.mediaerrors[{#DISKID},{#CONTROLLERID}]",
+                                "delay": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.DiskID==\"{#DISKID}\" && @.ControllerId==\"{#CONTROLLERID}\")].MediaErrors.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "sas9361.smart"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "pd"
+                                    },
+                                    {
+                                        "tag": "metric",
+                                        "value": "errors"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "c95581535e7c4767969bcd29cc52e29a",
+                                        "expression": "change(/AVAGO MegaRAID SAS 9361-8i/sas9361.disk.mediaerrors[{#DISKID},{#CONTROLLERID}])>0",
+                                        "name": "Controller {#CONTROLLERID} PD {#DISKID} media errors increased",
+                                        "opdata": "Current media errors: {ITEM.LASTVALUE1}",
+                                        "priority": "WARNING",
+                                        "type": "MULTIPLE",
+                                        "tags": [
+                                            {
+                                                "tag": "component",
+                                                "value": "pd"
+                                            },
+                                            {
+                                                "tag": "metric",
+                                                "value": "errors"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "6e5a0306874c4cb4bc64eadafc4c2a8e",
+                                "name": "Disk {#DISKID} in Controller {#CONTROLLERID}  Other Errors",
+                                "type": "DEPENDENT",
+                                "key": "sas9361.disk.othererr[{#DISKID},{#CONTROLLERID}]",
+                                "delay": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.DiskID==\"{#DISKID}\" && @.ControllerId==\"{#CONTROLLERID}\")].OtherErrors.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "sas9361.smart"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "pd"
+                                    },
+                                    {
+                                        "tag": "metric",
+                                        "value": "errors"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "cffc57f0976f4abeadc8578f88299c9d",
+                                        "expression": "change(/AVAGO MegaRAID SAS 9361-8i/sas9361.disk.othererr[{#DISKID},{#CONTROLLERID}])>0",
+                                        "name": "Controller {#CONTROLLERID} PD {#DISKID} Other errors increased",
+                                        "priority": "WARNING",
+                                        "tags": [
+                                            {
+                                                "tag": "component",
+                                                "value": "pd"
+                                            },
+                                            {
+                                                "tag": "metric",
+                                                "value": "errors"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "f143a4bfc62b4e3995c95d9785e92886",
+                                "name": "Disk {#DISKID} in Controller  {#CONTROLLERID} Predictive Failures",
+                                "type": "DEPENDENT",
+                                "key": "sas9361.disk.predfail[{#DISKID},{#CONTROLLERID}]",
+                                "delay": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.DiskID==\"{#DISKID}\" && @.ControllerId==\"{#CONTROLLERID}\")].PredictiveFailures.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "sas9361.smart"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "pd"
+                                    },
+                                    {
+                                        "tag": "metric",
+                                        "value": "errors"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "e6d33984c24846abb319b38a3dc321e0",
+                                        "expression": "last(/AVAGO MegaRAID SAS 9361-8i/sas9361.disk.predfail[{#DISKID},{#CONTROLLERID}])>0",
+                                        "name": "Controller {#CONTROLLERID} PD {#DISKID} Predictive failure",
+                                        "priority": "DISASTER",
+                                        "tags": [
+                                            {
+                                                "tag": "component",
+                                                "value": "pd"
+                                            },
+                                            {
+                                                "tag": "metric",
+                                                "value": "errors"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "6460a0edec2e47538ec36be42e02dddb",
+                                "name": "Disk {#DISKID} in Controller {#CONTROLLERID} SMART Alert",
+                                "type": "DEPENDENT",
+                                "key": "sas9361.disk.smartalert[{#DISKID},{#CONTROLLERID}]",
+                                "delay": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.DiskID==\"{#DISKID}\" && @.ControllerId==\"{#CONTROLLERID}\")].SmartAlert.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "sas9361.smart"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "pd"
+                                    },
+                                    {
+                                        "tag": "metric",
+                                        "value": "errors"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "cefa1369158b4421ac5fa468377a69ab",
+                                        "expression": "last(/AVAGO MegaRAID SAS 9361-8i/sas9361.disk.smartalert[{#DISKID},{#CONTROLLERID}])<>0",
+                                        "name": "Controller {#CONTROLLERID} PD {#DISKID} Smart Alert",
+                                        "priority": "AVERAGE",
+                                        "tags": [
+                                            {
+                                                "tag": "component",
+                                                "value": "pd"
+                                            },
+                                            {
+                                                "tag": "metric",
+                                                "value": "errors"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "23c04434c4674e5eb8c043906fa3f1cf",
+                                "name": "Disk {#DISKID} in Controller  {#CONTROLLERID}  Temp",
+                                "type": "DEPENDENT",
+                                "key": "sas9361.disk.temp[{#DISKID},{#CONTROLLERID}]",
+                                "delay": "0",
+                                "units": "C",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.DiskID==\"{#DISKID}\" && @.ControllerId==\"{#CONTROLLERID}\")].Temp.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "sas9361.smart"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "pd"
+                                    },
+                                    {
+                                        "tag": "metric",
+                                        "value": "temperature"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "e9fc2d8c42a144329e76d6734397597b",
+                                        "expression": "last(/AVAGO MegaRAID SAS 9361-8i/sas9361.disk.temp[{#DISKID},{#CONTROLLERID}])>45",
+                                        "recovery_mode": "RECOVERY_EXPRESSION",
+                                        "recovery_expression": "last(/AVAGO MegaRAID SAS 9361-8i/sas9361.disk.temp[{#DISKID},{#CONTROLLERID}])<39",
+                                        "name": "Controller {#CONTROLLERID} PD {#DISKID} Temperature > 45",
+                                        "opdata": "Current temperature {ITEM.LASTVALUE1}",
+                                        "priority": "WARNING",
+                                        "tags": [
+                                            {
+                                                "tag": "component",
+                                                "value": "pd"
+                                            },
+                                            {
+                                                "tag": "metric",
+                                                "value": "temperature"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "sas9361.smart"
+                        },
+                        "lld_macro_paths": [
+                            {
+                                "lld_macro": "{#CONTROLLERID}",
+                                "path": "$.ControllerId"
+                            },
+                            {
+                                "lld_macro": "{#DISKID}",
+                                "path": "$.DiskID"
+                            },
+                            {
+                                "lld_macro": "{#MODEL}",
+                                "path": "$.Model"
+                            }
+                        ],
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$[*]"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "a9ab94c093714c269fe98f721d845845",
+                        "name": "DISCOVERY VD",
+                        "type": "DEPENDENT",
+                        "key": "sas9361.vd.discovery",
+                        "delay": "0",
+                        "item_prototypes": [
+                            {
+                                "uuid": "e3b2d43d14374b85b4c67b34e27e36b0",
+                                "name": "Controller {#CONTROLLERID} VD {#VD} Size",
+                                "type": "DEPENDENT",
+                                "key": "sas9361.vd.size[{#VD}]",
+                                "delay": "0",
+                                "value_type": "CHAR",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[*].VD[?(@.Id==\"{#VD}\" && @.ControllerId=={#CONTROLLERID})].Size.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "sas9361.all"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "vd"
+                                    },
+                                    {
+                                        "tag": "metric",
+                                        "value": "size"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "4cddd8ed3c724d5e9d9383ced90f62e1",
+                                "name": "Controller {#CONTROLLERID} VD {#VD} Status",
+                                "type": "DEPENDENT",
+                                "key": "sas9361.vd.status[{#VD}]",
+                                "delay": "0",
+                                "value_type": "CHAR",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[*].VD[?(@.Id==\"{#VD}\" && @.ControllerId=={#CONTROLLERID})].State.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "sas9361.all"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "vd"
+                                    },
+                                    {
+                                        "tag": "metric",
+                                        "value": "status"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "833cf62ff3bc403abfb7ba14912305ec",
+                                        "expression": "last(/AVAGO MegaRAID SAS 9361-8i/sas9361.vd.status[{#VD}])<>\"Optl\"",
+                                        "name": "Controller {#CONTROLLERID} VD State is {ITEM.ITEMVALUE1}",
+                                        "opdata": "Current state: {ITEM.LASTVALUE1}",
+                                        "priority": "HIGH",
+                                        "tags": [
+                                            {
+                                                "tag": "component",
+                                                "value": "vd"
+                                            },
+                                            {
+                                                "tag": "metric",
+                                                "value": "state"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "6b177d395f9249a2a253011b272d0377",
+                                "name": "Controller {#CONTROLLERID} VD {#VD} Type",
+                                "type": "DEPENDENT",
+                                "key": "sas9361.vd.type[{#VD}]",
+                                "delay": "0",
+                                "value_type": "CHAR",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[*].VD[?(@.Id==\"{#VD}\" && @.ControllerId==\"{#CONTROLLERID}\")].Type.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "sas9361.all"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "vd"
+                                    },
+                                    {
+                                        "tag": "metric",
+                                        "value": "raidtype"
+                                    }
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "sas9361.all"
+                        },
+                        "lld_macro_paths": [
+                            {
+                                "lld_macro": "{#CONTROLLERID}",
+                                "path": "$.ControllerId"
+                            },
+                            {
+                                "lld_macro": "{#VD}",
+                                "path": "$.Id"
+                            }
+                        ],
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$[*].VD[*]"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "tags": [
+                    {
+                        "tag": "class",
+                        "value": "raid"
+                    },
+                    {
+                        "tag": "target",
+                        "value": "sas9361"
+                    }
+                ]
+            },
+            {
+                "uuid": "5ee219330fc843bdb8bbf4244c325ce6",
+                "template": "Intel C600-C220",
+                "name": "Intel C600-C220",
+                "groups": [
+                    {
+                        "name": "Raid controllers"
+                    }
+                ],
+                "items": [
+                    {
+                        "uuid": "19c41d0744c24960beeba2953c84e38c",
+                        "name": "Intel(R) C600+/220+ RAW data",
+                        "key": "vfs.file.contents[C:\\scripts\\raid.txt]",
+                        "delay": "10m",
+                        "history": "0",
+                        "value_type": "TEXT",
+                        "trends": "0",
+                        "preprocessing": [
+                            {
+                                "type": "JAVASCRIPT",
+                                "parameters": [
+                                    "var volumes = [];\nvar currentVolume = null;\nvar currentDisk = null;\nvar mode = null;\n\nvar lines = value.split(\"\\n\");\n\nfor (var i = 0; i < lines.length; i++) {\n    lines[i] = lines[i].trim();\n    if (!lines[i]) continue;\n    \n    \n    if (lines[i].indexOf(\"--VOLUME INFORMATION--\") === 0) {\n        if (currentVolume) volumes.push(currentVolume);\n        currentVolume = { disks: [] };\n        mode = \"volume\";\n    }\n\n    if (lines[i].indexOf(\"--DISKS IN VOLUME\") === 0) {\n        mode = \"disks\";\n        currentDisk = null;\n    }\n\n    if (lines[i].indexOf(\"ID:\") === 0) {\n        if (mode === \"disks\") {\n            currentDisk = {};\n            currentVolume.disks.push(currentDisk);\n            currentDisk.id = lines[i].split(\":\")[1].trim();\n        }\n    }\n\n    if (mode === \"volume\" && lines[i].indexOf(\":\") !== -1 && lines[i].indexOf(\"--\") !== 0) {\n        var idx = lines[i].indexOf(\":\");\n        var key = lines[i].substring(0, idx).trim().toLowerCase().replace(/\\s+/g, \"_\");\n        var val = lines[i].substring(idx + 1).trim();\n         currentVolume[key] = val;\n    }   \n    if (mode === \"disks\" && currentDisk && lines[i].indexOf(\":\") !== -1 && lines[i].indexOf(\"--\") !== 0)\n    {\n        var idx = lines[i].indexOf(\":\");\n        var key = lines[i].substring(0, idx).trim().toLowerCase().replace(/\\s+/g, \"_\");\n        var val = lines[i].substring(idx + 1).trim();\n        currentDisk[key] = val;\n        currentDisk.volume = currentVolume.name; // \u0412\u0410\u0416\u041d\u041e\n    }\n}\nif (currentVolume)volumes.push(currentVolume);\nreturn JSON.stringify({ volumes: volumes });"
+                                ]
+                            }
+                        ],
+                        "tags": [
+                            {
+                                "tag": "component",
+                                "value": "raid"
+                            },
+                            {
+                                "tag": "controller",
+                                "value": "c600-220"
+                            }
+                        ]
+                    }
+                ],
+                "discovery_rules": [
+                    {
+                        "uuid": "eb522e2b47a54c698cbe74623c7e3d45",
+                        "name": "Intel C600+/220+ Disks Discovery",
+                        "type": "DEPENDENT",
+                        "key": "c600.disks.discovery",
+                        "delay": "0",
+                        "item_prototypes": [
+                            {
+                                "uuid": "b13c9b29f52a4614848e87e6e8137fb3",
+                                "name": "Disk {#ID} in Volume {#VOLUME} Model:",
+                                "type": "DEPENDENT",
+                                "key": "c600.disks.model[{#ID}]",
+                                "delay": "0",
+                                "value_type": "TEXT",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$.volumes[*].disks[*]"
+                                        ]
+                                    },
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$.[?(@.id == \"{#ID}\")].model.first()"
+                                        ]
+                                    },
+                                    {
+                                        "type": "DISCARD_UNCHANGED",
+                                        "parameters": [
+                                            ""
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "vfs.file.contents[C:\\scripts\\raid.txt]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "disk"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "c600-220"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#ID}"
+                                    },
+                                    {
+                                        "tag": "volume",
+                                        "value": "{#VOLUME}"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "d1cff76a7ad742f79fb3bb7153a13ece",
+                                "name": "Disk {#ID} in Volume {#VOLUME} Size:",
+                                "type": "DEPENDENT",
+                                "key": "c600.disks.size[{#ID}]",
+                                "delay": "0",
+                                "value_type": "CHAR",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$.volumes[*].disks[*]"
+                                        ]
+                                    },
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$.[?(@.id == \"{#ID}\")].size.first()"
+                                        ]
+                                    },
+                                    {
+                                        "type": "DISCARD_UNCHANGED",
+                                        "parameters": [
+                                            ""
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "vfs.file.contents[C:\\scripts\\raid.txt]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "disk"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "c600-220"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#ID}"
+                                    },
+                                    {
+                                        "tag": "volume",
+                                        "value": "{#VOLUME}"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "73c340b614814883b3765cfd19e52747",
+                                "name": "Disk {#ID} in Volume {#VOLUME} State:",
+                                "type": "DEPENDENT",
+                                "key": "c600.disks.state[{#ID}]",
+                                "delay": "0",
+                                "value_type": "CHAR",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$.volumes[*].disks[*]"
+                                        ]
+                                    },
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$.[?(@.id == \"{#ID}\")].state.first()"
+                                        ]
+                                    },
+                                    {
+                                        "type": "DISCARD_UNCHANGED",
+                                        "parameters": [
+                                            ""
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "vfs.file.contents[C:\\scripts\\raid.txt]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "disk"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "c600-220"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#ID}"
+                                    },
+                                    {
+                                        "tag": "volume",
+                                        "value": "{#VOLUME}"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "cf5d80add06d40b5afae05a29489808b",
+                                        "expression": "last(/Intel C600-C220/c600.disks.state[{#ID}])<> \"Normal\"",
+                                        "name": "Disk {#ID} in Volume {#{VOLUME}} STATE NO OK!",
+                                        "priority": "HIGH",
+                                        "tags": [
+                                            {
+                                                "tag": "component",
+                                                "value": "notification"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "vfs.file.contents[C:\\scripts\\raid.txt]"
+                        },
+                        "lld_macro_paths": [
+                            {
+                                "lld_macro": "{#ID}",
+                                "path": "$.id"
+                            },
+                            {
+                                "lld_macro": "{#VOLUME}",
+                                "path": "$.volume"
+                            }
+                        ],
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.volumes[*].disks[*]"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "8d9ec3bea9054446a2480b7d1588b67f",
+                        "name": "Intel C600+/220+ Volumes Discovery",
+                        "type": "DEPENDENT",
+                        "key": "c600.volumes.discovery",
+                        "delay": "0",
+                        "item_prototypes": [
+                            {
+                                "uuid": "0085bf6775b24a54bba0cbaf95b65dd5",
+                                "name": "{#VOLUME} RAID Level:",
+                                "type": "DEPENDENT",
+                                "key": "c600.volume.raid[{#VOLUME}]",
+                                "delay": "0",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$.volumes[?(@.name==\"{#VOLUME}\")].raid_level.first()"
+                                        ]
+                                    },
+                                    {
+                                        "type": "DISCARD_UNCHANGED",
+                                        "parameters": [
+                                            ""
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "vfs.file.contents[C:\\scripts\\raid.txt]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "volume"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "c600-220"
+                                    },
+                                    {
+                                        "tag": "volume",
+                                        "value": "{#VOLUME}"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "b5af5d14b0af4b2ba3b4b0a5396c82ef",
+                                "name": "{#VOLUME} Size:",
+                                "type": "DEPENDENT",
+                                "key": "c600.volume.size[{#VOLUME}]",
+                                "delay": "0",
+                                "value_type": "CHAR",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$.volumes[?(@.name==\"{#VOLUME}\")].size.first()"
+                                        ]
+                                    },
+                                    {
+                                        "type": "DISCARD_UNCHANGED",
+                                        "parameters": [
+                                            ""
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "vfs.file.contents[C:\\scripts\\raid.txt]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "volume"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "c600-220"
+                                    },
+                                    {
+                                        "tag": "volume",
+                                        "value": "{#VOLUME}"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "4cad459b59fa42ca8dc8834f09a4bdd1",
+                                "name": "{#VOLUME} State:",
+                                "type": "DEPENDENT",
+                                "key": "c600.volume.state[{#VOLUME}]",
+                                "delay": "0",
+                                "value_type": "CHAR",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$.volumes[?(@.name==\"{#VOLUME}\")].state.first()"
+                                        ]
+                                    },
+                                    {
+                                        "type": "DISCARD_UNCHANGED",
+                                        "parameters": [
+                                            ""
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "vfs.file.contents[C:\\scripts\\raid.txt]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "volume"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "c600-220"
+                                    },
+                                    {
+                                        "tag": "volume",
+                                        "value": "{#VOLUME}"
+                                    }
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "vfs.file.contents[C:\\scripts\\raid.txt]"
+                        },
+                        "lld_macro_paths": [
+                            {
+                                "lld_macro": "{#VOLUME}",
+                                "path": "$.name"
+                            }
+                        ],
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.volumes[*]"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "tags": [
+                    {
+                        "tag": "class",
+                        "value": "raid"
+                    },
+                    {
+                        "tag": "target",
+                        "value": "c600-c200"
+                    }
+                ]
+            },
+            {
+                "uuid": "4f16186437124636bcc36e30c1fca6ca",
+                "template": "Intel C600-C220 pwsh",
+                "name": "Intel C600-C220 pwsh",
+                "groups": [
+                    {
+                        "name": "Raid controllers"
+                    }
+                ],
+                "items": [
+                    {
+                        "uuid": "27821f5b00214439a1677823b36ad11a",
+                        "name": "Intel(R) C600+/220+ JSON data",
+                        "key": "raid.c600",
+                        "delay": "12m",
+                        "history": "0",
+                        "value_type": "TEXT",
+                        "trends": "0"
+                    }
+                ],
+                "discovery_rules": [
+                    {
+                        "uuid": "c6df9b59454c4e4f816ee9bbf6f2b4ef",
+                        "name": "Intel(R) C600+/220+ Disks Discovery",
+                        "type": "DEPENDENT",
+                        "key": "raid.c600.discovery.disks",
+                        "delay": "0",
+                        "item_prototypes": [
+                            {
+                                "uuid": "d19c0e87b79a4bf2ad80321ebccfe844",
+                                "name": "Disk {#DISK} in Volume {#VOLUME} Model",
+                                "type": "DEPENDENT",
+                                "key": "raid.c600.disk.model[{#DISK}]",
+                                "delay": "0",
+                                "value_type": "TEXT",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[*].Disks[?(@.ID==\"{#DISK}\")].Model.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.c600"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "disk"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "c600"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#DISK}"
+                                    },
+                                    {
+                                        "tag": "volume",
+                                        "value": "{#VOLUME}"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "8158175c22e24d9e8f125154f587058e",
+                                "name": "Disk {#DISK} in Volume {#VOLUME} Size",
+                                "type": "DEPENDENT",
+                                "key": "raid.c600.disk.size[{#DISK}]",
+                                "delay": "0",
+                                "value_type": "TEXT",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[*].Disks[?(@.ID==\"{#DISK}\")].Size.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.c600"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "disk"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "c600"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#DISK}"
+                                    },
+                                    {
+                                        "tag": "volume",
+                                        "value": "{#VOLUME}"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "d849ae3802344bad80813cb9ddc57986",
+                                "name": "Disk {#DISK} in Volume {#VOLUME} State",
+                                "type": "DEPENDENT",
+                                "key": "raid.c600.disk.state[{#DISK}]",
+                                "delay": "0",
+                                "value_type": "TEXT",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[*].Disks[?(@.ID==\"{#DISK}\")].State.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.c600"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "disk"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "c600"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#DISK}"
+                                    },
+                                    {
+                                        "tag": "volume",
+                                        "value": "{#VOLUME}"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "2a818832cc614a9ab3903915e15cadbc",
+                                        "expression": "last(/Intel C600-C220 pwsh/raid.c600.disk.state[{#DISK}])<>\"Normal\"",
+                                        "name": "Disk {#DISK} State is Not OK",
+                                        "priority": "HIGH"
+                                    }
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "raid.c600"
+                        },
+                        "lld_macro_paths": [
+                            {
+                                "lld_macro": "{#DISK}",
+                                "path": "$.ID"
+                            },
+                            {
+                                "lld_macro": "{#VOLUME}",
+                                "path": "$.Volume"
+                            }
+                        ],
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.[*].Disks[*]"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "9973a103e309423bacec3e9e9ca3c24e",
+                        "name": "Intel(R) C600+/220+ Volumes Discovery",
+                        "type": "DEPENDENT",
+                        "key": "raid.c600.discovery.volumes",
+                        "delay": "0",
+                        "item_prototypes": [
+                            {
+                                "uuid": "d431ff488de84f1aaf59ba4965886e92",
+                                "name": "Volume {#VOLUME} Size:",
+                                "type": "DEPENDENT",
+                                "key": "raid.c600.volume.size[{#VOLUME}]",
+                                "delay": "0",
+                                "value_type": "TEXT",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.Name==\"{#VOLUME}\")].Size.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.c600"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "volume"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "c600"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#VOLUME}"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "f92ee8e6752a49ca886210c4a823e69f",
+                                "name": "Volume {#VOLUME} State:",
+                                "type": "DEPENDENT",
+                                "key": "raid.c600.volume.state[{#VOLUME}]",
+                                "delay": "0",
+                                "value_type": "TEXT",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.Name==\"{#VOLUME}\")].State.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.c600"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "volume"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "c600"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#VOLUME}"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "4311a9bfa2154bdebfc3f149e8dce1a4",
+                                        "expression": "last(/Intel C600-C220 pwsh/raid.c600.volume.state[{#VOLUME}])=\"Rebuilding\"\nor\nlast(/Intel C600-C220 pwsh/raid.c600.volume.state[{#VOLUME}])=\"Degraded\"",
+                                        "name": "Volume {#VOLUME} is {ITEM.VALUE1}",
+                                        "priority": "HIGH"
+                                    }
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "raid.c600"
+                        },
+                        "lld_macro_paths": [
+                            {
+                                "lld_macro": "{#VOLUME}",
+                                "path": "$.Name"
+                            }
+                        ],
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$[*]"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "tags": [
+                    {
+                        "tag": "class",
+                        "value": "raid"
+                    },
+                    {
+                        "tag": "target",
+                        "value": "c600-c200"
+                    }
+                ]
+            },
+            {
+                "uuid": "ed9a6839437249e2b645b90a562e84ea",
+                "template": "Intel C600-C220 pwsh 1c",
+                "name": "Intel C600-C220 pwsh 1c",
+                "groups": [
+                    {
+                        "name": "Raid controllers"
+                    }
+                ],
+                "items": [
+                    {
+                        "uuid": "4b9a9dfd01be4160b4a26479f2db1e0e",
+                        "name": "Intel(R) C600+/220+ JSON data",
+                        "key": "raid.c600",
+                        "delay": "12m",
+                        "history": "0",
+                        "value_type": "TEXT",
+                        "trends": "0"
+                    }
+                ],
+                "discovery_rules": [
+                    {
+                        "uuid": "e23a2ffaee694907b98e76b005d52dc3",
+                        "name": "Intel(R) C600+/220+ Disks Discovery",
+                        "type": "DEPENDENT",
+                        "key": "raid.c600.discovery.disks",
+                        "delay": "0",
+                        "item_prototypes": [
+                            {
+                                "uuid": "2f72e6772a334625bedabdd244a5efe4",
+                                "name": "Disk {#DISK} in Volume {#VOLUME} Model",
+                                "type": "DEPENDENT",
+                                "key": "raid.c600.disk.model[{#DISK}]",
+                                "delay": "0",
+                                "value_type": "TEXT",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[*][?(@.ID==\"{#DISK}\")].Model.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.c600"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "disk"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "c600"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#DISK}"
+                                    },
+                                    {
+                                        "tag": "volume",
+                                        "value": "{#VOLUME}"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "a64063ccf1e4492c92375e25ae50293a",
+                                "name": "Disk {#DISK} in Volume {#VOLUME} Size",
+                                "type": "DEPENDENT",
+                                "key": "raid.c600.disk.size[{#DISK}]",
+                                "delay": "0",
+                                "value_type": "TEXT",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[*][?(@.ID==\"{#DISK}\")].Size.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.c600"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "disk"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "c600"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#DISK}"
+                                    },
+                                    {
+                                        "tag": "volume",
+                                        "value": "{#VOLUME}"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "cc29895375874d40948932ac05e7ac94",
+                                "name": "Disk {#DISK} in Volume {#VOLUME} State",
+                                "type": "DEPENDENT",
+                                "key": "raid.c600.disk.state[{#DISK}]",
+                                "delay": "0",
+                                "value_type": "TEXT",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[*][?(@.ID==\"{#DISK}\")].State.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.c600"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "disk"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "c600"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#DISK}"
+                                    },
+                                    {
+                                        "tag": "volume",
+                                        "value": "{#VOLUME}"
+                                    }
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "raid.c600"
+                        },
+                        "lld_macro_paths": [
+                            {
+                                "lld_macro": "{#DISK}",
+                                "path": "$.ID"
+                            },
+                            {
+                                "lld_macro": "{#VOLUME}",
+                                "path": "$.Volume"
+                            }
+                        ],
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.Disks[*]"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "fd40bce5c9e0470ba98b8805f3f4fa33",
+                        "name": "Intel(R) C600+/220+ Volumes Discovery",
+                        "type": "DEPENDENT",
+                        "key": "raid.c600.discovery.volumes",
+                        "delay": "0",
+                        "item_prototypes": [
+                            {
+                                "uuid": "22b38fe14886452eafd71d91c6451740",
+                                "name": "Volume {#VOLUME} Size:",
+                                "type": "DEPENDENT",
+                                "key": "raid.c600.volume.size[{#VOLUME}]",
+                                "delay": "0",
+                                "value_type": "TEXT",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.Name==\"{#VOLUME}\")].Size.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.c600"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "volume"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "c600"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#VOLUME}"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "ac80f608bdf84380bada8f248b81b6bd",
+                                "name": "Volume {#VOLUME} State:",
+                                "type": "DEPENDENT",
+                                "key": "raid.c600.volume.state[{#VOLUME}]",
+                                "delay": "0",
+                                "value_type": "TEXT",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.Name==\"{#VOLUME}\")].State.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.c600"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "volume"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "c600"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#VOLUME}"
+                                    }
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "raid.c600"
+                        },
+                        "lld_macro_paths": [
+                            {
+                                "lld_macro": "{#VOLUME}",
+                                "path": "$.Name"
+                            }
+                        ],
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$[*]"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "tags": [
+                    {
+                        "tag": "class",
+                        "value": "raid"
+                    },
+                    {
+                        "tag": "target",
+                        "value": "c600-c200"
+                    }
+                ]
+            },
+            {
+                "uuid": "d4e1b0fa9ad143c8a63878aeaab06dd5",
+                "template": "Supermicro SMC2108",
+                "name": "Supermicro SMC2108",
+                "groups": [
+                    {
+                        "name": "Raid controllers"
+                    }
+                ],
+                "items": [
+                    {
+                        "uuid": "ba8477007c3741b69ad1a948a385023a",
+                        "name": "Supermicro SMC2108 Memory Correctable Errors:",
+                        "type": "DEPENDENT",
+                        "key": "smc2108.correctable",
+                        "delay": "0",
+                        "preprocessing": [
+                            {
+                                "type": "REGEX",
+                                "parameters": [
+                                    "\\s+Memory Correctable Errors\\s+:\\s(\\d+)",
+                                    "\\1"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "vfs.file.contents[C:\\scripts\\raid\\raid.txt]"
+                        },
+                        "tags": [
+                            {
+                                "tag": "component",
+                                "value": "array"
+                            },
+                            {
+                                "tag": "controller",
+                                "value": "Supremicro SMC2108"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "1e54fc23623a40beb14737628ac0ebe0",
+                        "name": "Supermicro SMC2108 Critical Disks Count:",
+                        "type": "DEPENDENT",
+                        "key": "smc2108.critical",
+                        "delay": "0",
+                        "preprocessing": [
+                            {
+                                "type": "REGEX",
+                                "parameters": [
+                                    "\\s+Critical Disks\\s+:\\s(\\d+)",
+                                    "\\1"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "vfs.file.contents[C:\\scripts\\raid\\raid.txt]"
+                        },
+                        "tags": [
+                            {
+                                "tag": "component",
+                                "value": "array"
+                            },
+                            {
+                                "tag": "controller",
+                                "value": "Supremicro SMC2108"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "d6ff71992116405d84c1d2779f666ef6",
+                        "name": "Supermicro SMC2108 Degraded Count:",
+                        "type": "DEPENDENT",
+                        "key": "smc2108.degraded",
+                        "delay": "0",
+                        "preprocessing": [
+                            {
+                                "type": "REGEX",
+                                "parameters": [
+                                    "\\s+Degraded\\s+:\\s(\\d+)",
+                                    "\\1"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "vfs.file.contents[C:\\scripts\\raid\\raid.txt]"
+                        },
+                        "tags": [
+                            {
+                                "tag": "component",
+                                "value": "array"
+                            },
+                            {
+                                "tag": "controller",
+                                "value": "Supremicro SMC2108"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "a5c0eda9945b4e7fbb83ad48cf462d2b",
+                        "name": "Supermicro SMC2108 Failed Disks Count:",
+                        "type": "DEPENDENT",
+                        "key": "smc2108.failed",
+                        "delay": "0",
+                        "preprocessing": [
+                            {
+                                "type": "REGEX",
+                                "parameters": [
+                                    "\\s+Failed Disks\\s+:\\s(\\d+)",
+                                    "\\1"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "vfs.file.contents[C:\\scripts\\raid\\raid.txt]"
+                        },
+                        "tags": [
+                            {
+                                "tag": "component",
+                                "value": "array"
+                            },
+                            {
+                                "tag": "controller",
+                                "value": "Supremicro SMC2108"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "1c38a9a6b84343a9b0dcd98d52914e52",
+                        "name": "Supermicro SMC2108 Offline Count:",
+                        "type": "DEPENDENT",
+                        "key": "smc2108.offline",
+                        "delay": "0",
+                        "preprocessing": [
+                            {
+                                "type": "REGEX",
+                                "parameters": [
+                                    "\\s+Offline\\s+:\\s(\\d+)",
+                                    "\\1"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "vfs.file.contents[C:\\scripts\\raid\\raid.txt]"
+                        },
+                        "tags": [
+                            {
+                                "tag": "component",
+                                "value": "array"
+                            },
+                            {
+                                "tag": "controller",
+                                "value": "Supremicro SMC2108"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "286f83a621fd4a87b6a0828abb197dfb",
+                        "name": "Supermicro SMC2108 Memory Uncorrectable Errors:",
+                        "type": "DEPENDENT",
+                        "key": "smc2108.uncorrectable",
+                        "delay": "0",
+                        "preprocessing": [
+                            {
+                                "type": "REGEX",
+                                "parameters": [
+                                    "\\s+Memory Uncorrectable Errors\\s+:\\s(\\d+)",
+                                    "\\1"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "vfs.file.contents[C:\\scripts\\raid\\raid.txt]"
+                        },
+                        "tags": [
+                            {
+                                "tag": "component",
+                                "value": "array"
+                            },
+                            {
+                                "tag": "controller",
+                                "value": "Supremicro SMC2108"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "f54b96957fa14ee697ca0ce15c8ca39c",
+                        "name": "Supermicro SMC2108 Raw Volumes",
+                        "key": "vfs.file.contents[C:\\scripts\\raid\\raid.txt]",
+                        "delay": "10m",
+                        "history": "0",
+                        "value_type": "TEXT",
+                        "trends": "0",
+                        "tags": [
+                            {
+                                "tag": "component",
+                                "value": "raid"
+                            },
+                            {
+                                "tag": "controller",
+                                "value": "Supermicro SMC2108"
+                            }
+                        ]
+                    }
+                ],
+                "discovery_rules": [
+                    {
+                        "uuid": "ace1e9bd1d4f47efa476aa6d68877601",
+                        "name": "Supermicro SMC2108 Array Discovery",
+                        "type": "DEPENDENT",
+                        "key": "smc2108.discovery.array",
+                        "delay": "0",
+                        "master_item": {
+                            "key": "vfs.file.contents[C:\\scripts\\raid\\raid.txt]"
+                        },
+                        "preprocessing": [
+                            {
+                                "type": "REGEX",
+                                "parameters": [
+                                    "\\s+Device Present[\\s\\S]+?Failed Disks\\s+:\\s\\d",
+                                    "\\0"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "tags": [
+                    {
+                        "tag": "class",
+                        "value": "raid"
+                    },
+                    {
+                        "tag": "target",
+                        "value": "Supermicro SMC2108"
+                    }
+                ]
+            },
+            {
+                "uuid": "640de6a1798647a280448557e82be4b1",
+                "template": "SuperMicro SMC2108",
+                "name": "SuperMicro SMC2108",
+                "description": "VD and PD status with Powershell 7+",
+                "groups": [
+                    {
+                        "name": "Raid controllers"
+                    }
+                ],
+                "items": [
+                    {
+                        "uuid": "d8cd427508a240aaa83b1b2da1c7ed12",
+                        "name": "Raw Physical Drives Status",
+                        "key": "raid.pd",
+                        "history": "0",
+                        "value_type": "TEXT",
+                        "trends": "0",
+                        "tags": [
+                            {
+                                "tag": "component",
+                                "value": "raid"
+                            },
+                            {
+                                "tag": "controller",
+                                "value": "smc2108"
+                            },
+                            {
+                                "tag": "scope",
+                                "value": "collector"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "8fcf61f4ce6346348661bb54493f6456",
+                        "name": "Raw Virtual Drives Status",
+                        "key": "raid.vd",
+                        "history": "0",
+                        "value_type": "TEXT",
+                        "trends": "0",
+                        "description": "VD status from POwershell 7+",
+                        "tags": [
+                            {
+                                "tag": "component",
+                                "value": "raid"
+                            },
+                            {
+                                "tag": "controller",
+                                "value": "smc2108"
+                            },
+                            {
+                                "tag": "scope",
+                                "value": "collector"
+                            }
+                        ]
+                    }
+                ],
+                "discovery_rules": [
+                    {
+                        "uuid": "b54047391ed14ffcbfe81f9a93d8a6b1",
+                        "name": "SMC2108 Physical Drive Discovery",
+                        "type": "DEPENDENT",
+                        "key": "raid.pd.discovery",
+                        "delay": "0",
+                        "item_prototypes": [
+                            {
+                                "uuid": "73585bc60bab4d9085ea560a4f98e618",
+                                "name": "SMC2108 Physical Drive in Slot {#SLOT} Media Errors",
+                                "type": "DEPENDENT",
+                                "key": "raid.pd.mediaerr[{#SLOT}]",
+                                "delay": "0",
+                                "trends": "0",
+                                "description": "\u041e\u0448\u0438\u0431\u043a\u0438 \u0447\u0442\u0435\u043d\u0438\u044f/\u0437\u0430\u043f\u0438\u0441\u0438 \u0441\u0430\u043c\u0438\u0445 \u0441\u0435\u043a\u0442\u043e\u0440\u043e\u0432 \u0434\u0438\u0441\u043a\u0430",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.Slot=={#SLOT})].MediaErrors.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.pd"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "raid"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "smc2108"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "health"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "physical"
+                                    },
+                                    {
+                                        "tag": "slot",
+                                        "value": "{#SLOT}"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "8b71df1c328e493dbdb33eea80535922",
+                                        "expression": "last(/SuperMicro SMC2108/raid.pd.mediaerr[{#SLOT}])<>0",
+                                        "name": "Physical Drive Media Error Detected in {#SLOT} Slot",
+                                        "opdata": "MediaErrorsCount={ITEM.LASTVALUE1}",
+                                        "priority": "HIGH"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "86beb7f80b844711b755e2e1f25f27b8",
+                                "name": "SMC2108 Physical Drive in Slot {#SLOT} Other Errors",
+                                "type": "DEPENDENT",
+                                "key": "raid.pd.othererr[{#SLOT}]",
+                                "delay": "0",
+                                "trends": "0",
+                                "description": "\u043f\u0440\u043e\u0431\u043b\u0435\u043c\u0430:\n\n\u043a\u0430\u0431\u0435\u043b\u044f\nbackplane\ncontroller\npower\nfirmware",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.Slot=={#SLOT})].OtherErrors.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.pd"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "raid"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "smc2108"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "health"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "physical"
+                                    },
+                                    {
+                                        "tag": "slot",
+                                        "value": "{#SLOT}"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "50f7337f20814161b418c4673efebf95",
+                                        "expression": "last(/SuperMicro SMC2108/raid.pd.othererr[{#SLOT}])<>0",
+                                        "name": "Physical Drive Other Error Detected in {#SLOT} Slot",
+                                        "opdata": "OtherErrorsCount={ITEM.LASTVALUE1}",
+                                        "priority": "HIGH"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "c56ba2207c134dffa759e9ac7f79b4de",
+                                "name": "SMC2108 Physical Drive in Slot {#SLOT} Predictive Errors",
+                                "type": "DEPENDENT",
+                                "key": "raid.pd.predictiveerr[{#SLOT}]",
+                                "delay": "0",
+                                "trends": "0",
+                                "description": "\u041a\u043e\u043d\u0442\u0440\u043e\u043b\u043b\u0435\u0440/SMART \u0441\u0447\u0438\u0442\u0430\u0435\u0442:\n\n\u0434\u0438\u0441\u043a \u0441\u043a\u043e\u0440\u043e \u0443\u043c\u0440\u0451\u0442",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.Slot=={#SLOT})].Predictive.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.pd"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "raid"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "smc2108"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "health"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "physical"
+                                    },
+                                    {
+                                        "tag": "slot",
+                                        "value": "{#SLOT}"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "9abbe3a4f0c64f22b91768c9cda75993",
+                                        "expression": "last(/SuperMicro SMC2108/raid.pd.predictiveerr[{#SLOT}])<>0",
+                                        "name": "Physical Drive Predictive Error Detected in {#SLOT} Slot",
+                                        "opdata": "PredictiveErrorsCount={ITEM.LASTVALUE1}",
+                                        "priority": "HIGH"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "85317c7ee1d144bbb1e4e978cad8634b",
+                                "name": "SMC2108 Physical Drive in Slot {#SLOT} Smart Alert",
+                                "type": "DEPENDENT",
+                                "key": "raid.pd.smart[{#SLOT}]",
+                                "delay": "0",
+                                "trends": "0",
+                                "description": "\u041d\u0443 \u0441\u043c\u0430\u0440\u0442 \u043e\u043d \u0438 \u0432 \u0410\u0444\u0440\u0438\u043a\u0435 \u0441\u043c\u0430\u0440\u0442",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.Slot=={#SLOT})].SmartAlert.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.pd"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "raid"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "smc2108"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "health"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "physical"
+                                    },
+                                    {
+                                        "tag": "slot",
+                                        "value": "{#SLOT}"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "a904e7fbb27e4a2981f6ef1f62e0ab7d",
+                                "name": "SMC2108 Physical Drive in Slot {#SLOT} State",
+                                "type": "DEPENDENT",
+                                "key": "raid.pd.state[{#SLOT}]",
+                                "delay": "0",
+                                "trends": "0",
+                                "valuemap": {
+                                    "name": "Raid State Status"
+                                },
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.Slot=={#SLOT})].State.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.pd"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "raid"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "smc2108"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "health"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "physical"
+                                    },
+                                    {
+                                        "tag": "slot",
+                                        "value": "{#SLOT}"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "e74fa1089ba64465a295d100e38e385e",
+                                        "expression": "last(/SuperMicro SMC2108/raid.pd.state[{#SLOT}])<>0\nand\nlast(/SuperMicro SMC2108/raid.pd.state[{#SLOT}])<>1\nand\nlast(/SuperMicro SMC2108/raid.pd.state[{#SLOT}])<>5",
+                                        "name": "Physical Drive State in {#SLOT} is {ITEM.LASTVALUE1}",
+                                        "priority": "WARNING"
+                                    }
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "raid.pd"
+                        },
+                        "lld_macro_paths": [
+                            {
+                                "lld_macro": "{#SLOT}",
+                                "path": "$.Slot"
+                            }
+                        ],
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$[*]"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "c092400e71f94a4c8ea5cf50cc6cd11b",
+                        "name": "SMC2108 VD Discovery",
+                        "type": "DEPENDENT",
+                        "key": "raid.vd.discovery",
+                        "delay": "0",
+                        "item_prototypes": [
+                            {
+                                "uuid": "468f61cd46a64f889d0839acb6d4b854",
+                                "name": "SMC2108 Virtual Drive {#VD} Bad Blocks",
+                                "type": "DEPENDENT",
+                                "key": "raid.vd.badbocks[{#VD}]",
+                                "delay": "0",
+                                "trends": "0",
+                                "valuemap": {
+                                    "name": "Raid Bad Blocks"
+                                },
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.vd=={#VD})].badblocks.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.vd"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "raid"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "smc2108"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "health"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "virtual"
+                                    },
+                                    {
+                                        "tag": "virtualDrive",
+                                        "value": "{#VD}"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "03134dc8282347d6808427909e7c963a",
+                                        "expression": "last(/SuperMicro SMC2108/raid.vd.badbocks[{#VD}])=1",
+                                        "name": "{HOST.NAME} Bad Blocks in Virtual Drive {#VD}",
+                                        "opdata": "BadBlocks={ITEM.LASTVALUE1}",
+                                        "priority": "WARNING"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "b95bcb5ea1cd4ae4afbc96fe2bba107a",
+                                "name": "SMC2108 Virtual Drive {#VD} Cache Policy",
+                                "type": "DEPENDENT",
+                                "key": "raid.vd.CahePolicy[{#VD}]",
+                                "delay": "0",
+                                "value_type": "TEXT",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.vd=={#VD})].cachePolicy.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.vd"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "raid"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "smc2108"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "information"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "virtual"
+                                    },
+                                    {
+                                        "tag": "virtualDrive",
+                                        "value": "{#VD}"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "85b39d82d574422eb39d056450919609",
+                                "name": "SMC2108 Virtual Drive {#VD} Size",
+                                "type": "DEPENDENT",
+                                "key": "raid.vd.size[{#VD}]",
+                                "delay": "0",
+                                "value_type": "TEXT",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.vd=={#VD})].size.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.vd"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "raid"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "smc2108"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "information"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "virtual"
+                                    },
+                                    {
+                                        "tag": "virtualDrive",
+                                        "value": "{#VD}"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "f5c3a58f40c64023a6600f1994fe3e47",
+                                "name": "SMC2108 Virtual Drive {#VD} State",
+                                "type": "DEPENDENT",
+                                "key": "raid.vd.state[{#VD}]",
+                                "delay": "0",
+                                "value_type": "TEXT",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.vd=={#VD})].state.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.vd"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "raid"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "smc2108"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "health"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "virtual"
+                                    },
+                                    {
+                                        "tag": "virtualDrive",
+                                        "value": "{#VD}"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "881747f1dc6e4c42866e8a57d5672dd1",
+                                        "expression": "last(/SuperMicro SMC2108/raid.vd.state[{#VD}])<>\"Optimal\"",
+                                        "name": "{HOST.NAME} Virtual Drive State {#VD} Not Optimal",
+                                        "priority": "HIGH"
+                                    }
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "raid.vd"
+                        },
+                        "lld_macro_paths": [
+                            {
+                                "lld_macro": "{#VD}",
+                                "path": "$.vd"
+                            }
+                        ],
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$[*]"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "tags": [
+                    {
+                        "tag": "class",
+                        "value": "raid"
+                    },
+                    {
+                        "tag": "target",
+                        "value": "Supermicro SMC2108"
+                    }
+                ],
+                "valuemaps": [
+                    {
+                        "uuid": "4bee79a762604cffac4d78447097f938",
+                        "name": "Raid Bad Blocks",
+                        "mappings": [
+                            {
+                                "value": "0",
+                                "newvalue": "No"
+                            },
+                            {
+                                "value": "1",
+                                "newvalue": "Yes"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "e69194fbb5f444b687bf900284370ecd",
+                        "name": "Raid State Status",
+                        "mappings": [
+                            {
+                                "value": "0",
+                                "newvalue": "Online"
+                            },
+                            {
+                                "value": "1",
+                                "newvalue": "Hotspare"
+                            },
+                            {
+                                "value": "2",
+                                "newvalue": "Rebuild"
+                            },
+                            {
+                                "value": "3",
+                                "newvalue": "Failed"
+                            },
+                            {
+                                "value": "4",
+                                "newvalue": "Offline"
+                            },
+                            {
+                                "value": "5",
+                                "newvalue": "Unconfigured(good)"
+                            },
+                            {
+                                "value": "6",
+                                "newvalue": "Unconfigured\\bad)"
+                            },
+                            {
+                                "value": "7",
+                                "newvalue": "Foreign"
+                            },
+                            {
+                                "value": "8",
+                                "newvalue": "Missing"
+                            },
+                            {
+                                "value": "9",
+                                "newvalue": "Unknown"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

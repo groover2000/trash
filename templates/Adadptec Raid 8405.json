@@ -1,0 +1,565 @@
+{
+    "zabbix_export": {
+        "version": "7.0",
+        "template_groups": [
+            {
+                "uuid": "226a84efedb54c92aa326ddb5a15b7b2",
+                "name": "Raid controllers"
+            }
+        ],
+        "templates": [
+            {
+                "uuid": "1d9b7b0701314f1e9e1562acc22f3dac",
+                "template": "Adadptec Raid 8405",
+                "name": "Adadptec Raid 8405",
+                "description": "\u0428\u0430\u0431\u043b\u043e\u043d \u0434\u043b\u044f RAID \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u043b\u0435\u0440\u0430 Adaptec 8405",
+                "groups": [
+                    {
+                        "name": "Raid controllers"
+                    }
+                ],
+                "items": [
+                    {
+                        "uuid": "7ff3a5d1d0aa4240ac1eae6f73ad9d11",
+                        "name": "RAID Smart raw data",
+                        "key": "system.run[arcconf GETSMARTSTATS 1]",
+                        "delay": "5m",
+                        "history": "0",
+                        "value_type": "TEXT",
+                        "trends": "0",
+                        "description": "\u0413\u043e\u043b\u044b\u0439 \u0432\u044b\u0432\u043e\u0434 GETSMARTSTATS \u043f\u0435\u0440\u0432\u043e\u0433\u043e \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u043b\u0435\u0440\u0430",
+                        "tags": [
+                            {
+                                "tag": "component",
+                                "value": "raid"
+                            },
+                            {
+                                "tag": "controller",
+                                "value": "arcconf"
+                            }
+                        ]
+                    }
+                ],
+                "discovery_rules": [
+                    {
+                        "uuid": "12672c861604439a87ec00f166c519eb",
+                        "name": "Adaptec smart discovery",
+                        "type": "DEPENDENT",
+                        "key": "adaptec.discovery",
+                        "delay": "0",
+                        "item_prototypes": [
+                            {
+                                "uuid": "c8e41fb4e04f415f80d494b81d64f83a",
+                                "name": "DISK {#DISKID} Elements In Grown Defect List",
+                                "type": "DEPENDENT",
+                                "key": "adaptec.eigd[{#DISKID}]",
+                                "delay": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "REGEX",
+                                        "parameters": [
+                                            "<PhysicalDriveSmartStats[^>]*id=\"{#DISKID}\"[^>]*>[\\s\\S]*?<\\/PhysicalDriveSmartStats>",
+                                            "\\0"
+                                        ]
+                                    },
+                                    {
+                                        "type": "REGEX",
+                                        "parameters": [
+                                            "Elements In Grown Defect List.*?Value=\"(\\d+)\"",
+                                            "\\1"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "system.run[arcconf GETSMARTSTATS 1]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "disk"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "arcconf"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#DISKID}"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "c6fbeb29a25742a2aad0df8f17c16087",
+                                        "expression": "last(/Adadptec Raid 8405/adaptec.eigd[{#DISKID}],#1)\n<>\nlast(/Adadptec Raid 8405/adaptec.eigd[{#DISKID}],#10)",
+                                        "name": "DISK {#DISKID} Bad Sectors",
+                                        "priority": "WARNING",
+                                        "tags": [
+                                            {
+                                                "tag": "class",
+                                                "value": "hardware"
+                                            },
+                                            {
+                                                "tag": "component",
+                                                "value": "disk"
+                                            },
+                                            {
+                                                "tag": "device",
+                                                "value": "adaptec"
+                                            },
+                                            {
+                                                "tag": "disk",
+                                                "value": "{#DISK}"
+                                            },
+                                            {
+                                                "tag": "metric",
+                                                "value": "health"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "03029604a7a74861b75e5ae2a54d1708",
+                                "name": "DISK {#DISKID} Non-Medium Error Count",
+                                "type": "DEPENDENT",
+                                "key": "adaptec.errors.nonmedium[{#DISKID}]",
+                                "delay": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "REGEX",
+                                        "parameters": [
+                                            "<PhysicalDriveSmartStats[^>]*id=\"{#DISKID}\"[^>]*>[\\s\\S]*?<\\/PhysicalDriveSmartStats>",
+                                            "\\0"
+                                        ]
+                                    },
+                                    {
+                                        "type": "REGEX",
+                                        "parameters": [
+                                            "Non-Medium Error Count.*?Value=\"(\\d+)\"",
+                                            "\\1"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "system.run[arcconf GETSMARTSTATS 1]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "disk"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "arcconf"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#DISKID}"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "a7f891ca7406489f86335f30496dfda6",
+                                        "expression": "last(/Adadptec Raid 8405/adaptec.errors.nonmedium[{#DISKID}],#1)\n<>\nlast(/Adadptec Raid 8405/adaptec.errors.nonmedium[{#DISKID}],#5)",
+                                        "name": "DISK {#DISKID} Non-Medium Error",
+                                        "priority": "WARNING",
+                                        "tags": [
+                                            {
+                                                "tag": "class",
+                                                "value": "hardware"
+                                            },
+                                            {
+                                                "tag": "component",
+                                                "value": "disk"
+                                            },
+                                            {
+                                                "tag": "device",
+                                                "value": "adaptec"
+                                            },
+                                            {
+                                                "tag": "disk",
+                                                "value": "{#DISKID}"
+                                            },
+                                            {
+                                                "tag": "metric",
+                                                "value": "health"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "5c1db6e014d1478fa9895f106ea9e4e2",
+                                "name": "DISK {#DISKID} Total Uncorrected Read Errors",
+                                "type": "DEPENDENT",
+                                "key": "adaptec.errors.read[{#DISKID}]",
+                                "delay": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "REGEX",
+                                        "parameters": [
+                                            "<PhysicalDriveSmartStats[^>]*id=\"{#DISKID}\"[^>]*>[\\s\\S]*?<\\/PhysicalDriveSmartStats>",
+                                            "\\0"
+                                        ]
+                                    },
+                                    {
+                                        "type": "REGEX",
+                                        "parameters": [
+                                            "Total Uncorrected Read Errors.*?Value=\"(\\d+)\"",
+                                            "\\1"
+                                        ]
+                                    },
+                                    {
+                                        "type": "DISCARD_UNCHANGED_HEARTBEAT",
+                                        "parameters": [
+                                            "1h"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "system.run[arcconf GETSMARTSTATS 1]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "disk"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "arcconf"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#DISKID}"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "41a47a6695154d2785f5555f2ab059cc",
+                                        "expression": "last(/Adadptec Raid 8405/adaptec.errors.read[{#DISKID}],#1)\n<>\nlast(/Adadptec Raid 8405/adaptec.errors.read[{#DISKID}],#5)",
+                                        "name": "DISK {#DIKS}: Read Errors",
+                                        "priority": "HIGH",
+                                        "tags": [
+                                            {
+                                                "tag": "class",
+                                                "value": "hardware"
+                                            },
+                                            {
+                                                "tag": "component",
+                                                "value": "disk"
+                                            },
+                                            {
+                                                "tag": "device",
+                                                "value": "adaptec"
+                                            },
+                                            {
+                                                "tag": "disk",
+                                                "value": "{#DISKID}"
+                                            },
+                                            {
+                                                "tag": "metric",
+                                                "value": "health"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "f25394f36bb74c898066e54c1328530a",
+                                "name": "DISK {#DISKID} Total Uncorrected Write Errors",
+                                "type": "DEPENDENT",
+                                "key": "adaptec.errors.write[{#DISKID}]",
+                                "delay": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "REGEX",
+                                        "parameters": [
+                                            "<PhysicalDriveSmartStats[^>]*id=\"{#DISKID}\"[^>]*>[\\s\\S]*?<\\/PhysicalDriveSmartStats>",
+                                            "\\0"
+                                        ]
+                                    },
+                                    {
+                                        "type": "REGEX",
+                                        "parameters": [
+                                            "Total Uncorrected Write Errors.*?Value=\"(\\d+)\"",
+                                            "\\1"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "system.run[arcconf GETSMARTSTATS 1]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "disk"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "arcconf"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#DISKID}"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "8c71888efbe9484eae7fa5cde749f4fc",
+                                        "expression": "last(/Adadptec Raid 8405/adaptec.errors.write[{#DISKID}],#1)\n<>\nlast(/Adadptec Raid 8405/adaptec.errors.write[{#DISKID}],#5)",
+                                        "name": "DISK {#DIKS}: Write Errors",
+                                        "priority": "HIGH",
+                                        "tags": [
+                                            {
+                                                "tag": "class",
+                                                "value": "hardware"
+                                            },
+                                            {
+                                                "tag": "component",
+                                                "value": "disk"
+                                            },
+                                            {
+                                                "tag": "device",
+                                                "value": "adaptec"
+                                            },
+                                            {
+                                                "tag": "disk",
+                                                "value": "{#DISKID}"
+                                            },
+                                            {
+                                                "tag": "metric",
+                                                "value": "health"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "059f80c07fd848b8b4a418e4b53bb5c4",
+                                "name": "DISK {#DISKID} Smart health status",
+                                "type": "DEPENDENT",
+                                "key": "adaptec.smart.status[{#DISKID}]",
+                                "delay": "0",
+                                "value_type": "CHAR",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "REGEX",
+                                        "parameters": [
+                                            "<PhysicalDriveSmartStats[^>]*id=\"{#DISKID}\"[^>]*>[\\s\\S]*?<\\/PhysicalDriveSmartStats>",
+                                            "\\0"
+                                        ]
+                                    },
+                                    {
+                                        "type": "REGEX",
+                                        "parameters": [
+                                            "SMART Health Status.*?Value=\"(\\w+)\"",
+                                            "\\1"
+                                        ]
+                                    },
+                                    {
+                                        "type": "DISCARD_UNCHANGED_HEARTBEAT",
+                                        "parameters": [
+                                            "1h"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "system.run[arcconf GETSMARTSTATS 1]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "disk"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "arcconf"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#DISKID}"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "f7c24d9b93aa490785570b3c57f844b2",
+                                        "expression": "last(/Adadptec Raid 8405/adaptec.smart.status[{#DISKID}])<>\"Passed\"",
+                                        "name": "DISK {#DISK}: Smart ERROR",
+                                        "priority": "HIGH",
+                                        "tags": [
+                                            {
+                                                "tag": "class",
+                                                "value": "hardware"
+                                            },
+                                            {
+                                                "tag": "component",
+                                                "value": "disk"
+                                            },
+                                            {
+                                                "tag": "device",
+                                                "value": "adaptec"
+                                            },
+                                            {
+                                                "tag": "disk",
+                                                "value": "{#DISKID}"
+                                            },
+                                            {
+                                                "tag": "metric",
+                                                "value": "health"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "01d79f1be29c454c824da997c07daa07",
+                                "name": "DISK {#DISKID} Current Temperature",
+                                "type": "DEPENDENT",
+                                "key": "adaptec.temp.current[{#DISKID}]",
+                                "delay": "0",
+                                "description": "\u0422\u0435\u043a\u0443\u0449\u0430\u044f \u0442\u0435\u043c\u043f\u0435\u0440\u0430\u0442\u0443\u0440\u0430 \u0434\u0438\u0441\u043a\u0430",
+                                "preprocessing": [
+                                    {
+                                        "type": "REGEX",
+                                        "parameters": [
+                                            "<PhysicalDriveSmartStats[^>]*id=\"{#DISKID}\"[^>]*>[\\s\\S]*?<\\/PhysicalDriveSmartStats>",
+                                            "\\0"
+                                        ]
+                                    },
+                                    {
+                                        "type": "REGEX",
+                                        "parameters": [
+                                            "Current Drive Temperature.*?Value=\"(\\d+)\"",
+                                            "\\1"
+                                        ]
+                                    },
+                                    {
+                                        "type": "DISCARD_UNCHANGED_HEARTBEAT",
+                                        "parameters": [
+                                            "10m"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "system.run[arcconf GETSMARTSTATS 1]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "disk"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "arcconf"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#DISKID}"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "e104678e38f04a93be952bf1858da942",
+                                "name": "DISK {#DISKID} Trip Temperature",
+                                "type": "DEPENDENT",
+                                "key": "adaptec.temp.trip[{#DISKID}]",
+                                "delay": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "REGEX",
+                                        "parameters": [
+                                            "<PhysicalDriveSmartStats[^>]*id=\"{#DISKID}\"[^>]*>[\\s\\S]*?<\\/PhysicalDriveSmartStats>",
+                                            "\\0"
+                                        ]
+                                    },
+                                    {
+                                        "type": "REGEX",
+                                        "parameters": [
+                                            "Drive Trip Temperature In Celcius.*?Value=\"(\\d+)\"",
+                                            "\\1"
+                                        ]
+                                    },
+                                    {
+                                        "type": "DISCARD_UNCHANGED_HEARTBEAT",
+                                        "parameters": [
+                                            "1h"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "system.run[arcconf GETSMARTSTATS 1]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "disk"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "arcconf"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#DISKID}"
+                                    }
+                                ]
+                            }
+                        ],
+                        "trigger_prototypes": [
+                            {
+                                "uuid": "de03abbf3ab84e76b4178e906887c9e0",
+                                "expression": "last(/Adadptec Raid 8405/adaptec.temp.current[{#DISKID}]) \n>\n(last(/Adadptec Raid 8405/adaptec.temp.trip[{#DISKID}]) * 0.8)",
+                                "name": "DISK {#DISKID}: High Temperature",
+                                "priority": "WARNING",
+                                "tags": [
+                                    {
+                                        "tag": "class",
+                                        "value": "hardware"
+                                    },
+                                    {
+                                        "tag": "component",
+                                        "value": "disk"
+                                    },
+                                    {
+                                        "tag": "device",
+                                        "value": "adaptec"
+                                    },
+                                    {
+                                        "tag": "disk",
+                                        "value": "{#DISKID}"
+                                    },
+                                    {
+                                        "tag": "metric",
+                                        "value": "temperature"
+                                    }
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "system.run[arcconf GETSMARTSTATS 1]"
+                        },
+                        "preprocessing": [
+                            {
+                                "type": "JAVASCRIPT",
+                                "parameters": [
+                                    "var data = [];\n\n    var drivers = value.match(/<PhysicalDriveSmartStats[\\s\\S]*?<\\/PhysicalDriveSmartStats>/g) || [];\n\n    for (var i = 0; i < drivers.length; i++) {\n        var e = drivers[i];\n\n        var match = e.match(/id=\"(\\d+)\"/);\n\n        if (match) {\n            data.push({\n                \"{#DISKID}\": match[1]\n            });\n        }\n    }\n\n    return JSON.stringify({ \"data\": data });"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "tags": [
+                    {
+                        "tag": "class",
+                        "value": "raid"
+                    },
+                    {
+                        "tag": "target",
+                        "value": "adaptec"
+                    }
+                ]
+            }
+        ]
+    }
+}

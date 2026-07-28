@@ -1,0 +1,39 @@
+- name: System Inventory Collection
+  hosts: alt
+  gather_facts: yes
+  tasks:
+    - name: Create inventory directory
+      file:
+        path: "/home/roomin/altdomain/inventory/{{ inventory_hostname }}"
+        state: directory
+        mode: '0755'
+      delegate_to: localhost
+
+    - name: Collect system information
+      copy:
+        dest: "/home/roomin/altdomain/inventory/{{ inventory_hostname }}/system_info.txt"
+        content: |
+          
+          OS Family:        {{ ansible_os_family }}
+          Distribution:     {{ ansible_distribution }} {{ ansible_distribution_version }}
+          Architecture:     {{ ansible_architecture }}
+          Kernel:           {{ ansible_kernel }}
+          
+          CPU Cores:        {{ ansible_processor_cores }} ({{ ansible_processor_vcpus }} vCPUs)
+          CPU Model:        {{ ansible_processor[2] if ansible_processor[2] is defined else 'N/A' }}
+          RAM Total:        {{ (ansible_memtotal_mb / 1024) | round(2) }} GB
+          RAM Free:         {{ (ansible_memfree_mb / 1024) | round(2) }} GB
+          Swap Total:       {{ (ansible_swaptotal_mb / 1024) | round(2) }} GB
+          
+          {% for interface in ansible_interfaces %}
+          {{ interface }}:
+            IPv4: {{ hostvars[inventory_hostname]['ansible_' + interface].get('ipv4', {}).get('address', 'N/A') }}
+            MAC:  {{ hostvars[inventory_hostname]['ansible_' + interface].get('macaddress', 'N/A') }}
+          {% endfor %}
+          
+          Current User:      {{ ansible_user_id }}
+          User ID:           {{ ansible_user_uid }}
+          User Home:         {{ ansible_user_dir }}
+          Collected by:      {{ ansible_user_id }}
+          Collection time:   {{ ansible_date_time.iso8601 }}
+      delegate_to: localhost

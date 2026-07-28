@@ -1,0 +1,9 @@
+Контроллер
+storcli64 /c0 show all J
+
+Виртуальные диски (RAID)
+storcli64 /c0/vall show J
+
+Физические диски
+storcli64 /c0/eall/sall show all J
+

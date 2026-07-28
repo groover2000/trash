@@ -1,0 +1,631 @@
+{
+    "zabbix_export": {
+        "version": "7.0",
+        "template_groups": [
+            {
+                "uuid": "226a84efedb54c92aa326ddb5a15b7b2",
+                "name": "Raid controllers"
+            }
+        ],
+        "templates": [
+            {
+                "uuid": "640de6a1798647a280448557e82be4b1",
+                "template": "SuperMicro SMC2108",
+                "name": "SuperMicro SMC2108",
+                "description": "VD and PD status with Powershell 7+",
+                "groups": [
+                    {
+                        "name": "Raid controllers"
+                    }
+                ],
+                "items": [
+                    {
+                        "uuid": "d8cd427508a240aaa83b1b2da1c7ed12",
+                        "name": "Raw Physical Drives Status",
+                        "key": "raid.pd",
+                        "history": "0",
+                        "value_type": "TEXT",
+                        "trends": "0",
+                        "tags": [
+                            {
+                                "tag": "component",
+                                "value": "raid"
+                            },
+                            {
+                                "tag": "controller",
+                                "value": "smc2108"
+                            },
+                            {
+                                "tag": "scope",
+                                "value": "collector"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "8fcf61f4ce6346348661bb54493f6456",
+                        "name": "Raw Virtual Drives Status",
+                        "key": "raid.vd",
+                        "history": "0",
+                        "value_type": "TEXT",
+                        "trends": "0",
+                        "description": "VD status from POwershell 7+",
+                        "tags": [
+                            {
+                                "tag": "component",
+                                "value": "raid"
+                            },
+                            {
+                                "tag": "controller",
+                                "value": "smc2108"
+                            },
+                            {
+                                "tag": "scope",
+                                "value": "collector"
+                            }
+                        ]
+                    }
+                ],
+                "discovery_rules": [
+                    {
+                        "uuid": "b54047391ed14ffcbfe81f9a93d8a6b1",
+                        "name": "SMC2108 Physical Drive Discovery",
+                        "type": "DEPENDENT",
+                        "key": "raid.pd.discovery",
+                        "delay": "0",
+                        "item_prototypes": [
+                            {
+                                "uuid": "73585bc60bab4d9085ea560a4f98e618",
+                                "name": "SMC2108 Physical Drive in Slot {#SLOT} Media Errors",
+                                "type": "DEPENDENT",
+                                "key": "raid.pd.mediaerr[{#SLOT}]",
+                                "delay": "0",
+                                "trends": "0",
+                                "description": "\u041e\u0448\u0438\u0431\u043a\u0438 \u0447\u0442\u0435\u043d\u0438\u044f/\u0437\u0430\u043f\u0438\u0441\u0438 \u0441\u0430\u043c\u0438\u0445 \u0441\u0435\u043a\u0442\u043e\u0440\u043e\u0432 \u0434\u0438\u0441\u043a\u0430",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.Slot=={#SLOT})].MediaErrors.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.pd"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "raid"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "smc2108"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "health"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "physical"
+                                    },
+                                    {
+                                        "tag": "slot",
+                                        "value": "{#SLOT}"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "8b71df1c328e493dbdb33eea80535922",
+                                        "expression": "last(/SuperMicro SMC2108/raid.pd.mediaerr[{#SLOT}])<>0",
+                                        "name": "Physical Drive Media Error Detected in {#SLOT} Slot",
+                                        "opdata": "MediaErrorsCount={ITEM.LASTVALUE1}",
+                                        "priority": "HIGH"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "86beb7f80b844711b755e2e1f25f27b8",
+                                "name": "SMC2108 Physical Drive in Slot {#SLOT} Other Errors",
+                                "type": "DEPENDENT",
+                                "key": "raid.pd.othererr[{#SLOT}]",
+                                "delay": "0",
+                                "trends": "0",
+                                "description": "\u043f\u0440\u043e\u0431\u043b\u0435\u043c\u0430:\n\n\u043a\u0430\u0431\u0435\u043b\u044f\nbackplane\ncontroller\npower\nfirmware",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.Slot=={#SLOT})].OtherErrors.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.pd"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "raid"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "smc2108"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "health"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "physical"
+                                    },
+                                    {
+                                        "tag": "slot",
+                                        "value": "{#SLOT}"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "50f7337f20814161b418c4673efebf95",
+                                        "expression": "last(/SuperMicro SMC2108/raid.pd.othererr[{#SLOT}])<>0",
+                                        "name": "Physical Drive Other Error Detected in {#SLOT} Slot",
+                                        "opdata": "OtherErrorsCount={ITEM.LASTVALUE1}",
+                                        "priority": "HIGH"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "c56ba2207c134dffa759e9ac7f79b4de",
+                                "name": "SMC2108 Physical Drive in Slot {#SLOT} Predictive Errors",
+                                "type": "DEPENDENT",
+                                "key": "raid.pd.predictiveerr[{#SLOT}]",
+                                "delay": "0",
+                                "trends": "0",
+                                "description": "\u041a\u043e\u043d\u0442\u0440\u043e\u043b\u043b\u0435\u0440/SMART \u0441\u0447\u0438\u0442\u0430\u0435\u0442:\n\n\u0434\u0438\u0441\u043a \u0441\u043a\u043e\u0440\u043e \u0443\u043c\u0440\u0451\u0442",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.Slot=={#SLOT})].Predictive.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.pd"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "raid"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "smc2108"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "health"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "physical"
+                                    },
+                                    {
+                                        "tag": "slot",
+                                        "value": "{#SLOT}"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "9abbe3a4f0c64f22b91768c9cda75993",
+                                        "expression": "last(/SuperMicro SMC2108/raid.pd.predictiveerr[{#SLOT}])<>0",
+                                        "name": "Physical Drive Predictive Error Detected in {#SLOT} Slot",
+                                        "opdata": "PredictiveErrorsCount={ITEM.LASTVALUE1}",
+                                        "priority": "HIGH"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "85317c7ee1d144bbb1e4e978cad8634b",
+                                "name": "SMC2108 Physical Drive in Slot {#SLOT} Smart Alert",
+                                "type": "DEPENDENT",
+                                "key": "raid.pd.smart[{#SLOT}]",
+                                "delay": "0",
+                                "trends": "0",
+                                "description": "\u041d\u0443 \u0441\u043c\u0430\u0440\u0442 \u043e\u043d \u0438 \u0432 \u0410\u0444\u0440\u0438\u043a\u0435 \u0441\u043c\u0430\u0440\u0442",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.Slot=={#SLOT})].SmartAlert.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.pd"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "raid"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "smc2108"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "health"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "physical"
+                                    },
+                                    {
+                                        "tag": "slot",
+                                        "value": "{#SLOT}"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "a904e7fbb27e4a2981f6ef1f62e0ab7d",
+                                "name": "SMC2108 Physical Drive in Slot {#SLOT} State",
+                                "type": "DEPENDENT",
+                                "key": "raid.pd.state[{#SLOT}]",
+                                "delay": "0",
+                                "trends": "0",
+                                "valuemap": {
+                                    "name": "Raid State Status"
+                                },
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.Slot=={#SLOT})].State.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.pd"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "raid"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "smc2108"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "health"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "physical"
+                                    },
+                                    {
+                                        "tag": "slot",
+                                        "value": "{#SLOT}"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "e74fa1089ba64465a295d100e38e385e",
+                                        "expression": "last(/SuperMicro SMC2108/raid.pd.state[{#SLOT}])<>0\nand\nlast(/SuperMicro SMC2108/raid.pd.state[{#SLOT}])<>1\nand\nlast(/SuperMicro SMC2108/raid.pd.state[{#SLOT}])<>5",
+                                        "name": "Physical Drive State in {#SLOT} is {ITEM.LASTVALUE1}",
+                                        "priority": "WARNING"
+                                    }
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "raid.pd"
+                        },
+                        "lld_macro_paths": [
+                            {
+                                "lld_macro": "{#SLOT}",
+                                "path": "$.Slot"
+                            }
+                        ],
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$[*]"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "c092400e71f94a4c8ea5cf50cc6cd11b",
+                        "name": "SMC2108 VD Discovery",
+                        "type": "DEPENDENT",
+                        "key": "raid.vd.discovery",
+                        "delay": "0",
+                        "item_prototypes": [
+                            {
+                                "uuid": "468f61cd46a64f889d0839acb6d4b854",
+                                "name": "SMC2108 Virtual Drive {#VD} Bad Blocks",
+                                "type": "DEPENDENT",
+                                "key": "raid.vd.badbocks[{#VD}]",
+                                "delay": "0",
+                                "trends": "0",
+                                "valuemap": {
+                                    "name": "Raid Bad Blocks"
+                                },
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.vd=={#VD})].badblocks.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.vd"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "raid"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "smc2108"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "health"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "virtual"
+                                    },
+                                    {
+                                        "tag": "virtualDrive",
+                                        "value": "{#VD}"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "03134dc8282347d6808427909e7c963a",
+                                        "expression": "last(/SuperMicro SMC2108/raid.vd.badbocks[{#VD}])=1",
+                                        "name": "{HOST.NAME} Bad Blocks in Virtual Drive {#VD}",
+                                        "opdata": "BadBlocks={ITEM.LASTVALUE1}",
+                                        "priority": "WARNING"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "b95bcb5ea1cd4ae4afbc96fe2bba107a",
+                                "name": "SMC2108 Virtual Drive {#VD} Cache Policy",
+                                "type": "DEPENDENT",
+                                "key": "raid.vd.CahePolicy[{#VD}]",
+                                "delay": "0",
+                                "value_type": "TEXT",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.vd=={#VD})].cachePolicy.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.vd"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "raid"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "smc2108"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "information"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "virtual"
+                                    },
+                                    {
+                                        "tag": "virtualDrive",
+                                        "value": "{#VD}"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "85b39d82d574422eb39d056450919609",
+                                "name": "SMC2108 Virtual Drive {#VD} Size",
+                                "type": "DEPENDENT",
+                                "key": "raid.vd.size[{#VD}]",
+                                "delay": "0",
+                                "value_type": "TEXT",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.vd=={#VD})].size.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.vd"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "raid"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "smc2108"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "information"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "virtual"
+                                    },
+                                    {
+                                        "tag": "virtualDrive",
+                                        "value": "{#VD}"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "f5c3a58f40c64023a6600f1994fe3e47",
+                                "name": "SMC2108 Virtual Drive {#VD} State",
+                                "type": "DEPENDENT",
+                                "key": "raid.vd.state[{#VD}]",
+                                "delay": "0",
+                                "value_type": "TEXT",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.vd=={#VD})].state.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "raid.vd"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "raid"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "smc2108"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "health"
+                                    },
+                                    {
+                                        "tag": "scope",
+                                        "value": "virtual"
+                                    },
+                                    {
+                                        "tag": "virtualDrive",
+                                        "value": "{#VD}"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "881747f1dc6e4c42866e8a57d5672dd1",
+                                        "expression": "last(/SuperMicro SMC2108/raid.vd.state[{#VD}])<>\"Optimal\"",
+                                        "name": "{HOST.NAME} Virtual Drive State {#VD} Not Optimal",
+                                        "priority": "HIGH"
+                                    }
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "raid.vd"
+                        },
+                        "lld_macro_paths": [
+                            {
+                                "lld_macro": "{#VD}",
+                                "path": "$.vd"
+                            }
+                        ],
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$[*]"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "tags": [
+                    {
+                        "tag": "class",
+                        "value": "raid"
+                    },
+                    {
+                        "tag": "target",
+                        "value": "Supermicro SMC2108"
+                    }
+                ],
+                "valuemaps": [
+                    {
+                        "uuid": "4bee79a762604cffac4d78447097f938",
+                        "name": "Raid Bad Blocks",
+                        "mappings": [
+                            {
+                                "value": "0",
+                                "newvalue": "No"
+                            },
+                            {
+                                "value": "1",
+                                "newvalue": "Yes"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "e69194fbb5f444b687bf900284370ecd",
+                        "name": "Raid State Status",
+                        "mappings": [
+                            {
+                                "value": "0",
+                                "newvalue": "Online"
+                            },
+                            {
+                                "value": "1",
+                                "newvalue": "Hotspare"
+                            },
+                            {
+                                "value": "2",
+                                "newvalue": "Rebuild"
+                            },
+                            {
+                                "value": "3",
+                                "newvalue": "Failed"
+                            },
+                            {
+                                "value": "4",
+                                "newvalue": "Offline"
+                            },
+                            {
+                                "value": "5",
+                                "newvalue": "Unconfigured(good)"
+                            },
+                            {
+                                "value": "6",
+                                "newvalue": "Unconfigured\\bad)"
+                            },
+                            {
+                                "value": "7",
+                                "newvalue": "Foreign"
+                            },
+                            {
+                                "value": "8",
+                                "newvalue": "Missing"
+                            },
+                            {
+                                "value": "9",
+                                "newvalue": "Unknown"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

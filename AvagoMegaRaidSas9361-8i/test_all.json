@@ -1,0 +1,107 @@
+{
+  "Controllers": [
+    {
+      "Command Status": {
+        "CLI Version": "007.2310.0000.0000 Nov 02, 2022",
+        "Operating system": "Windows Server 2019",
+        "Controller": 0,
+        "Status": "Success",
+        "Description": "None"
+      },
+
+      "Response Data": {
+
+        "Product Name": "AVAGO MegaRAID SAS 9361-8i",
+        "Serial Number": "SK83373494",
+
+        "VD LIST": [
+          {
+            "DG/VD": "0/1",
+            "TYPE": "RAID5",
+            "State": "Optl",
+            "Size": "18.190 TB",
+            "Name": "DATA"
+          }
+        ],
+
+        "PD LIST": [
+          {
+            "EID:Slt": "252:1",
+            "State": "Onln",
+            "DG": 0,
+            "Size": "3.637 TB",
+            "Model": "ST4000NM0035-1V4107"
+          },
+
+          {
+            "EID:Slt": "252:6",
+            "State": "Onln",
+            "DG": 0,
+            "Size": "7.276 TB",
+            "Model": "ST8000NM017B-2TJ103"
+          }
+        ],
+
+        "Cachevault_Info": [
+          {
+            "Model": "CVPM02",
+            "State": "Optimal",
+            "Temp": "19C"
+          }
+        ]
+      }
+    },
+
+    {
+      "Command Status": {
+        "CLI Version": "007.2310.0000.0000 Nov 02, 2022",
+        "Operating system": "Windows Server 2019",
+        "Controller": 1,
+        "Status": "Success",
+        "Description": "None"
+      },
+
+      "Response Data": {
+
+        "Product Name": "AVAGO MegaRAID SAS 9380-8e",
+        "Serial Number": "SK99214455",
+
+        "VD LIST": [
+          {
+            "DG/VD": "1/0",
+            "TYPE": "RAID10",
+            "State": "Optl",
+            "Size": "7.276 TB",
+            "Name": "BACKUP"
+          }
+        ],
+
+        "PD LIST": [
+          {
+            "EID:Slt": "253:0",
+            "State": "Onln",
+            "DG": 1,
+            "Size": "3.637 TB",
+            "Model": "ST4000NM0035-1V4107"
+          },
+
+          {
+            "EID:Slt": "253:1",
+            "State": "Onln",
+            "DG": 1,
+            "Size": "3.637 TB",
+            "Model": "ST4000NM0035-1V4107"
+          }
+        ],
+
+        "Cachevault_Info": [
+          {
+            "Model": "CVPM02",
+            "State": "Optimal",
+            "Temp": "23C"
+          }
+        ]
+      }
+    }
+  ]
+}

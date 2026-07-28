@@ -1,0 +1,403 @@
+{
+    "zabbix_export": {
+        "version": "7.0",
+        "template_groups": [
+            {
+                "uuid": "226a84efedb54c92aa326ddb5a15b7b2",
+                "name": "Raid controllers"
+            }
+        ],
+        "templates": [
+            {
+                "uuid": "5ee219330fc843bdb8bbf4244c325ce6",
+                "template": "Intel C600-C220",
+                "name": "Intel C600-C220",
+                "groups": [
+                    {
+                        "name": "Raid controllers"
+                    }
+                ],
+                "items": [
+                    {
+                        "uuid": "19c41d0744c24960beeba2953c84e38c",
+                        "name": "Intel(R) C600+/220+ RAW data",
+                        "key": "vfs.file.contents[C:\\scripts\\raid.txt]",
+                        "delay": "10m",
+                        "history": "0",
+                        "value_type": "TEXT",
+                        "trends": "0",
+                        "preprocessing": [
+                            {
+                                "type": "JAVASCRIPT",
+                                "parameters": [
+                                    "var volumes = [];\nvar currentVolume = null;\nvar currentDisk = null;\nvar mode = null;\n\nvar lines = value.split(\"\\n\");\n\nfor (var i = 0; i < lines.length; i++) {\n    lines[i] = lines[i].trim();\n    if (!lines[i]) continue;\n    \n    \n    if (lines[i].indexOf(\"--VOLUME INFORMATION--\") === 0) {\n        if (currentVolume) volumes.push(currentVolume);\n        currentVolume = { disks: [] };\n        mode = \"volume\";\n    }\n\n    if (lines[i].indexOf(\"--DISKS IN VOLUME\") === 0) {\n        mode = \"disks\";\n        currentDisk = null;\n    }\n\n    if (lines[i].indexOf(\"ID:\") === 0) {\n        if (mode === \"disks\") {\n            currentDisk = {};\n            currentVolume.disks.push(currentDisk);\n            currentDisk.id = lines[i].split(\":\")[1].trim();\n        }\n    }\n\n    if (mode === \"volume\" && lines[i].indexOf(\":\") !== -1 && lines[i].indexOf(\"--\") !== 0) {\n        var idx = lines[i].indexOf(\":\");\n        var key = lines[i].substring(0, idx).trim().toLowerCase().replace(/\\s+/g, \"_\");\n        var val = lines[i].substring(idx + 1).trim();\n         currentVolume[key] = val;\n    }   \n    if (mode === \"disks\" && currentDisk && lines[i].indexOf(\":\") !== -1 && lines[i].indexOf(\"--\") !== 0)\n    {\n        var idx = lines[i].indexOf(\":\");\n        var key = lines[i].substring(0, idx).trim().toLowerCase().replace(/\\s+/g, \"_\");\n        var val = lines[i].substring(idx + 1).trim();\n        currentDisk[key] = val;\n        currentDisk.volume = currentVolume.name; // \u0412\u0410\u0416\u041d\u041e\n    }\n}\nif (currentVolume)volumes.push(currentVolume);\nreturn JSON.stringify({ volumes: volumes });"
+                                ]
+                            }
+                        ],
+                        "tags": [
+                            {
+                                "tag": "component",
+                                "value": "raid"
+                            },
+                            {
+                                "tag": "controller",
+                                "value": "c600-220"
+                            }
+                        ]
+                    }
+                ],
+                "discovery_rules": [
+                    {
+                        "uuid": "eb522e2b47a54c698cbe74623c7e3d45",
+                        "name": "Intel C600+/220+ Disks Discovery",
+                        "type": "DEPENDENT",
+                        "key": "c600.disks.discovery",
+                        "delay": "0",
+                        "item_prototypes": [
+                            {
+                                "uuid": "b13c9b29f52a4614848e87e6e8137fb3",
+                                "name": "Disk {#ID} in Volume {#VOLUME} Model:",
+                                "type": "DEPENDENT",
+                                "key": "c600.disks.model[{#ID}]",
+                                "delay": "0",
+                                "value_type": "TEXT",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$.volumes[*].disks[*]"
+                                        ]
+                                    },
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$.[?(@.id == \"{#ID}\")].model.first()"
+                                        ]
+                                    },
+                                    {
+                                        "type": "DISCARD_UNCHANGED",
+                                        "parameters": [
+                                            ""
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "vfs.file.contents[C:\\scripts\\raid.txt]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "disk"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "c600-220"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#ID}"
+                                    },
+                                    {
+                                        "tag": "volume",
+                                        "value": "{#VOLUME}"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "d1cff76a7ad742f79fb3bb7153a13ece",
+                                "name": "Disk {#ID} in Volume {#VOLUME} Size:",
+                                "type": "DEPENDENT",
+                                "key": "c600.disks.size[{#ID}]",
+                                "delay": "0",
+                                "value_type": "CHAR",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$.volumes[*].disks[*]"
+                                        ]
+                                    },
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$.[?(@.id == \"{#ID}\")].size.first()"
+                                        ]
+                                    },
+                                    {
+                                        "type": "DISCARD_UNCHANGED",
+                                        "parameters": [
+                                            ""
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "vfs.file.contents[C:\\scripts\\raid.txt]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "disk"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "c600-220"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#ID}"
+                                    },
+                                    {
+                                        "tag": "volume",
+                                        "value": "{#VOLUME}"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "73c340b614814883b3765cfd19e52747",
+                                "name": "Disk {#ID} in Volume {#VOLUME} State:",
+                                "type": "DEPENDENT",
+                                "key": "c600.disks.state[{#ID}]",
+                                "delay": "0",
+                                "value_type": "CHAR",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$.volumes[*].disks[*]"
+                                        ]
+                                    },
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$.[?(@.id == \"{#ID}\")].state.first()"
+                                        ]
+                                    },
+                                    {
+                                        "type": "DISCARD_UNCHANGED",
+                                        "parameters": [
+                                            ""
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "vfs.file.contents[C:\\scripts\\raid.txt]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "disk"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "c600-220"
+                                    },
+                                    {
+                                        "tag": "name",
+                                        "value": "{#ID}"
+                                    },
+                                    {
+                                        "tag": "volume",
+                                        "value": "{#VOLUME}"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "cf5d80add06d40b5afae05a29489808b",
+                                        "expression": "last(/Intel C600-C220/c600.disks.state[{#ID}])<> \"Normal\"",
+                                        "name": "Disk {#ID} in Volume {#{VOLUME}} STATE NO OK!",
+                                        "priority": "HIGH",
+                                        "tags": [
+                                            {
+                                                "tag": "component",
+                                                "value": "notification"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "vfs.file.contents[C:\\scripts\\raid.txt]"
+                        },
+                        "lld_macro_paths": [
+                            {
+                                "lld_macro": "{#ID}",
+                                "path": "$.id"
+                            },
+                            {
+                                "lld_macro": "{#VOLUME}",
+                                "path": "$.volume"
+                            }
+                        ],
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.volumes[*].disks[*]"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "8d9ec3bea9054446a2480b7d1588b67f",
+                        "name": "Intel C600+/220+ Volumes Discovery",
+                        "type": "DEPENDENT",
+                        "key": "c600.volumes.discovery",
+                        "delay": "0",
+                        "item_prototypes": [
+                            {
+                                "uuid": "0085bf6775b24a54bba0cbaf95b65dd5",
+                                "name": "{#VOLUME} RAID Level:",
+                                "type": "DEPENDENT",
+                                "key": "c600.volume.raid[{#VOLUME}]",
+                                "delay": "0",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$.volumes[?(@.name==\"{#VOLUME}\")].raid_level.first()"
+                                        ]
+                                    },
+                                    {
+                                        "type": "DISCARD_UNCHANGED",
+                                        "parameters": [
+                                            ""
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "vfs.file.contents[C:\\scripts\\raid.txt]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "volume"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "c600-220"
+                                    },
+                                    {
+                                        "tag": "volume",
+                                        "value": "{#VOLUME}"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "b5af5d14b0af4b2ba3b4b0a5396c82ef",
+                                "name": "{#VOLUME} Size:",
+                                "type": "DEPENDENT",
+                                "key": "c600.volume.size[{#VOLUME}]",
+                                "delay": "0",
+                                "value_type": "CHAR",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$.volumes[?(@.name==\"{#VOLUME}\")].size.first()"
+                                        ]
+                                    },
+                                    {
+                                        "type": "DISCARD_UNCHANGED",
+                                        "parameters": [
+                                            ""
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "vfs.file.contents[C:\\scripts\\raid.txt]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "volume"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "c600-220"
+                                    },
+                                    {
+                                        "tag": "volume",
+                                        "value": "{#VOLUME}"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "4cad459b59fa42ca8dc8834f09a4bdd1",
+                                "name": "{#VOLUME} State:",
+                                "type": "DEPENDENT",
+                                "key": "c600.volume.state[{#VOLUME}]",
+                                "delay": "0",
+                                "value_type": "CHAR",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$.volumes[?(@.name==\"{#VOLUME}\")].state.first()"
+                                        ]
+                                    },
+                                    {
+                                        "type": "DISCARD_UNCHANGED",
+                                        "parameters": [
+                                            ""
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "vfs.file.contents[C:\\scripts\\raid.txt]"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "volume"
+                                    },
+                                    {
+                                        "tag": "controller",
+                                        "value": "c600-220"
+                                    },
+                                    {
+                                        "tag": "volume",
+                                        "value": "{#VOLUME}"
+                                    }
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "vfs.file.contents[C:\\scripts\\raid.txt]"
+                        },
+                        "lld_macro_paths": [
+                            {
+                                "lld_macro": "{#VOLUME}",
+                                "path": "$.name"
+                            }
+                        ],
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.volumes[*]"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "tags": [
+                    {
+                        "tag": "class",
+                        "value": "raid"
+                    },
+                    {
+                        "tag": "target",
+                        "value": "c600-c200"
+                    }
+                ]
+            }
+        ]
+    }
+}

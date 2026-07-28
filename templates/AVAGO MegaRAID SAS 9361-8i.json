@@ -1,0 +1,771 @@
+{
+    "zabbix_export": {
+        "version": "7.0",
+        "template_groups": [
+            {
+                "uuid": "226a84efedb54c92aa326ddb5a15b7b2",
+                "name": "Raid controllers"
+            }
+        ],
+        "templates": [
+            {
+                "uuid": "9f171a30f72a4363b097fbe92af5ad4c",
+                "template": "AVAGO MegaRAID SAS 9361-8i",
+                "name": "AVAGO MegaRAID SAS 9361-8i",
+                "groups": [
+                    {
+                        "name": "Raid controllers"
+                    }
+                ],
+                "items": [
+                    {
+                        "uuid": "42281ee3414140d3aa45732cf70248a9",
+                        "name": "Raw ALL",
+                        "key": "sas9361.all",
+                        "delay": "10m",
+                        "history": "0",
+                        "value_type": "TEXT",
+                        "trends": "0",
+                        "tags": [
+                            {
+                                "tag": "component",
+                                "value": "raid"
+                            },
+                            {
+                                "tag": "controller",
+                                "value": "sas9361"
+                            },
+                            {
+                                "tag": "scope",
+                                "value": "collector"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "7063b52ac41a468ab6aaa19d878281be",
+                        "name": "Raw SMART",
+                        "key": "sas9361.smart",
+                        "delay": "1h",
+                        "history": "0",
+                        "value_type": "TEXT",
+                        "trends": "0",
+                        "tags": [
+                            {
+                                "tag": "component",
+                                "value": "raid"
+                            },
+                            {
+                                "tag": "controller",
+                                "value": "sas9361"
+                            },
+                            {
+                                "tag": "scope",
+                                "value": "collector"
+                            }
+                        ]
+                    }
+                ],
+                "discovery_rules": [
+                    {
+                        "uuid": "f31aeb55d88c44c083509bf69d6bdf64",
+                        "name": "DISCOVERY CONTROLLER",
+                        "type": "DEPENDENT",
+                        "key": "sas9361.controller.discovery",
+                        "delay": "0",
+                        "item_prototypes": [
+                            {
+                                "uuid": "1626a524bf6d4c41a8903746d6781be4",
+                                "name": "Controller {#CONTROLLERID} CacheVault State",
+                                "type": "DEPENDENT",
+                                "key": "sas9361.cachevault.state[{#CONTROLLERID}]",
+                                "delay": "0",
+                                "value_type": "CHAR",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.ControllerId==\"{#CONTROLLERID}\")].CacheVaultState.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "sas9361.all"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "cachevault"
+                                    },
+                                    {
+                                        "tag": "metric",
+                                        "value": "state"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "2cb79c7eee6743f5af5a74ef08306f54",
+                                        "expression": "last(/AVAGO MegaRAID SAS 9361-8i/sas9361.cachevault.state[{#CONTROLLERID}])<>\"Optimal\"",
+                                        "name": "Controller {#CONTROLLERID} CacheVault State is {ITEM.LASTVALUE1}",
+                                        "opdata": "Current state: {ITEM.LASTVALUE1}",
+                                        "priority": "AVERAGE",
+                                        "tags": [
+                                            {
+                                                "tag": "component",
+                                                "value": "cachevault"
+                                            },
+                                            {
+                                                "tag": "metric",
+                                                "value": "state"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "e1b0bee4d55f4fc29a1bba29b7703292",
+                                "name": "Controller {#CONTROLLERID} CacheVault Temperature",
+                                "type": "DEPENDENT",
+                                "key": "sas9361.cachevault.temp[{#CONTROLLERID}]",
+                                "delay": "0",
+                                "trends": "0",
+                                "units": "C",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.ControllerId==\"{#CONTROLLERID}\")].CacheVaultTemp.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "sas9361.all"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "cachevault"
+                                    },
+                                    {
+                                        "tag": "metric",
+                                        "value": "temperature"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "6dab155d64374590af4bacc7458595ea",
+                                        "expression": "last(/AVAGO MegaRAID SAS 9361-8i/sas9361.cachevault.temp[{#CONTROLLERID}])>60",
+                                        "recovery_mode": "RECOVERY_EXPRESSION",
+                                        "recovery_expression": "last(/AVAGO MegaRAID SAS 9361-8i/sas9361.cachevault.temp[{#CONTROLLERID}])<55",
+                                        "name": "Controller {#CONTROLLERID} CacheVault temperature > 60",
+                                        "opdata": "Current temperature: {ITEM.LASTVALUE1}",
+                                        "status": "DISABLED",
+                                        "priority": "WARNING",
+                                        "tags": [
+                                            {
+                                                "tag": "component",
+                                                "value": "cachevault"
+                                            },
+                                            {
+                                                "tag": "metric",
+                                                "value": "temperature"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "uuid": "e39418d26d7b4f028c6fa865008831a3",
+                                        "expression": "last(/AVAGO MegaRAID SAS 9361-8i/sas9361.cachevault.temp[{#CONTROLLERID}])>70",
+                                        "recovery_mode": "RECOVERY_EXPRESSION",
+                                        "recovery_expression": "last(/AVAGO MegaRAID SAS 9361-8i/sas9361.cachevault.temp[{#CONTROLLERID}])<65",
+                                        "name": "Controller {#CONTROLLERID} CacheVault temperature > 70",
+                                        "opdata": "Current temperature: {ITEM.LASTVALUE1}",
+                                        "priority": "AVERAGE",
+                                        "tags": [
+                                            {
+                                                "tag": "component",
+                                                "value": "cachevault"
+                                            },
+                                            {
+                                                "tag": "metric",
+                                                "value": "temperature"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "uuid": "4d3c58121fd3497b8c8eeb8ec6bbaa65",
+                                        "expression": "last(/AVAGO MegaRAID SAS 9361-8i/sas9361.cachevault.temp[{#CONTROLLERID}])>80",
+                                        "recovery_mode": "RECOVERY_EXPRESSION",
+                                        "recovery_expression": "last(/AVAGO MegaRAID SAS 9361-8i/sas9361.cachevault.temp[{#CONTROLLERID}])<75",
+                                        "name": "Controller {#CONTROLLERID} CacheVault temperature > 80",
+                                        "opdata": "Current temperature: {ITEM.LASTVALUE1}",
+                                        "status": "DISABLED",
+                                        "priority": "HIGH",
+                                        "tags": [
+                                            {
+                                                "tag": "component",
+                                                "value": "cachevault"
+                                            },
+                                            {
+                                                "tag": "metric",
+                                                "value": "temperature"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "sas9361.all"
+                        },
+                        "lld_macro_paths": [
+                            {
+                                "lld_macro": "{#CONTROLLERID}",
+                                "path": "$.ControllerId"
+                            },
+                            {
+                                "lld_macro": "{#MODEL}",
+                                "path": "$.Model"
+                            }
+                        ],
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$[*]"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "168487b266214146878e26ddcceb2817",
+                        "name": "DISCOVERY PD",
+                        "type": "DEPENDENT",
+                        "key": "sas9361.pd.discovery",
+                        "delay": "0",
+                        "item_prototypes": [
+                            {
+                                "uuid": "0ef532c3776a45248ac89c7d309b4684",
+                                "name": "Controller {#CONTROLLERID} PD {#PD} Size",
+                                "type": "DEPENDENT",
+                                "key": "sas9361.pd.size[{#PD}]",
+                                "delay": "0",
+                                "value_type": "CHAR",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[*].PD[?(@.DiskId==\"{#PD}\" && @.ControllerId=={#CONTROLLERID})].Size.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "sas9361.all"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "pd"
+                                    },
+                                    {
+                                        "tag": "metric",
+                                        "value": "size"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "39a5c33279b446b98e130c6aba35144d",
+                                "name": "Controller {#CONTROLLERID} PD {#PD} Status",
+                                "type": "DEPENDENT",
+                                "key": "sas9361.pd.status[{#PD}]",
+                                "delay": "0",
+                                "value_type": "CHAR",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[*].PD[?(@.DiskId==\"{#PD}\" && @.ControllerId=={#CONTROLLERID})].State.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "sas9361.all"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "pd"
+                                    },
+                                    {
+                                        "tag": "metric",
+                                        "value": "status"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "f1679579e4de428c8b08702995aa20a0",
+                                        "expression": "last(/AVAGO MegaRAID SAS 9361-8i/sas9361.pd.status[{#PD}])<>\"Onln\"",
+                                        "name": "Controller {#CONTROLLERID} PD State is {ITEM.ITEMVALUE1}",
+                                        "opdata": "Current state: {ITEM.LASTVALUE1}",
+                                        "priority": "HIGH",
+                                        "tags": [
+                                            {
+                                                "tag": "component",
+                                                "value": "pd"
+                                            },
+                                            {
+                                                "tag": "metric",
+                                                "value": "state"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "sas9361.all"
+                        },
+                        "lld_macro_paths": [
+                            {
+                                "lld_macro": "{#CONTROLLERID}",
+                                "path": "$.ControllerId"
+                            },
+                            {
+                                "lld_macro": "{#PD}",
+                                "path": "$.DiskId"
+                            }
+                        ],
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$[*].PD[*]"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "bdf31d480b834e108e9bd6ac3f5d49d5",
+                        "name": "DISCOVERY SMART",
+                        "type": "DEPENDENT",
+                        "key": "sas9361.smart.discovery",
+                        "delay": "0",
+                        "item_prototypes": [
+                            {
+                                "uuid": "7e79c093d36e426eb73334592d2df9a8",
+                                "name": "Disk {#DISKID} in Controller  {#CONTROLLERID}  MediaErrors",
+                                "type": "DEPENDENT",
+                                "key": "sas9361.disk.mediaerrors[{#DISKID},{#CONTROLLERID}]",
+                                "delay": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.DiskID==\"{#DISKID}\" && @.ControllerId==\"{#CONTROLLERID}\")].MediaErrors.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "sas9361.smart"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "pd"
+                                    },
+                                    {
+                                        "tag": "metric",
+                                        "value": "errors"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "c95581535e7c4767969bcd29cc52e29a",
+                                        "expression": "change(/AVAGO MegaRAID SAS 9361-8i/sas9361.disk.mediaerrors[{#DISKID},{#CONTROLLERID}])>0",
+                                        "name": "Controller {#CONTROLLERID} PD {#DISKID} media errors increased",
+                                        "opdata": "Current media errors: {ITEM.LASTVALUE1}",
+                                        "priority": "WARNING",
+                                        "type": "MULTIPLE",
+                                        "tags": [
+                                            {
+                                                "tag": "component",
+                                                "value": "pd"
+                                            },
+                                            {
+                                                "tag": "metric",
+                                                "value": "errors"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "6e5a0306874c4cb4bc64eadafc4c2a8e",
+                                "name": "Disk {#DISKID} in Controller {#CONTROLLERID}  Other Errors",
+                                "type": "DEPENDENT",
+                                "key": "sas9361.disk.othererr[{#DISKID},{#CONTROLLERID}]",
+                                "delay": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.DiskID==\"{#DISKID}\" && @.ControllerId==\"{#CONTROLLERID}\")].OtherErrors.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "sas9361.smart"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "pd"
+                                    },
+                                    {
+                                        "tag": "metric",
+                                        "value": "errors"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "cffc57f0976f4abeadc8578f88299c9d",
+                                        "expression": "change(/AVAGO MegaRAID SAS 9361-8i/sas9361.disk.othererr[{#DISKID},{#CONTROLLERID}])>0",
+                                        "name": "Controller {#CONTROLLERID} PD {#DISKID} Other errors increased",
+                                        "priority": "WARNING",
+                                        "tags": [
+                                            {
+                                                "tag": "component",
+                                                "value": "pd"
+                                            },
+                                            {
+                                                "tag": "metric",
+                                                "value": "errors"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "f143a4bfc62b4e3995c95d9785e92886",
+                                "name": "Disk {#DISKID} in Controller  {#CONTROLLERID} Predictive Failures",
+                                "type": "DEPENDENT",
+                                "key": "sas9361.disk.predfail[{#DISKID},{#CONTROLLERID}]",
+                                "delay": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.DiskID==\"{#DISKID}\" && @.ControllerId==\"{#CONTROLLERID}\")].PredictiveFailures.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "sas9361.smart"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "pd"
+                                    },
+                                    {
+                                        "tag": "metric",
+                                        "value": "errors"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "e6d33984c24846abb319b38a3dc321e0",
+                                        "expression": "last(/AVAGO MegaRAID SAS 9361-8i/sas9361.disk.predfail[{#DISKID},{#CONTROLLERID}])>0",
+                                        "name": "Controller {#CONTROLLERID} PD {#DISKID} Predictive failure",
+                                        "priority": "DISASTER",
+                                        "tags": [
+                                            {
+                                                "tag": "component",
+                                                "value": "pd"
+                                            },
+                                            {
+                                                "tag": "metric",
+                                                "value": "errors"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "6460a0edec2e47538ec36be42e02dddb",
+                                "name": "Disk {#DISKID} in Controller {#CONTROLLERID} SMART Alert",
+                                "type": "DEPENDENT",
+                                "key": "sas9361.disk.smartalert[{#DISKID},{#CONTROLLERID}]",
+                                "delay": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.DiskID==\"{#DISKID}\" && @.ControllerId==\"{#CONTROLLERID}\")].SmartAlert.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "sas9361.smart"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "pd"
+                                    },
+                                    {
+                                        "tag": "metric",
+                                        "value": "errors"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "cefa1369158b4421ac5fa468377a69ab",
+                                        "expression": "last(/AVAGO MegaRAID SAS 9361-8i/sas9361.disk.smartalert[{#DISKID},{#CONTROLLERID}])<>0",
+                                        "name": "Controller {#CONTROLLERID} PD {#DISKID} Smart Alert",
+                                        "priority": "AVERAGE",
+                                        "tags": [
+                                            {
+                                                "tag": "component",
+                                                "value": "pd"
+                                            },
+                                            {
+                                                "tag": "metric",
+                                                "value": "errors"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "23c04434c4674e5eb8c043906fa3f1cf",
+                                "name": "Disk {#DISKID} in Controller  {#CONTROLLERID}  Temp",
+                                "type": "DEPENDENT",
+                                "key": "sas9361.disk.temp[{#DISKID},{#CONTROLLERID}]",
+                                "delay": "0",
+                                "units": "C",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[?(@.DiskID==\"{#DISKID}\" && @.ControllerId==\"{#CONTROLLERID}\")].Temp.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "sas9361.smart"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "pd"
+                                    },
+                                    {
+                                        "tag": "metric",
+                                        "value": "temperature"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "e9fc2d8c42a144329e76d6734397597b",
+                                        "expression": "last(/AVAGO MegaRAID SAS 9361-8i/sas9361.disk.temp[{#DISKID},{#CONTROLLERID}])>45",
+                                        "recovery_mode": "RECOVERY_EXPRESSION",
+                                        "recovery_expression": "last(/AVAGO MegaRAID SAS 9361-8i/sas9361.disk.temp[{#DISKID},{#CONTROLLERID}])<39",
+                                        "name": "Controller {#CONTROLLERID} PD {#DISKID} Temperature > 45",
+                                        "opdata": "Current temperature {ITEM.LASTVALUE1}",
+                                        "priority": "WARNING",
+                                        "tags": [
+                                            {
+                                                "tag": "component",
+                                                "value": "pd"
+                                            },
+                                            {
+                                                "tag": "metric",
+                                                "value": "temperature"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "sas9361.smart"
+                        },
+                        "lld_macro_paths": [
+                            {
+                                "lld_macro": "{#CONTROLLERID}",
+                                "path": "$.ControllerId"
+                            },
+                            {
+                                "lld_macro": "{#DISKID}",
+                                "path": "$.DiskID"
+                            },
+                            {
+                                "lld_macro": "{#MODEL}",
+                                "path": "$.Model"
+                            }
+                        ],
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$[*]"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "a9ab94c093714c269fe98f721d845845",
+                        "name": "DISCOVERY VD",
+                        "type": "DEPENDENT",
+                        "key": "sas9361.vd.discovery",
+                        "delay": "0",
+                        "item_prototypes": [
+                            {
+                                "uuid": "e3b2d43d14374b85b4c67b34e27e36b0",
+                                "name": "Controller {#CONTROLLERID} VD {#VD} Size",
+                                "type": "DEPENDENT",
+                                "key": "sas9361.vd.size[{#VD}]",
+                                "delay": "0",
+                                "value_type": "CHAR",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[*].VD[?(@.Id==\"{#VD}\" && @.ControllerId=={#CONTROLLERID})].Size.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "sas9361.all"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "vd"
+                                    },
+                                    {
+                                        "tag": "metric",
+                                        "value": "size"
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "4cddd8ed3c724d5e9d9383ced90f62e1",
+                                "name": "Controller {#CONTROLLERID} VD {#VD} Status",
+                                "type": "DEPENDENT",
+                                "key": "sas9361.vd.status[{#VD}]",
+                                "delay": "0",
+                                "value_type": "CHAR",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[*].VD[?(@.Id==\"{#VD}\" && @.ControllerId=={#CONTROLLERID})].State.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "sas9361.all"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "vd"
+                                    },
+                                    {
+                                        "tag": "metric",
+                                        "value": "status"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "uuid": "833cf62ff3bc403abfb7ba14912305ec",
+                                        "expression": "last(/AVAGO MegaRAID SAS 9361-8i/sas9361.vd.status[{#VD}])<>\"Optl\"",
+                                        "name": "Controller {#CONTROLLERID} VD State is {ITEM.ITEMVALUE1}",
+                                        "opdata": "Current state: {ITEM.LASTVALUE1}",
+                                        "priority": "HIGH",
+                                        "tags": [
+                                            {
+                                                "tag": "component",
+                                                "value": "vd"
+                                            },
+                                            {
+                                                "tag": "metric",
+                                                "value": "state"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "uuid": "6b177d395f9249a2a253011b272d0377",
+                                "name": "Controller {#CONTROLLERID} VD {#VD} Type",
+                                "type": "DEPENDENT",
+                                "key": "sas9361.vd.type[{#VD}]",
+                                "delay": "0",
+                                "value_type": "CHAR",
+                                "trends": "0",
+                                "preprocessing": [
+                                    {
+                                        "type": "JSONPATH",
+                                        "parameters": [
+                                            "$[*].VD[?(@.Id==\"{#VD}\" && @.ControllerId==\"{#CONTROLLERID}\")].Type.first()"
+                                        ]
+                                    }
+                                ],
+                                "master_item": {
+                                    "key": "sas9361.all"
+                                },
+                                "tags": [
+                                    {
+                                        "tag": "component",
+                                        "value": "vd"
+                                    },
+                                    {
+                                        "tag": "metric",
+                                        "value": "raidtype"
+                                    }
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "sas9361.all"
+                        },
+                        "lld_macro_paths": [
+                            {
+                                "lld_macro": "{#CONTROLLERID}",
+                                "path": "$.ControllerId"
+                            },
+                            {
+                                "lld_macro": "{#VD}",
+                                "path": "$.Id"
+                            }
+                        ],
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$[*].VD[*]"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "tags": [
+                    {
+                        "tag": "class",
+                        "value": "raid"
+                    },
+                    {
+                        "tag": "target",
+                        "value": "sas9361"
+                    }
+                ]
+            }
+        ]
+    }
+}

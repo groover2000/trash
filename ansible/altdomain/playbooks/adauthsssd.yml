@@ -1,0 +1,93 @@
+---
+
+- name: Alt Linux Domain Join with task-auth-ad-sssd
+  hosts: alt
+  become: true
+
+  tasks:
+
+    - name: Load pam_mount variables
+      ansible.builtin.include_vars:
+        file: "{{ playbook_dir }}/../inventory/group_vars/pam_mount.yml"
+
+
+    - name: Install [task-auth-ad-sssd pam_mount cifs-utils systemd-settings-enable-kill-user-processes]
+      community.general.apt_rpm:
+        name:
+          - task-auth-ad-sssd
+          - pam_mount
+          - cifs-utils
+          - systemd-settings-enable-kill-user-processes
+        state: present
+        update_cache: true
+
+    - name: Configure Caja defaults
+      ansible.builtin.copy:
+        dest: /etc/dconf/db/local.d/00-caja
+        content: |
+          [org/mate/caja/desktop]
+          volumes-visible=false
+        owner: root
+        group: root
+        mode: "0644"
+
+    - name: Update dconf database
+      ansible.builtin.command: dconf update
+      changed_when: true
+
+    - name: Check AD status
+      ansible.builtin.command: system-auth status
+      register: ad_status
+      changed_when: false
+
+
+    - name: Join host to Active Directory
+      ansible.builtin.command:
+        argv:
+          - system-auth
+          - write
+          - ad
+          - "{{ ad_domain }}"
+          - "{{ ansible_hostname }}"
+          - "{{ ad_workgroup }}"
+          - "{{ ad_admin }}"
+          - "{{ admin_password }}"
+          - "--createcomputer={{ computer_ou }}"
+      changed_when: true
+      when: ad_status.rc != 0 or not ad_status.stdout.startswith('ad ')
+      notify: Restart display manager
+
+    - name: Allow wheel group to use sudo
+      ansible.builtin.copy:
+        dest: /etc/sudoers.d/10-wheel
+        owner: root
+        group: root
+        mode: '0440'
+        content: |
+          %wheel ALL=(ALL) ALL
+        validate: '/usr/sbin/visudo -cf %s'
+
+    - name: Enable pam_mount ins system=auth
+      ansible.builtin.blockinfile:
+        path: /etc/pam.d/system-auth
+        marker: "# {mark} ANSIBLE pam_mount"
+        insertafter: EOF
+        block: |
+          session [success=1 default=ignore] pam_succeed_if.so service = systemd-user quiet
+          session optional pam_mount.so disable_interactive
+
+
+    - name: Deploy pam_mount configuration
+      ansible.builtin.template:
+        src: pam_mount.conf.xml.j2
+        dest: /etc/security/pam_mount.conf.xml
+        owner: root
+        group: root
+        mode: "0644"
+
+
+  handlers:
+    - name: Restart display manager
+      ansible.builtin.service:
+        name: display-manager
+        state: restarted

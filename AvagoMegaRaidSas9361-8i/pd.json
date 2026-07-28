@@ -1,0 +1,624 @@
+{
+"Controllers":[
+{
+	"Command Status" : {
+		"CLI Version" : "007.2310.0000.0000 Nov 02, 2022",
+		"Operating system" : "Windows Server 2019",
+		"Controller" : 0,
+		"Status" : "Success",
+		"Description" : "Show Drive Information Succeeded."
+	},
+	"Response Data" : {
+		"Drive /c0/e252/s0" : [
+			{
+				"EID:Slt" : "252:0",
+				"DID" : 9,
+				"State" : "Onln",
+				"DG" : 1,
+				"Size" : "931.000 GB",
+				"Intf" : "SATA",
+				"Med" : "HDD",
+				"SED" : "N",
+				"PI" : "N",
+				"SeSz" : "512B",
+				"Model" : "ST1000NM0008-2F2100",
+				"Sp" : "U",
+				"Type" : "-"
+			}
+		],
+		"Drive /c0/e252/s0 - Detailed Information" : {
+			"Drive /c0/e252/s0 State" : {
+				"Shield Counter" : 0,
+				"Media Error Count" : 0,
+				"Other Error Count" : 0,
+				"Drive Temperature" : " 27C (80.60 F)",
+				"Predictive Failure Count" : 0,
+				"S.M.A.R.T alert flagged by drive" : "No"
+			},
+			"Drive /c0/e252/s0 Device attributes" : {
+				"SN" : "            ZFA0FR3G",
+				"Manufacturer Id" : "ATA     ",
+				"Model Number" : "ST1000NM0008-2F2100",
+				"NAND Vendor" : "NA",
+				"WWN" : "5000C500B3ABB317",
+				"Firmware Revision" : "SN02    ",
+				"Raw size" : "931.512 GB [0x74706db0 Sectors]",
+				"Coerced size" : "931.000 GB [0x74600000 Sectors]",
+				"Non Coerced size" : "931.012 GB [0x74606db0 Sectors]",
+				"Device Speed" : "6.0Gb/s",
+				"Link Speed" : "6.0Gb/s",
+				"NCQ setting" : "Enabled",
+				"Write Cache" : "N/A",
+				"Logical Sector Size" : "512B",
+				"Physical Sector Size" : "512B",
+				"Connector Name" : "Port 0 - 3 x1"
+			},
+			"Drive /c0/e252/s0 Policies/Settings" : {
+				"Drive position" : "DriveGroup:1, Span:0, Row:0",
+				"Enclosure position" : "1",
+				"Connected Port Number" : "0(path0) ",
+				"Sequence Number" : 2,
+				"Commissioned Spare" : "No",
+				"Emergency Spare" : "No",
+				"Last Predictive Failure Event Sequence Number" : 0,
+				"Successful diagnostics completion on" : "N/A",
+				"FDE Type" : "None",
+				"SED Capable" : "No",
+				"SED Enabled" : "No",
+				"Secured" : "No",
+				"Cryptographic Erase Capable" : "No",
+				"Sanitize Support" : "Not supported",
+				"Locked" : "No",
+				"Needs EKM Attention" : "No",
+				"PI Eligible" : "No",
+				"Certified" : "No",
+				"Wide Port Capable" : "No",
+				"Multipath" : "No",
+				"Port Information" : [
+					{
+						"Port" : 0,
+						"Status" : "Active",
+						"Linkspeed" : "6.0Gb/s",
+						"SAS address" : "0x4433221100000000"
+					}
+				]
+			},
+			"Inquiry Data" : "5a 0c ff 3f 37 c8 10 00 00 00 00 00 3f 00 00 00 00 00 00 00 20 20 20 20 20 20 20 20 20 20 20 20 46 5a 30 41 52 46 47 33 00 00 00 00 00 00 4e 53 32 30 20 20 20 20 54 53 30 31 30 30 4d 4e 30 30 38 30 32 2d 32 46 30 31 20 30 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 10 80 00 40 00 2f 00 40 00 02 00 02 07 00 ff 3f 10 00 3f 00 10 fc fb 00 10 5c ff ff ff 0f 00 00 07 00 "
+		},
+		"Drive /c0/e252/s1" : [
+			{
+				"EID:Slt" : "252:1",
+				"DID" : 15,
+				"State" : "Onln",
+				"DG" : 0,
+				"Size" : "3.637 TB",
+				"Intf" : "SATA",
+				"Med" : "HDD",
+				"SED" : "N",
+				"PI" : "N",
+				"SeSz" : "512B",
+				"Model" : "ST4000NM0035-1V4107",
+				"Sp" : "U",
+				"Type" : "-"
+			}
+		],
+		"Drive /c0/e252/s1 - Detailed Information" : {
+			"Drive /c0/e252/s1 State" : {
+				"Shield Counter" : 0,
+				"Media Error Count" : 0,
+				"Other Error Count" : 0,
+				"Drive Temperature" : " 32C (89.60 F)",
+				"Predictive Failure Count" : 0,
+				"S.M.A.R.T alert flagged by drive" : "No"
+			},
+			"Drive /c0/e252/s1 Device attributes" : {
+				"SN" : "            ZC18ZDGC",
+				"Manufacturer Id" : "ATA     ",
+				"Model Number" : "ST4000NM0035-1V4107",
+				"NAND Vendor" : "NA",
+				"WWN" : "5000C500B374E281",
+				"Firmware Revision" : "TN04    ",
+				"Raw size" : "3.638 TB [0x1d1c0beb0 Sectors]",
+				"Coerced size" : "3.637 TB [0x1d1b00000 Sectors]",
+				"Non Coerced size" : "3.637 TB [0x1d1b0beb0 Sectors]",
+				"Device Speed" : "6.0Gb/s",
+				"Link Speed" : "6.0Gb/s",
+				"NCQ setting" : "Enabled",
+				"Write Cache" : "N/A",
+				"Logical Sector Size" : "512B",
+				"Physical Sector Size" : "512B",
+				"Connector Name" : "Port 0 - 3 x1"
+			},
+			"Drive /c0/e252/s1 Policies/Settings" : {
+				"Drive position" : "DriveGroup:0, Span:0, Row:0",
+				"Enclosure position" : "1",
+				"Connected Port Number" : "1(path0) ",
+				"Sequence Number" : 2,
+				"Commissioned Spare" : "No",
+				"Emergency Spare" : "No",
+				"Last Predictive Failure Event Sequence Number" : 0,
+				"Successful diagnostics completion on" : "N/A",
+				"FDE Type" : "None",
+				"SED Capable" : "No",
+				"SED Enabled" : "No",
+				"Secured" : "No",
+				"Cryptographic Erase Capable" : "No",
+				"Sanitize Support" : "Not supported",
+				"Locked" : "No",
+				"Needs EKM Attention" : "No",
+				"PI Eligible" : "No",
+				"Certified" : "No",
+				"Wide Port Capable" : "No",
+				"Multipath" : "No",
+				"Port Information" : [
+					{
+						"Port" : 0,
+						"Status" : "Active",
+						"Linkspeed" : "6.0Gb/s",
+						"SAS address" : "0x4433221101000000"
+					}
+				]
+			},
+			"Inquiry Data" : "5a 0c ff 3f 37 c8 10 00 00 00 00 00 3f 00 00 00 00 00 00 00 20 20 20 20 20 20 20 20 20 20 20 20 43 5a 38 31 44 5a 43 47 00 00 00 00 00 00 4e 54 34 30 20 20 20 20 54 53 30 34 30 30 4d 4e 30 30 35 33 31 2d 34 56 30 31 20 37 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 10 80 00 40 00 2f 00 40 00 02 00 02 07 00 ff 3f 10 00 3f 00 10 fc fb 00 10 5c ff ff ff 0f 00 00 07 00 "
+		},
+		"Drive /c0/e252/s2" : [
+			{
+				"EID:Slt" : "252:2",
+				"DID" : 8,
+				"State" : "Onln",
+				"DG" : 0,
+				"Size" : "3.637 TB",
+				"Intf" : "SATA",
+				"Med" : "HDD",
+				"SED" : "N",
+				"PI" : "N",
+				"SeSz" : "512B",
+				"Model" : "ST4000NM0035-1V4107",
+				"Sp" : "U",
+				"Type" : "-"
+			}
+		],
+		"Drive /c0/e252/s2 - Detailed Information" : {
+			"Drive /c0/e252/s2 State" : {
+				"Shield Counter" : 0,
+				"Media Error Count" : 0,
+				"Other Error Count" : 0,
+				"Drive Temperature" : " 33C (91.40 F)",
+				"Predictive Failure Count" : 0,
+				"S.M.A.R.T alert flagged by drive" : "No"
+			},
+			"Drive /c0/e252/s2 Device attributes" : {
+				"SN" : "            ZC18ZFCT",
+				"Manufacturer Id" : "ATA     ",
+				"Model Number" : "ST4000NM0035-1V4107",
+				"NAND Vendor" : "NA",
+				"WWN" : "5000C500B372CABA",
+				"Firmware Revision" : "TN04    ",
+				"Raw size" : "3.638 TB [0x1d1c0beb0 Sectors]",
+				"Coerced size" : "3.637 TB [0x1d1b00000 Sectors]",
+				"Non Coerced size" : "3.637 TB [0x1d1b0beb0 Sectors]",
+				"Device Speed" : "6.0Gb/s",
+				"Link Speed" : "6.0Gb/s",
+				"NCQ setting" : "Enabled",
+				"Write Cache" : "N/A",
+				"Logical Sector Size" : "512B",
+				"Physical Sector Size" : "512B",
+				"Connector Name" : "Port 0 - 3 x1"
+			},
+			"Drive /c0/e252/s2 Policies/Settings" : {
+				"Drive position" : "DriveGroup:0, Span:0, Row:1",
+				"Enclosure position" : "1",
+				"Connected Port Number" : "2(path0) ",
+				"Sequence Number" : 2,
+				"Commissioned Spare" : "No",
+				"Emergency Spare" : "No",
+				"Last Predictive Failure Event Sequence Number" : 0,
+				"Successful diagnostics completion on" : "N/A",
+				"FDE Type" : "None",
+				"SED Capable" : "No",
+				"SED Enabled" : "No",
+				"Secured" : "No",
+				"Cryptographic Erase Capable" : "No",
+				"Sanitize Support" : "Not supported",
+				"Locked" : "No",
+				"Needs EKM Attention" : "No",
+				"PI Eligible" : "No",
+				"Certified" : "No",
+				"Wide Port Capable" : "No",
+				"Multipath" : "No",
+				"Port Information" : [
+					{
+						"Port" : 0,
+						"Status" : "Active",
+						"Linkspeed" : "6.0Gb/s",
+						"SAS address" : "0x4433221102000000"
+					}
+				]
+			},
+			"Inquiry Data" : "5a 0c ff 3f 37 c8 10 00 00 00 00 00 3f 00 00 00 00 00 00 00 20 20 20 20 20 20 20 20 20 20 20 20 43 5a 38 31 46 5a 54 43 00 00 00 00 00 00 4e 54 34 30 20 20 20 20 54 53 30 34 30 30 4d 4e 30 30 35 33 31 2d 34 56 30 31 20 37 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 10 80 00 40 00 2f 00 40 00 02 00 02 07 00 ff 3f 10 00 3f 00 10 fc fb 00 10 5c ff ff ff 0f 00 00 07 00 "
+		},
+		"Drive /c0/e252/s3" : [
+			{
+				"EID:Slt" : "252:3",
+				"DID" : 12,
+				"State" : "Onln",
+				"DG" : 0,
+				"Size" : "3.637 TB",
+				"Intf" : "SATA",
+				"Med" : "HDD",
+				"SED" : "N",
+				"PI" : "N",
+				"SeSz" : "512B",
+				"Model" : "ST4000NM0035-1V4107",
+				"Sp" : "U",
+				"Type" : "-"
+			}
+		],
+		"Drive /c0/e252/s3 - Detailed Information" : {
+			"Drive /c0/e252/s3 State" : {
+				"Shield Counter" : 0,
+				"Media Error Count" : 0,
+				"Other Error Count" : 0,
+				"Drive Temperature" : " 32C (89.60 F)",
+				"Predictive Failure Count" : 0,
+				"S.M.A.R.T alert flagged by drive" : "No"
+			},
+			"Drive /c0/e252/s3 Device attributes" : {
+				"SN" : "            ZC18ZP5M",
+				"Manufacturer Id" : "ATA     ",
+				"Model Number" : "ST4000NM0035-1V4107",
+				"NAND Vendor" : "NA",
+				"WWN" : "5000C500B3768B2B",
+				"Firmware Revision" : "TN04    ",
+				"Raw size" : "3.638 TB [0x1d1c0beb0 Sectors]",
+				"Coerced size" : "3.637 TB [0x1d1b00000 Sectors]",
+				"Non Coerced size" : "3.637 TB [0x1d1b0beb0 Sectors]",
+				"Device Speed" : "6.0Gb/s",
+				"Link Speed" : "6.0Gb/s",
+				"NCQ setting" : "Enabled",
+				"Write Cache" : "N/A",
+				"Logical Sector Size" : "512B",
+				"Physical Sector Size" : "512B",
+				"Connector Name" : "Port 0 - 3 x1"
+			},
+			"Drive /c0/e252/s3 Policies/Settings" : {
+				"Drive position" : "DriveGroup:0, Span:0, Row:2",
+				"Enclosure position" : "1",
+				"Connected Port Number" : "3(path0) ",
+				"Sequence Number" : 2,
+				"Commissioned Spare" : "No",
+				"Emergency Spare" : "No",
+				"Last Predictive Failure Event Sequence Number" : 0,
+				"Successful diagnostics completion on" : "N/A",
+				"FDE Type" : "None",
+				"SED Capable" : "No",
+				"SED Enabled" : "No",
+				"Secured" : "No",
+				"Cryptographic Erase Capable" : "No",
+				"Sanitize Support" : "Not supported",
+				"Locked" : "No",
+				"Needs EKM Attention" : "No",
+				"PI Eligible" : "No",
+				"Certified" : "No",
+				"Wide Port Capable" : "No",
+				"Multipath" : "No",
+				"Port Information" : [
+					{
+						"Port" : 0,
+						"Status" : "Active",
+						"Linkspeed" : "6.0Gb/s",
+						"SAS address" : "0x4433221103000000"
+					}
+				]
+			},
+			"Inquiry Data" : "5a 0c ff 3f 37 c8 10 00 00 00 00 00 3f 00 00 00 00 00 00 00 20 20 20 20 20 20 20 20 20 20 20 20 43 5a 38 31 50 5a 4d 35 00 00 00 00 00 00 4e 54 34 30 20 20 20 20 54 53 30 34 30 30 4d 4e 30 30 35 33 31 2d 34 56 30 31 20 37 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 10 80 00 40 00 2f 00 40 00 02 00 02 07 00 ff 3f 10 00 3f 00 10 fc fb 00 10 5c ff ff ff 0f 00 00 07 00 "
+		},
+		"Drive /c0/e252/s4" : [
+			{
+				"EID:Slt" : "252:4",
+				"DID" : 10,
+				"State" : "Onln",
+				"DG" : 1,
+				"Size" : "931.000 GB",
+				"Intf" : "SATA",
+				"Med" : "HDD",
+				"SED" : "N",
+				"PI" : "N",
+				"SeSz" : "512B",
+				"Model" : "ST1000NM0008-2F2100",
+				"Sp" : "U",
+				"Type" : "-"
+			}
+		],
+		"Drive /c0/e252/s4 - Detailed Information" : {
+			"Drive /c0/e252/s4 State" : {
+				"Shield Counter" : 0,
+				"Media Error Count" : 0,
+				"Other Error Count" : 0,
+				"Drive Temperature" : " 26C (78.80 F)",
+				"Predictive Failure Count" : 0,
+				"S.M.A.R.T alert flagged by drive" : "No"
+			},
+			"Drive /c0/e252/s4 Device attributes" : {
+				"SN" : "            ZFA0FR1Z",
+				"Manufacturer Id" : "ATA     ",
+				"Model Number" : "ST1000NM0008-2F2100",
+				"NAND Vendor" : "NA",
+				"WWN" : "5000C500B3ABF2E9",
+				"Firmware Revision" : "SN02    ",
+				"Raw size" : "931.512 GB [0x74706db0 Sectors]",
+				"Coerced size" : "931.000 GB [0x74600000 Sectors]",
+				"Non Coerced size" : "931.012 GB [0x74606db0 Sectors]",
+				"Device Speed" : "6.0Gb/s",
+				"Link Speed" : "6.0Gb/s",
+				"NCQ setting" : "Enabled",
+				"Write Cache" : "N/A",
+				"Logical Sector Size" : "512B",
+				"Physical Sector Size" : "512B",
+				"Connector Name" : "Port 4 - 7 x1"
+			},
+			"Drive /c0/e252/s4 Policies/Settings" : {
+				"Drive position" : "DriveGroup:1, Span:0, Row:1",
+				"Enclosure position" : "1",
+				"Connected Port Number" : "4(path0) ",
+				"Sequence Number" : 2,
+				"Commissioned Spare" : "No",
+				"Emergency Spare" : "No",
+				"Last Predictive Failure Event Sequence Number" : 0,
+				"Successful diagnostics completion on" : "N/A",
+				"FDE Type" : "None",
+				"SED Capable" : "No",
+				"SED Enabled" : "No",
+				"Secured" : "No",
+				"Cryptographic Erase Capable" : "No",
+				"Sanitize Support" : "Not supported",
+				"Locked" : "No",
+				"Needs EKM Attention" : "No",
+				"PI Eligible" : "No",
+				"Certified" : "No",
+				"Wide Port Capable" : "No",
+				"Multipath" : "No",
+				"Port Information" : [
+					{
+						"Port" : 0,
+						"Status" : "Active",
+						"Linkspeed" : "6.0Gb/s",
+						"SAS address" : "0x4433221104000000"
+					}
+				]
+			},
+			"Inquiry Data" : "5a 0c ff 3f 37 c8 10 00 00 00 00 00 3f 00 00 00 00 00 00 00 20 20 20 20 20 20 20 20 20 20 20 20 46 5a 30 41 52 46 5a 31 00 00 00 00 00 00 4e 53 32 30 20 20 20 20 54 53 30 31 30 30 4d 4e 30 30 38 30 32 2d 32 46 30 31 20 30 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 10 80 00 40 00 2f 00 40 00 02 00 02 07 00 ff 3f 10 00 3f 00 10 fc fb 00 10 5c ff ff ff 0f 00 00 07 00 "
+		},
+		"Drive /c0/e252/s5" : [
+			{
+				"EID:Slt" : "252:5",
+				"DID" : 13,
+				"State" : "Onln",
+				"DG" : 0,
+				"Size" : "3.637 TB",
+				"Intf" : "SATA",
+				"Med" : "HDD",
+				"SED" : "N",
+				"PI" : "N",
+				"SeSz" : "512B",
+				"Model" : "ST4000NM0035-1V4107",
+				"Sp" : "U",
+				"Type" : "-"
+			}
+		],
+		"Drive /c0/e252/s5 - Detailed Information" : {
+			"Drive /c0/e252/s5 State" : {
+				"Shield Counter" : 0,
+				"Media Error Count" : 0,
+				"Other Error Count" : 0,
+				"Drive Temperature" : " 30C (86.00 F)",
+				"Predictive Failure Count" : 0,
+				"S.M.A.R.T alert flagged by drive" : "No"
+			},
+			"Drive /c0/e252/s5 Device attributes" : {
+				"SN" : "            ZC190FZF",
+				"Manufacturer Id" : "ATA     ",
+				"Model Number" : "ST4000NM0035-1V4107",
+				"NAND Vendor" : "NA",
+				"WWN" : "5000C500B376375C",
+				"Firmware Revision" : "TN04    ",
+				"Raw size" : "3.638 TB [0x1d1c0beb0 Sectors]",
+				"Coerced size" : "3.637 TB [0x1d1b00000 Sectors]",
+				"Non Coerced size" : "3.637 TB [0x1d1b0beb0 Sectors]",
+				"Device Speed" : "6.0Gb/s",
+				"Link Speed" : "6.0Gb/s",
+				"NCQ setting" : "Enabled",
+				"Write Cache" : "N/A",
+				"Logical Sector Size" : "512B",
+				"Physical Sector Size" : "512B",
+				"Connector Name" : "Port 4 - 7 x1"
+			},
+			"Drive /c0/e252/s5 Policies/Settings" : {
+				"Drive position" : "DriveGroup:0, Span:0, Row:3",
+				"Enclosure position" : "1",
+				"Connected Port Number" : "6(path0) ",
+				"Sequence Number" : 2,
+				"Commissioned Spare" : "No",
+				"Emergency Spare" : "No",
+				"Last Predictive Failure Event Sequence Number" : 0,
+				"Successful diagnostics completion on" : "N/A",
+				"FDE Type" : "None",
+				"SED Capable" : "No",
+				"SED Enabled" : "No",
+				"Secured" : "No",
+				"Cryptographic Erase Capable" : "No",
+				"Sanitize Support" : "Not supported",
+				"Locked" : "No",
+				"Needs EKM Attention" : "No",
+				"PI Eligible" : "No",
+				"Certified" : "No",
+				"Wide Port Capable" : "No",
+				"Multipath" : "No",
+				"Port Information" : [
+					{
+						"Port" : 0,
+						"Status" : "Active",
+						"Linkspeed" : "6.0Gb/s",
+						"SAS address" : "0x4433221105000000"
+					}
+				]
+			},
+			"Inquiry Data" : "5a 0c ff 3f 37 c8 10 00 00 00 00 00 3f 00 00 00 00 00 00 00 20 20 20 20 20 20 20 20 20 20 20 20 43 5a 39 31 46 30 46 5a 00 00 00 00 00 00 4e 54 34 30 20 20 20 20 54 53 30 34 30 30 4d 4e 30 30 35 33 31 2d 34 56 30 31 20 37 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 10 80 00 40 00 2f 00 40 00 02 00 02 07 00 ff 3f 10 00 3f 00 10 fc fb 00 10 5c ff ff ff 0f 00 00 07 00 "
+		},
+		"Drive /c0/e252/s6" : [
+			{
+				"EID:Slt" : "252:6",
+				"DID" : 11,
+				"State" : "Onln",
+				"DG" : 0,
+				"Size" : "7.276 TB",
+				"Intf" : "SATA",
+				"Med" : "HDD",
+				"SED" : "N",
+				"PI" : "N",
+				"SeSz" : "512B",
+				"Model" : "ST8000NM017B-2TJ103",
+				"Sp" : "U",
+				"Type" : "-"
+			}
+		],
+		"Drive /c0/e252/s6 - Detailed Information" : {
+			"Drive /c0/e252/s6 State" : {
+				"Shield Counter" : 0,
+				"Media Error Count" : 0,
+				"Other Error Count" : 0,
+				"Drive Temperature" : " 34C (93.20 F)",
+				"Predictive Failure Count" : 0,
+				"S.M.A.R.T alert flagged by drive" : "No"
+			},
+			"Drive /c0/e252/s6 Device attributes" : {
+				"SN" : "            WRQ2KH9J",
+				"Manufacturer Id" : "ATA     ",
+				"Model Number" : "ST8000NM017B-2TJ103",
+				"NAND Vendor" : "NA",
+				"WWN" : "5000C500F74CF3E9",
+				"Firmware Revision" : "SB10    ",
+				"Raw size" : "7.277 TB [0x3a3812ab0 Sectors]",
+				"Coerced size" : "7.276 TB [0x3a3710000 Sectors]",
+				"Non Coerced size" : "7.276 TB [0x3a3712ab0 Sectors]",
+				"Device Speed" : "6.0Gb/s",
+				"Link Speed" : "6.0Gb/s",
+				"NCQ setting" : "Enabled",
+				"Write Cache" : "N/A",
+				"Logical Sector Size" : "512B",
+				"Physical Sector Size" : "4 KB",
+				"Connector Name" : "Port 4 - 7 x1"
+			},
+			"Drive /c0/e252/s6 Policies/Settings" : {
+				"Drive position" : "DriveGroup:0, Span:0, Row:4",
+				"Enclosure position" : "1",
+				"Connected Port Number" : "5(path0) ",
+				"Sequence Number" : 2,
+				"Commissioned Spare" : "No",
+				"Emergency Spare" : "No",
+				"Last Predictive Failure Event Sequence Number" : 0,
+				"Successful diagnostics completion on" : "N/A",
+				"FDE Type" : "None",
+				"SED Capable" : "No",
+				"SED Enabled" : "No",
+				"Secured" : "No",
+				"Cryptographic Erase Capable" : "No",
+				"Sanitize Support" : "Not supported",
+				"Locked" : "No",
+				"Needs EKM Attention" : "No",
+				"PI Eligible" : "No",
+				"Certified" : "No",
+				"Wide Port Capable" : "No",
+				"Multipath" : "No",
+				"Port Information" : [
+					{
+						"Port" : 0,
+						"Status" : "Active",
+						"Linkspeed" : "6.0Gb/s",
+						"SAS address" : "0x4433221106000000"
+					}
+				]
+			},
+			"Inquiry Data" : "5a 0c ff 3f 37 c8 10 00 00 00 00 00 3f 00 00 00 00 00 00 00 20 20 20 20 20 20 20 20 20 20 20 20 52 57 32 51 48 4b 4a 39 00 00 00 00 00 00 42 53 30 31 20 20 20 20 54 53 30 38 30 30 4d 4e 31 30 42 37 32 2d 4a 54 30 31 20 33 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 10 80 00 40 00 2f 00 40 00 02 00 02 07 00 ff 3f 10 00 3f 00 10 fc fb 00 10 5d ff ff ff 0f 00 00 07 00 "
+		},
+		"Drive /c0/e252/s7" : [
+			{
+				"EID:Slt" : "252:7",
+				"DID" : 14,
+				"State" : "Onln",
+				"DG" : 0,
+				"Size" : "3.637 TB",
+				"Intf" : "SATA",
+				"Med" : "HDD",
+				"SED" : "N",
+				"PI" : "N",
+				"SeSz" : "512B",
+				"Model" : "ST4000NM0035-1V4107",
+				"Sp" : "U",
+				"Type" : "-"
+			}
+		],
+		"Drive /c0/e252/s7 - Detailed Information" : {
+			"Drive /c0/e252/s7 State" : {
+				"Shield Counter" : 0,
+				"Media Error Count" : 0,
+				"Other Error Count" : 0,
+				"Drive Temperature" : " 30C (86.00 F)",
+				"Predictive Failure Count" : 0,
+				"S.M.A.R.T alert flagged by drive" : "No"
+			},
+			"Drive /c0/e252/s7 Device attributes" : {
+				"SN" : "            ZC18ZW63",
+				"Manufacturer Id" : "ATA     ",
+				"Model Number" : "ST4000NM0035-1V4107",
+				"NAND Vendor" : "NA",
+				"WWN" : "5000C500B3752528",
+				"Firmware Revision" : "TN04    ",
+				"Raw size" : "3.638 TB [0x1d1c0beb0 Sectors]",
+				"Coerced size" : "3.637 TB [0x1d1b00000 Sectors]",
+				"Non Coerced size" : "3.637 TB [0x1d1b0beb0 Sectors]",
+				"Device Speed" : "6.0Gb/s",
+				"Link Speed" : "6.0Gb/s",
+				"NCQ setting" : "Enabled",
+				"Write Cache" : "N/A",
+				"Logical Sector Size" : "512B",
+				"Physical Sector Size" : "512B",
+				"Connector Name" : "Port 4 - 7 x1"
+			},
+			"Drive /c0/e252/s7 Policies/Settings" : {
+				"Drive position" : "DriveGroup:0, Span:0, Row:5",
+				"Enclosure position" : "1",
+				"Connected Port Number" : "7(path0) ",
+				"Sequence Number" : 2,
+				"Commissioned Spare" : "No",
+				"Emergency Spare" : "No",
+				"Last Predictive Failure Event Sequence Number" : 0,
+				"Successful diagnostics completion on" : "N/A",
+				"FDE Type" : "None",
+				"SED Capable" : "No",
+				"SED Enabled" : "No",
+				"Secured" : "No",
+				"Cryptographic Erase Capable" : "No",
+				"Sanitize Support" : "Not supported",
+				"Locked" : "No",
+				"Needs EKM Attention" : "No",
+				"PI Eligible" : "No",
+				"Certified" : "No",
+				"Wide Port Capable" : "No",
+				"Multipath" : "No",
+				"Port Information" : [
+					{
+						"Port" : 0,
+						"Status" : "Active",
+						"Linkspeed" : "6.0Gb/s",
+						"SAS address" : "0x4433221107000000"
+					}
+				]
+			},
+			"Inquiry Data" : "5a 0c ff 3f 37 c8 10 00 00 00 00 00 3f 00 00 00 00 00 00 00 20 20 20 20 20 20 20 20 20 20 20 20 43 5a 38 31 57 5a 33 36 00 00 00 00 00 00 4e 54 34 30 20 20 20 20 54 53 30 34 30 30 4d 4e 30 30 35 33 31 2d 34 56 30 31 20 37 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 10 80 00 40 00 2f 00 40 00 02 00 02 07 00 ff 3f 10 00 3f 00 10 fc fb 00 10 5c ff ff ff 0f 00 00 07 00 "
+		}
+	}
+}
+]
+}
+

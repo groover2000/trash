@@ -1,0 +1,209 @@
+Controllers found: 1
+----------------------------------------------------------------------
+Physical Device information
+----------------------------------------------------------------------
+      Device #0
+         Device is a Hard drive
+         State                                : Online
+         Block Size                           : 512 Bytes
+         Supported                            : Yes
+         Programmed Max Speed                 : SAS 1.5 Gb/s
+         Transfer Speed                       : SAS 12.0 Gb/s
+         Reported Channel,Device(T:L)         : 0,0(0:0)
+         Reported Location                    : Enclosure 0, Slot 0(Connector 0)
+         Reported ESD(T:L)                    : 2,0(0:0)
+         Vendor                               : SAMSUNG
+         Model                                : MZILG960HCHQ/A07
+         Firmware                             : GXG3
+         Serial number                        : S6M1NT0X700854
+         World-wide name                      : 50025380A470F311
+         Reserved Size                        : 265496 KB
+         Used Size                            : 915456 MB
+         Unused Size                          : 64 KB
+         Total Size                           : 915715 MB
+         Write Cache                          : Enabled (write-back)
+         FRU                                  : None
+         S.M.A.R.T.                           : No
+         S.M.A.R.T. warnings                  : 0
+         Power State                          : Full rpm
+         Supported Power States               : Full power,Powered off
+         SSD                                  : Yes
+         Temperature                          : 34 C/ 93 F 
+      ----------------------------------------------------------------
+      Device Phy Information                  
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                    : 0
+            SAS Address                       : 50025380A470F312
+            Attached PHY Identifier           : 3
+            Attached SAS Address              : 50000D1702D54A00
+         Phy #1
+            PHY Identifier                    : 1
+            SAS Address                       : 50025380A470F313
+      ----------------------------------------------------------------
+      Runtime Error Counters                  
+      ----------------------------------------------------------------
+         Hardware Error Count                 : 0
+         Medium Error Count                   : 0
+         Parity Error Count                   : 0
+         Link Failure Count                   : 0
+         Aborted Command Count                : 0
+         SMART Warning Count                  : 0
+
+      Device #1
+         Device is a Hard drive
+         State                                : Online
+         Block Size                           : 512 Bytes
+         Supported                            : Yes
+         Programmed Max Speed                 : SAS 1.5 Gb/s
+         Transfer Speed                       : SAS 12.0 Gb/s
+         Reported Channel,Device(T:L)         : 0,1(1:0)
+         Reported Location                    : Enclosure 0, Slot 1(Connector 0)
+         Reported ESD(T:L)                    : 2,0(0:0)
+         Vendor                               : SAMSUNG
+         Model                                : MZILG960HCHQ/A07
+         Firmware                             : GXG3
+         Serial number                        : S6M1NT0X700839
+         World-wide name                      : 50025380A470F221
+         Reserved Size                        : 265496 KB
+         Used Size                            : 915456 MB
+         Unused Size                          : 64 KB
+         Total Size                           : 915715 MB
+         Write Cache                          : Enabled (write-back)
+         FRU                                  : None
+         S.M.A.R.T.                           : No
+         S.M.A.R.T. warnings                  : 0
+         Power State                          : Full rpm
+         Supported Power States               : Full power,Powered off
+         SSD                                  : Yes
+         Temperature                          : 33 C/ 91 F 
+      ----------------------------------------------------------------
+      Device Phy Information                  
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                    : 0
+            SAS Address                       : 50025380A470F222
+            Attached PHY Identifier           : 2
+            Attached SAS Address              : 50000D1702D54A00
+         Phy #1
+            PHY Identifier                    : 1
+            SAS Address                       : 50025380A470F223
+      ----------------------------------------------------------------
+      Runtime Error Counters                  
+      ----------------------------------------------------------------
+         Hardware Error Count                 : 0
+         Medium Error Count                   : 0
+         Parity Error Count                   : 0
+         Link Failure Count                   : 0
+         Aborted Command Count                : 0
+         SMART Warning Count                  : 0
+
+      Device #2
+         Device is a Hard drive
+         State                                : Online
+         Block Size                           : 512 Bytes
+         Supported                            : Yes
+         Programmed Max Speed                 : SAS 1.5 Gb/s
+         Transfer Speed                       : SAS 12.0 Gb/s
+         Reported Channel,Device(T:L)         : 0,2(2:0)
+         Reported Location                    : Enclosure 0, Slot 2(Connector 0)
+         Reported ESD(T:L)                    : 2,0(0:0)
+         Vendor                               : SAMSUNG
+         Model                                : MZILG960HCHQ/A07
+         Firmware                             : GXG3
+         Serial number                        : S6M1NT0X700852
+         World-wide name                      : 50025380A470F2F1
+         Reserved Size                        : 265496 KB
+         Used Size                            : 915456 MB
+         Unused Size                          : 64 KB
+         Total Size                           : 915715 MB
+         Write Cache                          : Enabled (write-back)
+         FRU                                  : None
+         S.M.A.R.T.                           : No
+         S.M.A.R.T. warnings                  : 0
+         Power State                          : Full rpm
+         Supported Power States               : Full power,Powered off
+         SSD                                  : Yes
+         Temperature                          : 33 C/ 91 F 
+      ----------------------------------------------------------------
+      Device Phy Information                  
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                    : 0
+            SAS Address                       : 50025380A470F2F2
+            Attached PHY Identifier           : 0
+            Attached SAS Address              : 50000D1702D54A00
+         Phy #1
+            PHY Identifier                    : 1
+            SAS Address                       : 50025380A470F2F3
+      ----------------------------------------------------------------
+      Runtime Error Counters                  
+      ----------------------------------------------------------------
+         Hardware Error Count                 : 0
+         Medium Error Count                   : 0
+         Parity Error Count                   : 0
+         Link Failure Count                   : 0
+         Aborted Command Count                : 0
+         SMART Warning Count                  : 0
+
+      Device #3
+         Device is a Hard drive
+         State                                : Online
+         Block Size                           : 512 Bytes
+         Supported                            : Yes
+         Programmed Max Speed                 : SAS 1.5 Gb/s
+         Transfer Speed                       : SAS 12.0 Gb/s
+         Reported Channel,Device(T:L)         : 0,3(3:0)
+         Reported Location                    : Enclosure 0, Slot 3(Connector 0)
+         Reported ESD(T:L)                    : 2,0(0:0)
+         Vendor                               : SAMSUNG
+         Model                                : MZILG960HCHQ/A07
+         Firmware                             : GXG3
+         Serial number                        : S6M1NT0X700832
+         World-wide name                      : 50025380A470F1B1
+         Reserved Size                        : 265496 KB
+         Used Size                            : 915456 MB
+         Unused Size                          : 64 KB
+         Total Size                           : 915715 MB
+         Write Cache                          : Enabled (write-back)
+         FRU                                  : None
+         S.M.A.R.T.                           : No
+         S.M.A.R.T. warnings                  : 0
+         Power State                          : Full rpm
+         Supported Power States               : Full power,Powered off
+         SSD                                  : Yes
+         Temperature                          : 33 C/ 91 F 
+      ----------------------------------------------------------------
+      Device Phy Information                  
+      ----------------------------------------------------------------
+         Phy #0
+            PHY Identifier                    : 0
+            SAS Address                       : 50025380A470F1B2
+            Attached PHY Identifier           : 1
+            Attached SAS Address              : 50000D1702D54A00
+         Phy #1
+            PHY Identifier                    : 1
+            SAS Address                       : 50025380A470F1B3
+      ----------------------------------------------------------------
+      Runtime Error Counters                  
+      ----------------------------------------------------------------
+         Hardware Error Count                 : 0
+         Medium Error Count                   : 0
+         Parity Error Count                   : 0
+         Link Failure Count                   : 0
+         Aborted Command Count                : 0
+         SMART Warning Count                  : 0
+
+      Device #4
+         Device is an Enclosure Services Device
+         Reported Channel,Device(T:L)         : 2,0(0:0)
+         Enclosure ID                         : 0
+         Type                                 : SES2
+         Vendor                               : ADAPTEC
+         Model                                : Virtual SGPIO
+         Firmware                             :    1
+         Status of Enclosure Services Device
+            Speaker status                    : Not Available
+
+
+Command completed successfully.

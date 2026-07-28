@@ -1,0 +1,147 @@
+{
+    "zabbix_export": {
+        "version": "7.0",
+        "template_groups": [
+            {
+                "uuid": "226a84efedb54c92aa326ddb5a15b7b2",
+                "name": "Raid controllers"
+            }
+        ],
+        "templates": [
+            {
+                "uuid": "2371dc240b9e44529c2be20ba0c159c7",
+                "template": "Adadptec Raid 8405 pwsh",
+                "name": "Adadptec Raid 8405 pwsh",
+                "groups": [
+                    {
+                        "name": "Raid controllers"
+                    }
+                ],
+                "items": [
+                    {
+                        "uuid": "993b3e01322f48b4ad3ed0ca1b4996f9",
+                        "name": "Adaptec Logical Devices Failed Stripes",
+                        "type": "DEPENDENT",
+                        "key": "raid.adaptec8405.failedstripes",
+                        "delay": "0",
+                        "history": "7d",
+                        "value_type": "TEXT",
+                        "trends": "0",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.failed_stripes"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "raid.adaptec8405.ld"
+                        }
+                    },
+                    {
+                        "uuid": "6846ddeed0964d02918eb564c947f6d0",
+                        "name": "Adaptec Logical Devices RAW",
+                        "key": "raid.adaptec8405.ld",
+                        "delay": "10m",
+                        "value_type": "TEXT",
+                        "trends": "0",
+                        "tags": [
+                            {
+                                "tag": "component",
+                                "value": "raid"
+                            },
+                            {
+                                "tag": "controller",
+                                "value": "adaptec8405"
+                            },
+                            {
+                                "tag": "scope",
+                                "value": "collector"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "e6658213eb62457e97f4f5343ae91c19",
+                        "name": "Adaptec Physical Devices RAW",
+                        "key": "raid.adaptec8405.pd",
+                        "delay": "10m",
+                        "value_type": "TEXT",
+                        "trends": "0",
+                        "tags": [
+                            {
+                                "tag": "component",
+                                "value": "raid"
+                            },
+                            {
+                                "tag": "controller",
+                                "value": "adaptec8405"
+                            },
+                            {
+                                "tag": "scope",
+                                "value": "collector"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "3526af37f61b4660aa1b932a556f4bd0",
+                        "name": "Adaptec Logical Devices Status",
+                        "type": "DEPENDENT",
+                        "key": "raid.adaptec8405.status",
+                        "delay": "0",
+                        "history": "7d",
+                        "value_type": "TEXT",
+                        "trends": "0",
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$.status"
+                                ]
+                            }
+                        ],
+                        "master_item": {
+                            "key": "raid.adaptec8405.ld"
+                        }
+                    }
+                ],
+                "discovery_rules": [
+                    {
+                        "uuid": "0c62e5e6fbef402197ed1e8062fa86fc",
+                        "name": "Adaptec Physical Devices Discovery",
+                        "type": "DEPENDENT",
+                        "key": "raid.adaptec8405.pd.discovery",
+                        "delay": "0",
+                        "master_item": {
+                            "key": "raid.adaptec8405.pd"
+                        },
+                        "lld_macro_paths": [
+                            {
+                                "lld_macro": "{#DISK}",
+                                "path": "$.id"
+                            }
+                        ],
+                        "preprocessing": [
+                            {
+                                "type": "JSONPATH",
+                                "parameters": [
+                                    "$[*]"
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "tags": [
+                    {
+                        "tag": "class",
+                        "value": "raid"
+                    },
+                    {
+                        "tag": "target",
+                        "value": "adaptec 8405"
+                    }
+                ]
+            }
+        ]
+    }
+}
